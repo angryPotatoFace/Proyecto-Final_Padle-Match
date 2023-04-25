@@ -1,4 +1,4 @@
-package com.example.padle_match
+package com.example.padle_match.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.padle_match.R
 import com.example.padle_match.databinding.FragmentSecondBinding
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SecondFragment : Fragment() {
+class TournamentDetailFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
 
