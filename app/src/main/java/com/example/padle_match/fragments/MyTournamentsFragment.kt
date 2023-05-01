@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
-import com.example.padle_match.databinding.FragmentFirstBinding
+//import com.example.padle_match.databinding.FragmentFirstBinding
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class MyTournamentsFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    /*private var _binding: FragmentFirstBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -41,5 +42,5 @@ class MyTournamentsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
+    }*/
 }
