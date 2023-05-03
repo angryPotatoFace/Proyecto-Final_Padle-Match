@@ -6,40 +6,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.padle_match.R
-import com.example.padle_match.databinding.FragmentFirstBinding
+import com.example.padle_match.adapter.TournamentAdapter
+import com.example.padle_match.entities.TournamentRepository
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class MyTournamentsFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var v: View
+    private var repository: TournamentRepository = TournamentRepository()
+    private lateinit var adapter: TournamentAdapter
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        v = inflater.inflate(R.layout.fragment_my_tournaments, container, false)
+        recyclerView = v.findViewById(R.id.tournament_list)
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
-        return binding.root
-
+        return v
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+    override fun onStart() {
+        super.onStart()
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = TournamentAdapter(repository.getTournaments())
+        recyclerView.adapter = adapter
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MyClubsFragment">
 
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_bar"
         android:layout_width="0dp"
@@ -15,6 +16,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Mis Torneos" />
+
 
         <TextView
             android:layout_width="wrap_content"
