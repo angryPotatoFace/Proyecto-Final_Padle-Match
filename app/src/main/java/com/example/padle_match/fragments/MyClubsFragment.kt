@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.padle_match.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MyClubsFragment : Fragment() {
 

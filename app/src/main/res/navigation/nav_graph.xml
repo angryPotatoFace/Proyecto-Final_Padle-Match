@@ -97,11 +97,6 @@
         android:label="fragment_add_club"
         tools:layout="@layout/fragment_add_club" />
     <fragment
-        android:id="@+id/modifyClubFragment"
-        android:name="com.example.padle_match.fragments.ModifyClubFragment"
-        android:label="fragment_modify_club"
-        tools:layout="@layout/fragment_modify_club" />
-    <fragment
         android:id="@+id/modifyProfileFragment"
         android:name="com.example.padle_match.fragments.ModifyProfileFragment"
         android:label="fragment_modify_profile"
@@ -125,14 +120,4 @@
         android:name="com.example.padle_match.fragments.TournamentDetailPlayerFragment"
         android:label="fragment_tournament_detail_player"
         tools:layout="@layout/fragment_tournament_detail_player" />
-    <fragment
-        android:id="@+id/favTournamentsPlayerFragment"
-        android:name="com.example.padle_match.fragments.FavTournamentsPlayerFragment"
-        android:label="fragment_fav_tournaments_player"
-        tools:layout="@layout/fragment_fav_tournaments_player" />
-    <fragment
-        android:id="@+id/playerProfileFragment"
-        android:name="com.example.padle_match.fragments.PlayerProfileFragment"
-        android:label="fragment_player_profile"
-        tools:layout="@layout/fragment_player_profile" />
 </navigation>
