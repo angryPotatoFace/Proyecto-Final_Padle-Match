@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/myProfileFragment"
+        android:icon="@drawable/logo_perfil_removebg_preview"
+        android:title="Perfil" />
+
+    <item
+        android:id="@+id/myTournamentsFragment"
+        android:icon="@drawable/champions_logo_removebg_preview"
+        android:title="Mis Torneos"
+        />
+    <item
+        android:id="@+id/myClubsFragment"
+        android:icon="@drawable/logo_ubicacion_removebg_preview"
+        android:title="Mis Clubs" />
+
+</menu>
+

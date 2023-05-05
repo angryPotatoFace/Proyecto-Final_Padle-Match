@@ -2,26 +2,184 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/textview_name"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.TournamentDetailFragment">
 
     <TextView
-        android:id="@+id/textview_second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_second"
+        android:id="@+id/textview_tournament_info"
+        android:layout_width="449dp"
+        android:layout_height="65dp"
+        android:background="#94CF17"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Info Torneo"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/previous"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/textview_tournament_name"
+        android:layout_width="447dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="68dp"
+        android:background="#94CF17"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Nombre Torneo"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_name2"
+        android:layout_width="86dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Nombre"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_tournament_name" />
+
+    <EditText
+        android:id="@+id/textview_name_field"
+        android:layout_width="359dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Nombre del Torneo"
+        android:textColor="#666666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_name2" />
+
+    <TextView
+        android:id="@+id/textview_date"
+        android:layout_width="86dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:text="Fecha"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_name_field" />
+
+    <EditText
+        android:id="@+id/edittext_date2"
+        android:layout_width="359dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:inputType="date"
+        android:text="Fecha"
+        android:textColor="#666666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_date" />
+
+    <TextView
+        android:id="@+id/textview_category"
+        android:layout_width="107dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:text="Categoria"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_date2" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="359dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_category" />
+
+    <TextView
+        android:id="@+id/textview_schedule"
+        android:layout_width="107dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:text="Horario"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="359dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_schedule" />
+
+    <TextView
+        android:id="@+id/textview_quotas"
+        android:layout_width="107dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:text="Cupos"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+
+    <EditText
+        android:id="@+id/edittext_quotes_availables"
+        android:layout_width="359dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_quotas" />
+
+    <TextView
+        android:id="@+id/textview_field_material"
+        android:layout_width="215dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:text="Material de la Cancha"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_quotes_availables" />
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="359dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_field_material" />
+
+    <TextView
+        android:id="@+id/textview_image"
+        android:layout_width="107dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:text="Imagen"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner3" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
