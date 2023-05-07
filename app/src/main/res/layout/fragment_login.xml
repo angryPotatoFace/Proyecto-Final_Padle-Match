@@ -80,15 +80,16 @@
         android:id="@+id/etEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangulo"
         android:layout_marginTop="20dp"
+        android:background="@drawable/rectangulo"
         android:backgroundTint="#DDDDDD"
         android:hint="  Email"
+        android:minHeight="48dp"
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/tvIniciarSesion" />
+        app:layout_constraintStart_toStartOf="@id/guidelineIzq"
+        app:layout_constraintTop_toBottomOf="@id/tvIniciarSesion" />
 
 
     <EditText
@@ -98,14 +99,14 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/rectangulo"
         android:backgroundTint="#DDDDDD"
-        android:hint="  Contraseña"
         android:gravity="center_vertical"
+        android:minHeight="48dp"
         android:paddingBottom="20dp"
         android:password="true"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        app:layout_constraintStart_toStartOf="@id/guidelineIzq"
+        app:layout_constraintTop_toBottomOf="@id/etEmail" />
 
     <TextView
         android:id="@+id/tvOlividoContr"
