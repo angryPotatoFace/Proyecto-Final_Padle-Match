@@ -5,16 +5,19 @@
     <item
         android:id="@+id/myTournamentsFragment"
         android:orderInCategory="100"
+        android:icon="@drawable/champions_logo_removebg_preview"
         android:title="Mis Torneos"
         app:showAsAction="never" />
     <item
         android:id="@+id/myClubsFragment"
+        android:icon="@drawable/logo_ubicacion_removebg_preview"
         android:orderInCategory="100"
         android:title="Mis Clubes"
         app:showAsAction="never" />
     <item
         android:id="@+id/myProfileFragment"
         android:orderInCategory="100"
+        android:icon="@drawable/logo_perfil_removebg_preview"
         android:title="Login"
         app:showAsAction="never" />
 </menu>
