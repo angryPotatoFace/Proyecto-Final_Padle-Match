@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/edittext_background</item>
+        <item name="android:textColor">@color/edittext_textcolor</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+
+    <drawable name="edittext_background">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/edittext_background" />
+            <corners android:radius="8dp" />
+        </shape>
+    </drawable>
+
+    <color name="edittext_background">#F2F2F2</color>
+    <color name="edittext_textcolor">#555555</color>
+
+</resources>

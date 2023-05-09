@@ -8,178 +8,161 @@
     tools:context=".fragments.TournamentDetailFragment">
 
     <TextView
-        android:id="@+id/textview_tournament_info"
-        android:layout_width="449dp"
-        android:layout_height="65dp"
-        android:background="#94CF17"
+        android:id="@+id/text_view_tournament_name"
+        android:layout_width="412dp"
+        android:layout_height="74dp"
+        android:background="#83D6C2"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Info Torneo"
+        android:text="*Nombre Torneo*"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:endIconDrawable="@drawable/ic_edit"
+        app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textview_tournament_name"
-        android:layout_width="447dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="68dp"
-        android:background="#94CF17"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="Nombre Torneo"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
+    <EditText
+        android:id="@+id/edit_text_name"
+        style="@style/EditTextStyle"
+        android:layout_width="369dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="36dp"
+        android:background="@color/light_grey"
+        android:hint="Nombre"
+        android:paddingStart="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view_tournament_name" />
 
-    <TextView
-        android:id="@+id/textview_name2"
-        android:layout_width="86dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="20dp"
+        app:endIconDrawable="@drawable/ic_calendar"
+        app:endIconMode="custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edit_text_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:hint="Fecha"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="369dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_complete_text_view_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Categoria/as"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="340dp"
+        android:layout_marginEnd="20dp"
+        app:endIconDrawable="@drawable/ic_watch"
+        app:endIconMode="custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edit_text_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:hint="Horario"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/edit_text_quota"
+        style="@style/EditTextStyle"
+        android:layout_width="369dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="345dp"
+        android:background="@color/light_grey"
+        android:hint="Cupos"
+        android:paddingStart="16dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_tournament_name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_quota">
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_complete_text_view_field_material"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:hint="Material de la cancha"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="369dp"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:text="Nombre"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold"
+        android:src="@drawable/ic_addphoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_tournament_name" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-    <EditText
-        android:id="@+id/textview_name_field"
-        android:layout_width="359dp"
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="66dp"
         android:layout_height="63dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Nombre del Torneo"
-        android:textColor="#666666"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_name2" />
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintEnd_toEndOf="@+id/text_view_tournament_name"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="@+id/text_view_tournament_name"
+        app:layout_constraintTop_toTopOf="@+id/text_view_tournament_name" />
 
-    <TextView
-        android:id="@+id/textview_date"
-        android:layout_width="86dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:text="Fecha"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_name_field" />
-
-    <EditText
-        android:id="@+id/edittext_date2"
-        android:layout_width="359dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:inputType="date"
-        android:text="Fecha"
-        android:textColor="#666666"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_date" />
-
-    <TextView
-        android:id="@+id/textview_category"
-        android:layout_width="107dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:text="Categoria"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_date2" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="359dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_category" />
-
-    <TextView
-        android:id="@+id/textview_schedule"
-        android:layout_width="107dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:text="Horario"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="359dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_schedule" />
-
-    <TextView
-        android:id="@+id/textview_quotas"
-        android:layout_width="107dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:text="Cupos"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
-
-    <EditText
-        android:id="@+id/edittext_quotes_availables"
-        android:layout_width="359dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_quotas" />
-
-    <TextView
-        android:id="@+id/textview_field_material"
-        android:layout_width="215dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="16dp"
-        android:text="Material de la Cancha"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_quotes_availables" />
-
-    <Spinner
-        android:id="@+id/spinner3"
-        android:layout_width="359dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_field_material" />
-
-    <TextView
-        android:id="@+id/textview_image"
-        android:layout_width="107dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:text="Imagen"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
