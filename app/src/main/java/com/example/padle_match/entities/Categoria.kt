@@ -1,7 +1,6 @@
 package com.example.padle_match.entities
 
 enum class Categoria {
-
     C1,
     C2,
     C3,
@@ -29,5 +28,4 @@ enum class Categoria {
     M7,
     M8,
     M9
-
 }

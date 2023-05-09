@@ -23,7 +23,7 @@ class TournamentAdapter(var tournamentList: MutableList<Tournament> ): RecyclerV
             txt.text = name
         }
 
-        fun setCategory(name: Categoria) {
+        fun setCategory(name: String) {
             val txt: TextView = view.findViewById(R.id.tournament_category )
             txt.text = name.toString()
         }

@@ -8,9 +8,9 @@ data class Tournament(
     var titulo: String,
     var fecha: String,
     var hora: String,
-    var categoría: Categoria,
-    var cupos: Int,
-    var costoInscripción:Double,
+    var categoría: String,
+    var cupos: Number,
+    var costoInscripción:Number,
     var premios: String,
     var imagenTorneo: String
 )
