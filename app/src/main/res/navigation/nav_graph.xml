@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/myTournamentsFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -17,19 +17,15 @@
             android:id="@+id/action_loginFragment_to_myTournamentsFragment"
             app:destination="@id/myTournamentsFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_tournamentsWithoutLoginFragment"
-            app:destination="@id/tournamentsWithoutLoginFragment" />
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.padle_match.fragments.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register">
-        <action
-            android:id="@+id/action_registerFragment_to_forgotPasswordFragment"
-            app:destination="@id/forgotPasswordFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_register" />
 
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -46,11 +42,8 @@
             android:id="@+id/action_myTournamentsFragment_to_tournamentDetailFragment"
             app:destination="@id/tournamentDetailFragment" />
         <action
-            android:id="@+id/action_myTournamentsFragment_to_modifyTournamentFragment"
-            app:destination="@id/modifyTournamentFragment" />
-        <action
-            android:id="@+id/action_myTournamentsFragment_to_myClubsFragment"
-            app:destination="@id/myClubsFragment" />
+            android:id="@+id/action_myTournamentsFragment_to_addTournamentFragment"
+            app:destination="@id/addTournamentFragment" />
     </fragment>
 
     <fragment
@@ -83,20 +76,10 @@
         tools:layout="@layout/fragment_tournament_detail" />
 
     <fragment
-        android:id="@+id/modifyTournamentFragment"
-        android:name="com.example.padle_match.fragments.ModifyTournamentFragment"
-        android:label="fragment_modify_tournament"
-        tools:layout="@layout/fragment_modify_tournament" />
-
-    <fragment
         android:id="@+id/clubDetailFragment"
         android:name="com.example.padle_match.fragments.ClubDetailFragment"
         android:label="fragment_club_detail"
-        tools:layout="@layout/fragment_club_detail">
-        <action
-            android:id="@+id/action_clubDetailFragment_to_addTournamentFragment"
-            app:destination="@id/addTournamentFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_club_detail" />
 
     <fragment
         android:id="@+id/addClubFragment"
@@ -115,21 +98,5 @@
         android:name="com.example.padle_match.fragments.AddTournamentFragment"
         android:label="fragment_add_tournament"
         tools:layout="@layout/fragment_add_tournament" />
-
-    <fragment
-        android:id="@+id/tournamentsWithoutLoginFragment"
-        android:name="com.example.padle_match.fragments.TournamentsWithoutLoginFragment"
-        android:label="fragment_tournaments_without_login"
-        tools:layout="@layout/fragment_tournaments_without_login">
-        <action
-            android:id="@+id/action_tournamentsWithoutLoginFragment_to_tournamentDetailPlayerFragment"
-            app:destination="@id/tournamentDetailPlayerFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/tournamentDetailPlayerFragment"
-        android:name="com.example.padle_match.fragments.TournamentDetailPlayerFragment"
-        android:label="fragment_tournament_detail_player"
-        tools:layout="@layout/fragment_tournament_detail_player" />
 
 </navigation>

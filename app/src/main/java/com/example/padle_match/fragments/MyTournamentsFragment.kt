@@ -8,21 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.padle_match.R
 import com.example.padle_match.adapter.TournamentAdapter
-import com.example.padle_match.entities.Categoria
 import com.example.padle_match.entities.Tournament
-import com.example.padle_match.entities.TournamentRepository
-import com.example.padle_match.entities.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlin.reflect.typeOf
 
 class MyTournamentsFragment : Fragment() {
 
@@ -42,7 +35,7 @@ class MyTournamentsFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_my_tournaments, container, false)
         recyclerView = v.findViewById(R.id.tournament_list)
-     //   btnAddTournament = v.findViewById(R.id.btn_add_tournament)
+        btnAddTournament = v.findViewById(R.id.add_new_tournament)
 
         return v
     }
@@ -78,5 +71,10 @@ class MyTournamentsFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents: ", exception)
             }
+
+        btnAddTournament.setOnClickListener{
+            val action = MyTournamentsFragmentDirections.actionMyTournamentsFragmentToAddTournamentFragment()
+            findNavController().navigate(action)
+        }
     }
 }

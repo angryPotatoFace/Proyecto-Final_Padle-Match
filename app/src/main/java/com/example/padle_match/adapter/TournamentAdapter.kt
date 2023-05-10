@@ -4,10 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.padle_match.entities.Tournament
 import com.example.padle_match.R
 import com.example.padle_match.entities.Categoria
+import com.example.padle_match.fragments.MyTournamentsFragment
+import com.example.padle_match.fragments.MyTournamentsFragmentDirections
+
 
 class TournamentAdapter(var tournamentList: MutableList<Tournament> ): RecyclerView.Adapter<TournamentAdapter.TournamentHolder >()  {
 
@@ -41,6 +49,7 @@ class TournamentAdapter(var tournamentList: MutableList<Tournament> ): RecyclerV
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TournamentHolder {
         val view =  LayoutInflater.from(parent.context).inflate(R.layout.tournament_item,parent,false)
+        
         return (TournamentHolder(view))
     }
 
@@ -53,5 +62,6 @@ class TournamentAdapter(var tournamentList: MutableList<Tournament> ): RecyclerV
         holder.setCategory(tournamentList[position].categoría )
         holder.setDate(tournamentList[position].fecha )
         holder.setHour(tournamentList[position].hora )
+
     }
 }
