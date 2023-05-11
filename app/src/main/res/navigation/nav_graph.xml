@@ -73,7 +73,11 @@
         android:id="@+id/tournamentDetailFragment"
         android:name="com.example.padle_match.fragments.TournamentDetailFragment"
         android:label="fragment_tournament_detail"
-        tools:layout="@layout/fragment_tournament_detail" />
+        tools:layout="@layout/fragment_tournament_detail" >
+        <argument
+            android:name="TournamentSelected"
+            app:argType="com.example.padle_match.entities.Tournament" />
+    </fragment>
 
     <fragment
         android:id="@+id/clubDetailFragment"

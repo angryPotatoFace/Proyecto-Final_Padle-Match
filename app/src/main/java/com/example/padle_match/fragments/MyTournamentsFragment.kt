@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.padle_match.R
 import com.example.padle_match.adapter.TournamentAdapter
 import com.example.padle_match.entities.Tournament
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class MyTournamentsFragment : Fragment() {
@@ -25,6 +27,7 @@ class MyTournamentsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnAddTournament: Button
     // private val viewModel = ViewModelProvider(this).get(MyTournamentsViewModel::class.java)
+    private val list: MutableList<Tournament> = mutableListOf()
 
     // Create connection with the database
     val db = Firebase.firestore
@@ -43,11 +46,13 @@ class MyTournamentsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-       val list: MutableList<Tournament> = mutableListOf()
+
 
         db.collection("tournaments")
             .get()
             .addOnSuccessListener { documents ->
+               // val listaTorneos: MutableList<Tournament> = documents.toObjects(Tournament::class.java)
+
                 documents.forEach{ data ->
                     Log.w("INFORMACION", data.data.toString())
                     val d = data.data;
@@ -60,12 +65,14 @@ class MyTournamentsFragment : Fragment() {
                     val costoInscripción = d["costoInscripción"] as? Number?: 0
                     val premios = d["premios"] as? String?: "No se proporciono premios"
                     val imagenTorneo = d["imagenTorneo"] as? String?: "No se proporciono imagenTorneo"
-
                     val torneo = Tournament(id,titulo,fecha,hora,categoría.toString(),cupos, costoInscripción, premios,imagenTorneo)
                     list.add(torneo)
                 }
+
                 recyclerView.layoutManager = LinearLayoutManager(context)
-                adapter = TournamentAdapter(list)
+                adapter = TournamentAdapter(list, requireContext()) { pos ->
+                    onItemClick(pos)
+                }
                 recyclerView.adapter = adapter
             }
             .addOnFailureListener { exception ->
@@ -76,5 +83,10 @@ class MyTournamentsFragment : Fragment() {
             val action = MyTournamentsFragmentDirections.actionMyTournamentsFragmentToAddTournamentFragment()
             findNavController().navigate(action)
         }
+    }
+
+    fun onItemClick ( position : Int )  {
+        val action = MyTournamentsFragmentDirections.actionMyTournamentsFragmentToTournamentDetailFragment(list[position])
+        findNavController().navigate(action)
     }
 }

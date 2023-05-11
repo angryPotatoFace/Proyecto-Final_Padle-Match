@@ -7,6 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
+import com.example.padle_match.entities.Tournament
+import com.google.android.material.snackbar.Snackbar
+
+
 //import com.example.padle_match.databinding.FragmentSecondBinding
 
 /**
@@ -14,32 +18,19 @@ import com.example.padle_match.R
  */
 class TournamentDetailFragment : Fragment() {
 
-  /*  private var _binding: FragmentSecondBinding? = null
+    private lateinit var v: View
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!*/
-
-  /*  override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-       _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        return binding.root
-
-    }*/
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        /*binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        }*/
+        v = inflater.inflate(R.layout.fragment_tournament_detail, container, false)
+        return v
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-      //  _binding = null
+    override fun onStart() {
+        super.onStart()
+        val tournamentSelected : Tournament = TournamentDetailFragmentArgs.fromBundle(requireArguments()).tournamentSelected
+        Snackbar.make(v,tournamentSelected.titulo,Snackbar.LENGTH_SHORT).show()
     }
 }
