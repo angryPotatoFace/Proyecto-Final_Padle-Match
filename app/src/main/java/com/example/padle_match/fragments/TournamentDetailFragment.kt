@@ -30,7 +30,7 @@ class TournamentDetailFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val tournamentSelected : Tournament = TournamentDetailFragmentArgs.fromBundle(requireArguments()).tournamentSelected
-        Snackbar.make(v,tournamentSelected.titulo,Snackbar.LENGTH_SHORT).show()
+        //val tournamentSelected : Tournament = TournamentDetailFragmentArgs.fromBundle(requireArguments()).tournamentSelected
+        //Snackbar.make(v,tournamentSelected.titulo,Snackbar.LENGTH_SHORT).show()
     }
 }

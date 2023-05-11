@@ -27,8 +27,6 @@
             setContentView(binding.root)
 
 
-            setSupportActionBar(binding.toolbar)
-
             bottonNavView = findViewById(R.id.bottomBar)
 
             val navController = findNavController(R.id.nav_host_fragment_content_main)
