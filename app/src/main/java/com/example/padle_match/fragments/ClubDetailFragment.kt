@@ -1,5 +1,6 @@
 package com.example.padle_match.fragments
 
+import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -30,7 +31,9 @@ class ClubDetailFragment : Fragment() {
     lateinit var editButton: Button
     lateinit var saveButton: Button
     lateinit var cancelButton: Button
+    lateinit var deleteButton : Button
     lateinit var viewSwitcher: ViewSwitcher
+    lateinit var confirmationDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +50,7 @@ class ClubDetailFragment : Fragment() {
         editButton = v.findViewById(R.id.editButton)
         saveButton = v.findViewById(R.id.saveButton)
         cancelButton = v.findViewById(R.id.cancelButton)
+        deleteButton = v.findViewById(R.id.deleteClubButton)
         viewSwitcher = v.findViewById(R.id.viewSwitcher)
         editTextNombre.setText("Chacarita")
         editTextCuit.setText("24272897626")
@@ -75,6 +79,31 @@ class ClubDetailFragment : Fragment() {
             editTextDireccion.isEnabled = true
             editTextEmail.isEnabled = true
             editTextTelefono.isEnabled = true
+        }
+        saveButton.setOnClickListener{
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("¿Confirmar cambios?")
+                .setPositiveButton("SI") { _, _ ->
+                    // aca guardas los cambios
+                }
+                .setNegativeButton("NO") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
+        }
+
+        deleteButton.setOnClickListener{
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("¿Está seguro que desea borrar el club? Esta acción no se puede deshacer.")
+                .setPositiveButton("Borrar club") { _, _ ->
+                    // aca borras
+                }
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
