@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/btn_add_tournament"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".fragments.MyTournamentsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tournament_list"
-        android:layout_width="406dp"
-        android:layout_height="620dp"
-        android:layout_marginBottom="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_width="401dp"
+        android:layout_height="489dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/textView7"
@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add_new_tournament"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -34,5 +34,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tournament_list" />
+        app:layout_constraintTop_toBottomOf="@+id/tournament_list"
+        app:layout_constraintVertical_bias="0.068" />
 </androidx.constraintlayout.widget.ConstraintLayout>

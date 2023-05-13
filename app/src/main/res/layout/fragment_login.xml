@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.02" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineAbajo"
@@ -76,44 +76,54 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/tvBienvenido" />
 
-    <EditText
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etEmail"
+        style="?attr/textInputFilledStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:hint="  Email"
-        android:minHeight="48dp"
-        android:paddingBottom="20dp"
+        android:layout_marginTop="60dp"
+        android:hint="Email"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@id/tvIniciarSesion" />
+        app:layout_constraintTop_toBottomOf="@id/tvBienvenido">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-
-    <EditText
-        android:id="@+id/etPass"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPassword"
+        style="?attr/textInputFilledStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:gravity="center_vertical"
-        android:minHeight="48dp"
-        android:paddingBottom="20dp"
-        android:password="true"
+        android:layout_marginTop="150dp"
+        android:hint="Contraseña"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@id/tvBienvenido">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <TextView
         android:id="@+id/tvOlividoContr"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Perdió su contraseña?"
-        android:layout_marginTop="15dp"
+        android:text="¿Olvidó su contraseña?"
+        android:layout_marginTop="120dp"
         android:textAlignment="center"
         android:textColor="#2196F3"
         android:textSize="16sp"
@@ -121,14 +131,14 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etPass" />
+        app:layout_constraintTop_toBottomOf="@id/etEmail" />
 
 
     <Button
         android:id="@+id/btnEnviarEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="160dp"
         android:height="60dp"
         android:backgroundTint="#2196F3"
         android:text="Iniciar sesión"
@@ -137,13 +147,13 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/tvOlividoContr" />
+        app:layout_constraintTop_toBottomOf="@id/etEmail"/>
 
     <TextView
         android:id="@+id/txtCrearCuenta"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="28dp"
         android:text="¿No tiene cuenta?"
         android:textAlignment="center"
         android:textSize="16sp"
@@ -154,8 +164,8 @@
         android:id="@+id/txtLinkCrearCta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="12dp"
         android:text="Crear una cuenta"
         android:textAlignment="center"
         android:textColor="#2196F3"

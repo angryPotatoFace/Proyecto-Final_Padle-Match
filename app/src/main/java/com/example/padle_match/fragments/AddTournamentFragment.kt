@@ -14,19 +14,28 @@ class AddTournamentFragment : Fragment() {
         fun newInstance() = AddTournamentFragment()
     }
 
+    private lateinit var v: View
     private lateinit var viewModel: AddTournamentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_tournament, container, false)
+        v = inflater.inflate(R.layout.fragment_add_tournament, container, false)
+
+
+
+        return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(AddTournamentViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
 }
