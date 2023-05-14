@@ -129,15 +129,13 @@ class AddTournamentFragment: Fragment()  {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, 100)
         }
-
-
     }
 
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        
+
         // =========== SI SE CARGO LA IMAGEN CORRECTAMENTE SE MUESTRA =================
         val imagen : ImageView = v.findViewById(R.id.imagen)
         if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
