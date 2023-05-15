@@ -33,7 +33,6 @@ class ClubDetailFragment : Fragment() {
     lateinit var cancelButton: Button
     lateinit var deleteButton : Button
     lateinit var viewSwitcher: ViewSwitcher
-    lateinit var confirmationDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
