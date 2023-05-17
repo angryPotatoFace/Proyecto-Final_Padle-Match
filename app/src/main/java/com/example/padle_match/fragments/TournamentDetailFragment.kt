@@ -173,7 +173,7 @@ class TournamentDetailFragment : Fragment() {
         // ============== BOTON DE GUARDAR CAMBIOS TORNEO =================
         saveButton.setOnClickListener{
             val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("¿Confirmar cambios?")
+            builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
                     // aca guardas los cambios
                 }
@@ -187,7 +187,7 @@ class TournamentDetailFragment : Fragment() {
         // ============== BOTON DE BORRAR TORNEO =================
         deleteButton.setOnClickListener{
             val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("¿Está seguro que desea borrar el torneo? Esta acción no se puede deshacer.")
+            builder.setMessage("¿Está seguro de eliminar el torneo? Esta acción será permanente.")
                 .setPositiveButton("Borrar torneo") { _, _ ->
                     // aca borras
                 }

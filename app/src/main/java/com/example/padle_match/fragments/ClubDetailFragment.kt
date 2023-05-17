@@ -81,7 +81,7 @@ class ClubDetailFragment : Fragment() {
         }
         saveButton.setOnClickListener{
             val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("¿Confirmar cambios?")
+            builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
                     // aca guardas los cambios
                 }
@@ -94,7 +94,7 @@ class ClubDetailFragment : Fragment() {
 
         deleteButton.setOnClickListener{
             val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("¿Está seguro que desea borrar el club? Esta acción no se puede deshacer.")
+            builder.setMessage("¿Está seguro que desea borrar el club? Esta acción será permanente.")
                 .setPositiveButton("Borrar club") { _, _ ->
                     // aca borras
                 }
