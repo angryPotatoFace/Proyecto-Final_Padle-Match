@@ -8,5 +8,4 @@ data class Club(
     var email: String,
     var telefonos:String,
     var linkWebsite: String
-
 )
