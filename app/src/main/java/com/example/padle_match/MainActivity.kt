@@ -1,5 +1,6 @@
     package com.example.padle_match
 
+    import android.graphics.Color
     import android.os.Bundle
     import com.google.android.material.snackbar.Snackbar
     import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +10,12 @@
     import androidx.navigation.ui.setupActionBarWithNavController
     import android.view.Menu
     import android.view.MenuItem
+    import androidx.cardview.widget.CardView
     import androidx.navigation.ui.NavigationUI
     import com.example.padle_match.databinding.ActivityMainBinding
     import com.google.android.material.bottomnavigation.BottomNavigationView
+    import kotlin.random.Random
+
 
     class MainActivity : AppCompatActivity() {
 
