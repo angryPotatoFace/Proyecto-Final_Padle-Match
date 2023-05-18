@@ -142,6 +142,27 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Club"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
+
+            <AutoCompleteTextView
+                android:id="@+id/detail_club"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:enabled="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout9"
@@ -149,7 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="190dp"
             android:layout_marginEnd="20dp"
             android:hint="Fecha"
             app:endIconDrawable="@drawable/ic_calendar"
@@ -168,26 +189,6 @@
                 android:inputType="none"
                 tools:ignore="EditableContentDescCheck" />
 
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="190dp"
-            android:layout_marginEnd="20dp"
-            android:hint="Categoria/as"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2">
-
-            <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
-                android:id="@+id/detail_categorias"
-                android:enabled="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -218,24 +219,22 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout6"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="370dp"
             android:layout_marginEnd="20dp"
-            android:hint="Cupo"
+            android:hint="Categoria/as"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view2">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/detail_cupos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+                android:id="@+id/detail_categorias"
                 android:enabled="false"
-                android:inputType="number" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -262,12 +261,76 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_imageEditTournament"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="550dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Cupo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/detail_cupo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout6"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="640dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Costo de inscripción"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/detail_costoInscripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="730dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Premios"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/detail_premio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_imageEditTournament"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="820dp"
             android:layout_marginEnd="20dp"
             android:hint="Imagen"
             app:endIconDrawable="@drawable/ic_addphoto"
@@ -290,7 +353,7 @@
             android:id="@+id/imagenDetailTorneo"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="630dp"
+            android:layout_marginTop="900dp"
             android:contentDescription="TODO"
             android:src="@drawable/logo_img_base"
             app:layout_constraintEnd_toEndOf="parent"
@@ -313,8 +376,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imagenDetailTorneo" />
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
