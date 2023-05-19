@@ -9,11 +9,12 @@ import kotlinx.parcelize.RawValue
 @Parcelize
 data class Tournament(
     var idTorneo: String,
-    var club: @RawValue Club,
     var titulo: String,
+    var club: @RawValue Club,
     var fecha: String,
     var hora: String,
-    var categoría:Categoria,
+    var categoría:MutableList<String>,
+    var materialCancha: MutableList<String>,
     var cupos: Number,
     var costoInscripción:Number,
     var premios: String,
