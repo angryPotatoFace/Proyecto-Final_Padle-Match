@@ -9,9 +9,11 @@ import kotlinx.parcelize.Parcelize
 data class Tournament(
     var idTorneo: String,
     var titulo: String,
+    var club: Club,
     var fecha: String,
     var hora: String,
-    var categoría: String,
+    var categoría:MutableList<String>,
+    var materialCancha: MutableList<String>,
     var cupos: Number,
     var costoInscripción:Number,
     var premios: String,

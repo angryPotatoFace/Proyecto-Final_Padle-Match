@@ -9,7 +9,9 @@
     app:cardCornerRadius="30dp"
     app:cardElevation="10dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://schemas.android.com/apk/res-auto ">
 
     <TextView
         android:id="@+id/tournament_title"
@@ -60,7 +62,7 @@
                     android:layout_height="21dp"
                     android:layout_marginTop="20dp"
                     android:text="Categoria :"
-                    android:textAlignment="viewStart"/>
+                    android:textAlignment="viewStart" />
 
 
                 <TextView
@@ -93,13 +95,14 @@
                 android:layout_weight="70"
                 android:layout_gravity="right"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tournament_category"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="C4"
-                    android:textAlignment="viewStart"/>
+                    android:textAlignment="viewStart" />
 
 
                 <TextView
