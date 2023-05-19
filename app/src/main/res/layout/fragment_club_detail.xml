@@ -113,10 +113,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Provincia">
+                android:hint="Partido">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextProvincia"
+                    android:id="@+id/editTextPartido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -130,9 +130,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_weight="1"
-                android:hint="Partido">
+                android:hint="Localidad">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPartido"
+                    android:id="@+id/editTextLocalidad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"

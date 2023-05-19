@@ -273,7 +273,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view2">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/detail_cupo"
+                android:id="@+id/detail_cupos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"

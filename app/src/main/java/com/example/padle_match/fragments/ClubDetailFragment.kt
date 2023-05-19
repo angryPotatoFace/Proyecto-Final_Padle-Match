@@ -23,8 +23,8 @@ class ClubDetailFragment : Fragment() {
     lateinit var v : View
     lateinit var editTextNombre : EditText
     lateinit var editTextCuit : EditText
-    lateinit var editTextProvincia: EditText
     lateinit var editTextPartido: EditText
+    lateinit var editTextLocalidad: EditText
     lateinit var editTextDireccion: EditText
     lateinit var editTextEmail: EditText
     lateinit var editTextTelefono : EditText
@@ -41,8 +41,8 @@ class ClubDetailFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_club_detail, container, false)
         editTextNombre = v.findViewById(R.id.editTextNombre)
         editTextCuit = v.findViewById(R.id.editTextCuit)
-        editTextProvincia = v.findViewById(R.id.editTextProvincia)
         editTextPartido = v.findViewById(R.id.editTextPartido)
+        editTextLocalidad = v.findViewById(R.id.editTextLocalidad)
         editTextDireccion = v.findViewById(R.id.editTextDirección)
         editTextEmail = v.findViewById(R.id.editTextEmail)
         editTextTelefono = v.findViewById(R.id.editTextTelefono)
@@ -53,8 +53,8 @@ class ClubDetailFragment : Fragment() {
         viewSwitcher = v.findViewById(R.id.viewSwitcher)
         editTextNombre.setText("Chacarita")
         editTextCuit.setText("24272897626")
-        editTextProvincia.setText("Buenos Aires")
-        editTextPartido.setText("San Isidro")
+        editTextPartido.setText("Buenos Aires")
+        editTextLocalidad.setText("San Isidro")
         editTextDireccion.setText("Teodoro Garcia 3550")
         editTextEmail.setText("chacaritafc@gmail.com")
         editTextTelefono.setText("+54 9 3755 27-5457")
@@ -73,8 +73,8 @@ class ClubDetailFragment : Fragment() {
             viewSwitcher.showNext()
             editTextNombre.isEnabled = true
             editTextCuit.isEnabled = true
-            editTextProvincia.isEnabled = true
             editTextPartido.isEnabled = true
+            editTextLocalidad.isEnabled = true
             editTextDireccion.isEnabled = true
             editTextEmail.isEnabled = true
             editTextTelefono.isEnabled = true
