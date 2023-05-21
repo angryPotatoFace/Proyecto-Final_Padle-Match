@@ -40,7 +40,6 @@ import java.util.*
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class TournamentDetailFragment : Fragment()  {
-
     private lateinit var v: View
     private lateinit var titulo: TextView
     private lateinit var detailNombre: EditText
@@ -73,7 +72,7 @@ class TournamentDetailFragment : Fragment()  {
         detailCategorias.isEnabled = false
         detailHorario = v.findViewById(R.id.detail_hour)
         detailHorario.isEnabled = false
-        detailCupos = v.findViewById(R.id.detail_cupos)
+       // detailCupos = v.findViewById(R.id.detail_cupos)
         detailCupos.isEnabled = false
         detailMateriales = v.findViewById(R.id.detail_materiales)
         detailImagen = v.findViewById(R.id.ImagenEditTextDetail)

@@ -28,7 +28,7 @@ class MyTournamentsViewModel: ViewModel() {
                             val premios = d["premios"] as? String ?: "No se proporciono premios"
                             val imagenTorneo = d["imagenTorneo"] as? String ?: "No se proporciono imagenTorneo"
 
-                            val torneo = Tournament(
+                         /*   val torneo = Tournament(
                                 id,
                                 titulo,
                                 fecha,
@@ -39,7 +39,7 @@ class MyTournamentsViewModel: ViewModel() {
                                 premios,
                                 imagenTorneo
                             )
-                            tournamentList.value?.add(torneo)
+                            tournamentList.value?.add(torneo) */
                         }
                     }
 
