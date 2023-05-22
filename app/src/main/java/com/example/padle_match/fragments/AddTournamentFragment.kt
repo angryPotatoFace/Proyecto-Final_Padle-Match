@@ -1,41 +1,24 @@
 package com.example.padle_match.fragments
 
 import android.app.Activity.RESULT_OK
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.format.DateFormat
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.DatePicker
 import android.widget.EditText
-import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
-import com.example.padle_match.R
-import com.example.padle_match.adapter.TournamentAdapter
 import com.example.padle_match.databinding.FragmentAddTournamentBinding
 import com.example.padle_match.entities.Tournament
-import com.example.padle_match.entities.TournamentRepository
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.firebase.ktx.app
-import com.google.firebase.storage.ktx.storage
-import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
-import okhttp3.internal.wait
 import java.util.*
 
 

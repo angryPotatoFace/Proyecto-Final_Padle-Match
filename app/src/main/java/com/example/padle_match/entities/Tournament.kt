@@ -2,7 +2,6 @@ package com.example.padle_match.entities
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class Tournament(
@@ -13,7 +12,7 @@ data class Tournament(
     var categoría: String,
     var materialCancha: String,
     var cupos: Number,
-    var costoInscripción:Number,
+    var costoInscripción: Number,
     var premios: String,
     var imagenTorneo: String
 ) : Parcelable
