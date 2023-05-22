@@ -65,8 +65,8 @@ class MyTournamentsFragment : Fragment() {
                     val costoInscripción = d["costoInscripción"] as? Number?: 0
                     val premios = d["premios"] as? String?: "No se proporciono premios"
                     val imagenTorneo = d["imagenTorneo"] as? String?: "No se proporciono imagenTorneo"
-                    val torneo = Tournament(id,titulo,fecha,hora,categoría.toString(),cupos, costoInscripción, premios,imagenTorneo)
-                    list.add(torneo)
+                    // val torneo = Tournament(id,titulo,fecha,hora,categoría.toString(),cupos, costoInscripción, premios,imagenTorneo)
+                    // list.add(torneo)
                 }
 
                 recyclerView.layoutManager = LinearLayoutManager(context)

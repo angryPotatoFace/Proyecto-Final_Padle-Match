@@ -1,5 +1,10 @@
 package com.example.padle_match.entities
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class Club(
     var cuit:String,
     var nombre:String,
@@ -8,4 +13,4 @@ data class Club(
     var domicilio:String,
     var email: String,
     var telefonos:String
-)
+): Parcelable
