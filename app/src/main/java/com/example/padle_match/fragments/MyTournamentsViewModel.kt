@@ -17,7 +17,7 @@ class MyTournamentsViewModel: ViewModel() {
         val list = mutableListOf<Tournament>();
         val documents = db.collection("tournaments").get().await()
         documents.forEach { data ->
-            val id = data.id
+            
             val titulo = data["titulo"] as? String ?: "Torneo default"
             val club = data["club"] as? String ?: "Torneo default"
             val fecha = data["fecha"] as? String ?: "No se proporciono fecha"
