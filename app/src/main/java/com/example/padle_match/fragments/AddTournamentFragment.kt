@@ -169,8 +169,4 @@ class AddTournamentFragment: Fragment()  {
 
         return retorno
     }
-
-
-
-
 }

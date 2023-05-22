@@ -125,4 +125,7 @@ dependencies {
 
     // Add the dependency for the Cloud Storage library
     implementation 'com.google.firebase:firebase-storage-ktx'
+
+    // Add the dependency for the Firebase Authentication library
+    implementation 'com.google.firebase:firebase-auth-ktx'
 }
