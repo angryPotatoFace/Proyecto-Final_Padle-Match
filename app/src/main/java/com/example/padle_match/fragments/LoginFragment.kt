@@ -1,7 +1,9 @@
 package com.example.padle_match.fragments
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -69,6 +71,7 @@ class LoginFragment : Fragment() {
     }
 
 
+    @SuppressLint("ShowToast")
     override fun onStart() {
         super.onStart()
 
@@ -76,16 +79,22 @@ class LoginFragment : Fragment() {
             val email = inputEmail.text.toString();
             val pass = inputPass.text.toString();
 
-            lifecycleScope.launch {
+            if( !email.isNullOrBlank() && !pass.isNullOrBlank() ) {
+                lifecycleScope.launch {
                     viewModel.loginUser(email,pass);
                     val user = viewModel.currentUser();
-                    if( user != null ) {
+                    if( ! user!!.uid.isNullOrBlank() ) {
                         val action = LoginFragmentDirections.actionLoginFragmentToMyTournamentsFragment()
                         findNavController().navigate(action)
                     }else{
-                        Snackbar.make(v, "Error on authentification", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(v, "Error on authentification", Snackbar.LENGTH_SHORT).show()
                     }
+                }
+
+            }else{
+                Snackbar.make(v, "Error password o email empty", Snackbar.LENGTH_SHORT).show()
             }
+
         }
 
     }
