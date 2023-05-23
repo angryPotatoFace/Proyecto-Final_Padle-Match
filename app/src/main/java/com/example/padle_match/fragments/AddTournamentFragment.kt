@@ -18,6 +18,9 @@ import com.example.padle_match.databinding.FragmentAddTournamentBinding
 import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -27,6 +30,7 @@ class AddTournamentFragment: Fragment()  {
 
     private lateinit var binding: FragmentAddTournamentBinding
     lateinit var imageUri: Uri
+    private var auth: FirebaseAuth = Firebase.auth
 
     companion object {
         fun newInstance() = AddTournamentFragment()
@@ -136,8 +140,14 @@ class AddTournamentFragment: Fragment()  {
         val cupo = binding.cupoEditText.text.toString().toInt()
         val cost = binding.inputCostoInscripcion.text.toString().toInt();
         val premio = binding.inputCostoInscripcion.text.toString();
+        val udi = auth.currentUser!!.uid
+        var idClub = ""
+        lifecycleScope.launch {
+            idClub = viewModel.getIdClubByName("nombre")
+        }
 
-        val retorno =Tournament(
+
+        val retorno = Tournament(
             nombre,
             club,
             date,
@@ -147,7 +157,9 @@ class AddTournamentFragment: Fragment()  {
             cupo,
             cost,
             premio,
-            "loading..."
+            "loading...",
+            udi,
+            idClub
         )
 
         return retorno

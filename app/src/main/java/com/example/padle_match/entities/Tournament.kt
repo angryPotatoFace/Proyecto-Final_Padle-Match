@@ -14,5 +14,7 @@ data class Tournament(
     var cupos: Number,
     var costoInscripción: Number,
     var premios: String,
-    var imagenTorneo: String
+    var imagenTorneo: String,
+    var uid: String,
+    var idClub: String,
 ) : Parcelable

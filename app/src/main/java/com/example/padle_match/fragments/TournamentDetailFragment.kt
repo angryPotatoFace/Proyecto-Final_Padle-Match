@@ -40,6 +40,7 @@ import java.util.*
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class TournamentDetailFragment : Fragment()  {
+
     private lateinit var v: View
     private lateinit var titulo: TextView
     private lateinit var detailNombre: EditText

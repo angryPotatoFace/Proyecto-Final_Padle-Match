@@ -112,4 +112,17 @@ class AddTournamentViewModel : ViewModel() {
             Log.w("Update Tournament", "User ${uid} was update correctly")
         }.await()
     }
+
+
+    suspend fun getIdClubByName( name: String): String{
+        val query =  db.collection("clubs").whereEqualTo("nombre", name)
+        var idClub = ""
+        val categorias = query.get().await();
+
+        categorias.forEach{data ->
+            idClub = data.id
+        }
+
+        return idClub;
+    }
 }
