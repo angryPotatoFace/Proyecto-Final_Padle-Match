@@ -142,6 +142,7 @@ class AddTournamentFragment: Fragment()  {
         val premio = binding.inputCostoInscripcion.text.toString();
         val udi = auth.currentUser!!.uid
         var idClub = ""
+
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName("nombre")
         }

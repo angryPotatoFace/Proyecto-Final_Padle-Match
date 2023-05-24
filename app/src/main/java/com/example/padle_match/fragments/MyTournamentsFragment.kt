@@ -26,12 +26,10 @@ class MyTournamentsFragment : Fragment() {
 
     private lateinit var v: View
     private lateinit var viewModel: MyTournamentsViewModel
-    // private var repository: TournamentRepository = TournamentRepository()
     private lateinit var adapter: TournamentAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnAddTournament: Button
-    // private val viewModel = ViewModelProvider(this).get(MyTournamentsViewModel::class.java)
-    private val list: MutableList<Tournament> = mutableListOf()
+    private var list: MutableList<Tournament> = mutableListOf()
 
     // Create connection with the database
     val db = Firebase.firestore
@@ -57,7 +55,7 @@ class MyTournamentsFragment : Fragment() {
         super.onStart()
 
         lifecycleScope.launch {
-            val list = viewModel.getTournament()
+            list = viewModel.getTournament();
             recyclerView.layoutManager = LinearLayoutManager(context)
             adapter = TournamentAdapter(list, requireContext()) { pos ->
                 onItemClick(pos)
@@ -72,6 +70,8 @@ class MyTournamentsFragment : Fragment() {
     }
 
     fun onItemClick ( position : Int )  {
+        Log.w("POSICION", position.toString())
+        Log.w("LISTA", list.toString())
         val action = MyTournamentsFragmentDirections.actionMyTournamentsFragmentToTournamentDetailFragment(list[position])
         findNavController().navigate(action)
     }
