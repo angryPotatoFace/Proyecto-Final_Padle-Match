@@ -28,22 +28,24 @@
             android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            android:layout_marginTop="4dp"
             android:background="#6EDF6C"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/imageButton3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="24dp"
             android:background="@color/blueButton"
+            android:backgroundTint="#6EDF6C"
             android:contentDescription="Atras"
             android:scaleType="centerInside"
             android:src="@drawable/ic_arrowback"
-            android:backgroundTint="#6EDF6C"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,16 +54,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/view4"
-            app:layout_constraintTop_toTopOf="@+id/view2">
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="20dp">
 
             <!-- Layout del botón de "Editar" -->
+
+            <!-- Layout de los botones de "Guardar" y "Cancelar" -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/editTournamentButton"
                 android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="340dp"
-                android:contentDescription="Editar"
+                android:layout_height="50dp"
+                android:layout_marginStart="320dp"
                 android:background="@drawable/black_button_border"
+                android:contentDescription="Editar"
                 app:backgroundTint="@null"
                 app:icon="@drawable/ic_edit"
                 app:iconSize="28dp"
@@ -69,36 +76,35 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/view2" />
 
-            <!-- Layout de los botones de "Guardar" y "Cancelar" -->
             <LinearLayout
                 android:id="@+id/saveCancelTournamentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:orientation="horizontal">
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/cancelTournamentButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginEnd="30dp"
                     android:text="CANCELAR"
-                    android:textSize="16dp"
                     android:textColor="@color/black"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    />
+                    android:textSize="16dp" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/saveTournamentButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="5dp"
-                    app:cornerRadius="20dp"
+                    android:layout_marginEnd="20dp"
                     android:text="GUARDAR"
-                    android:textSize="16dp"
                     android:textColor="@color/black"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    />
+                    android:textSize="16dp"
+                    app:cornerRadius="20dp" />
             </LinearLayout>
 
         </ViewSwitcher>
@@ -230,7 +236,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view2">
 
-            <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+            <AutoCompleteTextView
                 android:id="@+id/detail_categorias"
                 android:enabled="false"
                 android:layout_width="match_parent"

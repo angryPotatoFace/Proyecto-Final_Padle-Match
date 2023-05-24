@@ -25,6 +25,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.firestore.ktx.firestore
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import java.util.*
@@ -36,8 +38,6 @@ import java.util.*
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class TournamentDetailFragment : Fragment()  {
-
-
 
     private lateinit var v: View
     private lateinit var titulo: TextView
@@ -60,6 +60,7 @@ class TournamentDetailFragment : Fragment()  {
     private lateinit var viewModel: TournamentDetailFragmentViewModel
     private lateinit var imageUri: Uri
 
+    private var auth: FirebaseAuth = Firebase.auth
     val db = Firebase.firestore
 
     override fun onCreateView(
@@ -67,8 +68,6 @@ class TournamentDetailFragment : Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_tournament_detail, container, false)
-
-
 
         titulo = v.findViewById(R.id.detail_tituloNombre)
 
@@ -126,10 +125,14 @@ class TournamentDetailFragment : Fragment()  {
 
         lifecycleScope.launch {
 
+            var data = viewModel.getClubsList()
+            ( detailClub as? MaterialAutoCompleteTextView)?.setSimpleItems(data);
+
+            var data_cat = viewModel.getCategoriasList()
+            ( detailCategorias as? MaterialAutoCompleteTextView)?.setSimpleItems(data_cat)
+
             var data_material = viewModel.getMaterialesList();
-            (detailMateriales as? MaterialAutoCompleteTextView)?.setSimpleItems(data_material as Array<String>)
-
-
+            ( detailMateriales as? MaterialAutoCompleteTextView)?.setSimpleItems(data_material)
         }
 
         detailImagen.setOnClickListener {
@@ -198,7 +201,7 @@ class TournamentDetailFragment : Fragment()  {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
-                    // aca guardas los cambios
+                    Log.w("NUEVO TORNEO", createTournament().toString())
                 }
                 .setNegativeButton("NO") { dialog, _ ->
                     dialog.dismiss()
@@ -243,6 +246,7 @@ class TournamentDetailFragment : Fragment()  {
             detailCostoInscripcion.isEnabled = true
             detailPremio.isEnabled = true
             detailImagen.isEnabled = true
+
         }
     }
 
@@ -275,6 +279,30 @@ class TournamentDetailFragment : Fragment()  {
         detailCategorias.isEnabled = false
         detailHorario.isEnabled = false
         detailCupos.isEnabled = false
+    }
+
+    private fun createTournament(): Tournament {
+
+        val nombre = detailNombre.text.toString();
+        val club = detailClub.text.toString();
+        val date = detailFecha.text.toString();
+        val hour = detailHorario.text.toString();
+        val category = detailCategorias.text.toString();
+        val material = detailMateriales.text.toString();
+        val cupo = detailCupos.text.toString().toInt()
+        val cost = detailCupos.text.toString().toInt();
+        val premio = detailPremio.text.toString();
+        val udi = auth.currentUser!!.uid
+        var idClub = ""
+
+        lifecycleScope.launch {
+            idClub = viewModel.getIdClubByName(club)
+        }
+
+        val retorno = Tournament( nombre, club, date, hour, category, material, cupo, cost, premio,
+            "loading...", udi, idClub )
+
+        return retorno
     }
 
 }

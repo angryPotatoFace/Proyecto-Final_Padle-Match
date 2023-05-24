@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.padle_match.databinding.FragmentAddTournamentBinding
 import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -68,12 +69,9 @@ class AddTournamentFragment: Fragment()  {
             var data = viewModel.getClubsList()
             (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(data);
 
-
-
             var categoriaList =binding.autoCompleteTextView2
             var data_cat = viewModel.getCategoriasList()
             ( categoriaList as? MaterialAutoCompleteTextView)?.setSimpleItems(data_cat as Array<String>)
-
 
             var materialList = binding.listMateriales
             var data_material = viewModel.getMaterialesList();
@@ -125,8 +123,22 @@ class AddTournamentFragment: Fragment()  {
                 val url = viewModel.uploadImagenStorage( imageUri, udi )
                 torneo.imagenTorneo = url;
                 viewModel.updateTournament(torneo, udi);
+                Snackbar.make(binding.root,"El torneo fue agregado con exito", Snackbar.LENGTH_SHORT)
+                cleanInputs()
             }
         }
+    }
+
+    private fun cleanInputs() {
+        binding.inputName.setText("")
+        binding.inputListClubs.setText("")
+        binding.fechaEditText.setText("")
+        binding.horarioEditText.setText("")
+        binding.autoCompleteTextView2.setText("")
+        binding.listMateriales.setText("")
+        binding.cupoEditText.setText("")
+        binding.inputCostoInscripcion.setText("")
+        binding.inputCostoInscripcion.setText("")
     }
 
     private fun createTournament(): Tournament {
