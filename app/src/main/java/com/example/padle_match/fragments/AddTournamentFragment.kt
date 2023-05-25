@@ -51,7 +51,6 @@ class AddTournamentFragment: Fragment()  {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(AddTournamentViewModel::class.java)
-
     }
 
 
@@ -59,6 +58,7 @@ class AddTournamentFragment: Fragment()  {
         super.onStart()
 
         var fecha: EditText = binding.fechaEditText
+
         val datePicker = viewModel.createDatePicker();
 
         datePickerHandler(datePicker, fecha);

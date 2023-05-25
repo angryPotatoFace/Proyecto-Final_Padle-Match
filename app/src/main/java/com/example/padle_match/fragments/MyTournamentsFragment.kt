@@ -39,6 +39,7 @@ class MyTournamentsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_my_tournaments, container, false)
+
         recyclerView = v.findViewById(R.id.tournament_list)
         btnAddTournament = v.findViewById(R.id.add_new_tournament)
 
@@ -55,6 +56,7 @@ class MyTournamentsFragment : Fragment() {
         super.onStart()
 
         lifecycleScope.launch {
+            // ESTO LLAMAR COROUTINA EN EL VIEWMODEL.
             list = viewModel.getTournament();
             recyclerView.layoutManager = LinearLayoutManager(context)
             adapter = TournamentAdapter(list, requireContext()) { pos ->

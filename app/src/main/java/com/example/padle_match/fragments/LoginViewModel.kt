@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Context
 import android.view.View
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 
@@ -21,11 +23,21 @@ class LoginViewModel : ViewModel() {
     suspend fun loginUser(email: String, password: String) {
         val request = auth.signInWithEmailAndPassword(email, password)
 
+
+
+
         try{
             request.addOnSuccessListener() { task ->
             }.await()
         }catch (e: Exception) {
             Log.w("Login Method", "signInWithEmail:failure");
+        }
+    }
+
+
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+        //    loginUser()
         }
     }
 
