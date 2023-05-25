@@ -161,8 +161,10 @@
         android:layout_width="288dp"
         android:layout_height="46dp"
         android:text="Crear Cuenta"
+        android:backgroundTint="@color/blueButton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etConfirContras"
-        tools:layout_editor_absoluteX="64dp" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
+        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
+        app:layout_constraintTop_toBottomOf="@+id/etConfirContras" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
