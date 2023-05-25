@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TimePicker
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +20,7 @@ import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -44,7 +46,6 @@ class AddTournamentFragment: Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddTournamentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -58,28 +59,32 @@ class AddTournamentFragment: Fragment()  {
     override fun onStart() {
         super.onStart()
 
-        var fecha: EditText = binding.fechaEditText
+        var fecha: EditText = binding.editTextAddTournamentFecha
         val datePicker = viewModel.createDatePicker();
 
+        var hora : EditText = binding.editTextAddTournamentHorario
+        val timePicker = viewModel.createTimePicker();
+
         datePickerHandler(datePicker, fecha);
+        timePickerHandler(timePicker, hora)
 
         lifecycleScope.launch {
 
-            var clubList = binding.inputListClubs
+            var clubList = binding.editTextAddTournamentClub
             var data = viewModel.getClubsList()
             (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(data);
 
-            var categoriaList =binding.autoCompleteTextView2
+            var categoriaList =binding.editTextAddTournamentCategorias
             var data_cat = viewModel.getCategoriasList()
             ( categoriaList as? MaterialAutoCompleteTextView)?.setSimpleItems(data_cat as Array<String>)
 
-            var materialList = binding.listMateriales
+            var materialList = binding.editTextAddTournamentMateriales
             var data_material = viewModel.getMaterialesList();
             (materialList as? MaterialAutoCompleteTextView)?.setSimpleItems(data_material as Array<String>)
 
         }
 
-        val imagen = binding.ImagenEditText
+        val imagen = binding.editTextAddTournamentImagen
         imagen.setOnClickListener{
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, 100)
@@ -93,7 +98,7 @@ class AddTournamentFragment: Fragment()  {
         super.onActivityResult(requestCode, resultCode, data)
 
         // =========== SI SE CARGO LA IMAGEN CORRECTAMENTE SE MUESTRA =================
-        val imagen = binding.imagen
+        val imagen = binding.AddTournamentImagen
         if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
             if( data.data !== null ) {
                 imagen.setImageURI(data.data)
@@ -109,6 +114,17 @@ class AddTournamentFragment: Fragment()  {
             datePicker.addOnPositiveButtonClickListener { selection ->
                 val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
                 item.setText(dateString)
+            }
+        }
+    }
+
+    private fun timePickerHandler(timePicker: MaterialTimePicker, item: EditText){
+        item.setOnClickListener {
+            timePicker.show(requireActivity().supportFragmentManager, "tag")
+            timePicker.addOnPositiveButtonClickListener {
+                val hour = timePicker.hour
+                val minute = timePicker.minute
+                binding.editTextAddTournamentHorario.setText(String.format("%02d:%02d", hour, minute))
             }
         }
     }
@@ -130,35 +146,34 @@ class AddTournamentFragment: Fragment()  {
     }
 
     private fun cleanInputs() {
-        binding.inputName.setText("")
-        binding.inputListClubs.setText("")
-        binding.fechaEditText.setText("")
-        binding.horarioEditText.setText("")
-        binding.autoCompleteTextView2.setText("")
-        binding.listMateriales.setText("")
-        binding.cupoEditText.setText("")
-        binding.inputCostoInscripcion.setText("")
-        binding.inputCostoInscripcion.setText("")
+        binding.editTextAddTournamentName.setText("")
+        binding.editTextAddTournamentClub.setText("")
+        binding.editTextAddTournamentFecha.setText("")
+        binding.editTextAddTournamentHorario.setText("")
+        binding.editTextAddTournamentCategorias.setText("")
+        binding.editTextAddTournamentMateriales.setText("")
+        binding.editTextAddTournamentCupo.setText("")
+        binding.editTextAddTournamentCosto.setText("")
+        binding.editTextAddTournamentPremios.setText("")
     }
 
     private fun createTournament(): Tournament {
 
-        val nombre = binding.inputName.text.toString();
-        val club = binding.inputListClubs.text.toString();
-        val date = binding.fechaEditText.text.toString();
-        val hour = binding.horarioEditText.text.toString();
-        val category = binding.autoCompleteTextView2.text.toString();
-        val material = binding.listMateriales.text.toString();
-        val cupo = binding.cupoEditText.text.toString().toInt()
-        val cost = binding.inputCostoInscripcion.text.toString().toInt();
-        val premio = binding.inputCostoInscripcion.text.toString();
+        val nombre = binding.editTextAddTournamentName.text.toString();
+        val club = binding.editTextAddTournamentClub.text.toString();
+        val date = binding.editTextAddTournamentFecha.text.toString();
+        val hour = binding.editTextAddTournamentHorario.text.toString();
+        val category = binding.editTextAddTournamentCategorias.text.toString();
+        val material = binding.editTextAddTournamentMateriales.text.toString();
+        val cupo = binding.editTextAddTournamentCupo.text.toString().toInt()
+        val cost = binding.editTextAddTournamentCosto.text.toString().toInt();
+        val premio = binding.editTextAddTournamentPremios.text.toString();
         val udi = auth.currentUser!!.uid
         var idClub = ""
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName("nombre")
         }
-
 
         val retorno = Tournament(
             nombre,
