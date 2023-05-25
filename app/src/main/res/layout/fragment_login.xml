@@ -87,7 +87,9 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@id/tvBienvenido">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_email_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="0dp"
@@ -107,7 +109,9 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@id/tvBienvenido">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_pass_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="0dp"
@@ -135,7 +139,7 @@
 
 
     <Button
-        android:id="@+id/btnEnviarEmail"
+        android:id="@+id/btnCreateAccount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
@@ -158,7 +162,7 @@
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/btnEnviarEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCreateAccount" />
 
     <TextView
         android:id="@+id/txtLinkCrearCta"
@@ -172,6 +176,6 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintTop_toBottomOf="@+id/btnEnviarEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCreateAccount" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

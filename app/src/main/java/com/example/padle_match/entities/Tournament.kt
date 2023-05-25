@@ -1,22 +1,20 @@
 package com.example.padle_match.entities
 
-import android.media.Image
 import android.os.Parcelable
-import java.util.Date
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class Tournament(
-    var idTorneo: String,
     var titulo: String,
-    var club: @RawValue Club,
+    var club: String,
     var fecha: String,
     var hora: String,
-    var categoría:MutableList<String>,
+    var categoría: String,
     var materialCancha: String,
     var cupos: Number,
-    var costoInscripción:Number,
+    var costoInscripción: Number,
     var premios: String,
-    var imagenTorneo: String
+    var imagenTorneo: String,
+    var uid: String,
+    var idClub: String,
 ) : Parcelable
