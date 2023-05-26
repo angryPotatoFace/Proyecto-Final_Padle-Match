@@ -1,31 +1,62 @@
 package com.example.padle_match.fragments
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
+import com.example.padle_match.databinding.FragmentForgotPasswordBinding
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
-class ForgotPasswordFragment : Fragment() {
+
+
+class ForgotPasswordFragment : Fragment(), ForgotPasswordListener {
+
+    private lateinit var binding : FragmentForgotPasswordBinding
 
     companion object {
         fun newInstance() = ForgotPasswordFragment()
     }
-
     private lateinit var viewModel: ForgotPasswordViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false)
+        binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.btnSendEmail.setOnClickListener {
+            viewModel.sendEmail(binding.editTextForgotPassword.text.toString())
+        }
+    }
+
+    override fun onEmailSentAndComplete() {
+        val navController = findNavController()
+        navController.popBackStack(R.id.loginFragment, false)
+        Snackbar.make(requireView(), "Email de cambio de contraseña enviado.", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onError(errorMessage: String) {
+        binding.editTextForgotPassword.setText("")
+        Snackbar.make(requireView(), errorMessage, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ForgotPasswordViewModel::class.java)
+        viewModel.listener = this
         // TODO: Use the ViewModel
     }
 

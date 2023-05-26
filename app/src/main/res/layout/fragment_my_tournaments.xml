@@ -13,10 +13,10 @@
         android:layout_height="489dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_tittle_tournament" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/tv_tittle_tournament"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -32,7 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Agregar"
+        android:backgroundTint="#6EDF6C"
+        android:text="+"
+        android:textSize="34sp"
+        app:cornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,20 +1,11 @@
 package com.example.padle_match.fragments
 
-import android.content.ContentValues
-import android.icu.text.CaseMap.Lower
+
 import android.net.Uri
-import android.security.identity.ResultData
-import android.text.format.DateFormat
 import android.util.Log
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
 import androidx.lifecycle.*
-import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.firestore.ktx.firestore
@@ -24,70 +15,31 @@ import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import java.util.*
 
-class AddTournamentViewModel : ViewModel() {
+class TournamentDetailFragmentViewModel : ViewModel() {
 
-
-    //
     val db = Firebase.firestore
     val storage = Firebase.storage(Firebase.app)
     val storageRef = storage.reference
 
-
-    companion object{
-        private val MSG_CAMPO_REQUERIDO = "Campo requerido"
-    }
-    fun validateFields(
-        editName: EditText,
-        editClub: AutoCompleteTextView,
-        editFecha: EditText,
-        editHorario: EditText,
-        editCategorias: AutoCompleteTextView,
-        editMateriales: AutoCompleteTextView,
-        editCupo: EditText,
-        editCosto: EditText,
-        editPremios: EditText,
-        editImagen: EditText
-    ) : Boolean {
-        return notEmpty(editName) && notEmpty(editClub) && notEmpty(editFecha) && notEmpty(editHorario) && notEmpty(editCategorias)
-                && notEmpty(editMateriales) && notEmpty(editCupo) && notEmpty(editCosto) && notEmpty(editPremios) && notEmpty(editImagen)
-    }
-
-    private fun notEmpty(editText: EditText) : Boolean {
-        var isValid : Boolean = true
-        val value = editText.text.toString().trim()
-        if(value.isNullOrEmpty()){
-            editText.error = MSG_CAMPO_REQUERIDO
-            isValid = false
-        }
-        return isValid
-    }
-    private fun notEmpty(autoCompleteTextView: AutoCompleteTextView): Boolean {
-        val editText: EditText = autoCompleteTextView
-        return notEmpty(editText)
-    }
-
-    // Permite solo seleccionar una fecha a partir del dia actual
     fun createDatePicker(): MaterialDatePicker<Long> {
-        val today = MaterialDatePicker.todayInUtcMilliseconds()
+
         return MaterialDatePicker.Builder.datePicker()
             .setTitleText("Seleccione una fecha")
-            .setSelection(today)
-            .setCalendarConstraints(
-                CalendarConstraints.Builder()
-                    .setValidator(DateValidatorPointForward.from(today))
-                    .build()
-            )
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .build();
     }
 
-    fun createTimePicker() : MaterialTimePicker{
-        return MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setTitleText("Seleccione una hora")
-            .build()
+
+    fun createHourPicker(): MaterialTimePicker {
+        val timePicker =
+            MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setTitleText("Seleccione una hora")
+                .build()
+        return timePicker
     }
+
     suspend fun uploadImagenStorage( data: Uri, udi: String): String {
 
         var result: String = ""

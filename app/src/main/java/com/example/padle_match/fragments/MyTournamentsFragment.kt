@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,16 +20,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 
 class MyTournamentsFragment : Fragment() {
 
     private lateinit var v: View
-    // private var repository: TournamentRepository = TournamentRepository()
+    private lateinit var viewModel: MyTournamentsViewModel
     private lateinit var adapter: TournamentAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnAddTournament: Button
-    // private val viewModel = ViewModelProvider(this).get(MyTournamentsViewModel::class.java)
-    private val list: MutableList<Tournament> = mutableListOf()
+    private var list: MutableList<Tournament> = mutableListOf()
 
     // Create connection with the database
     val db = Firebase.firestore
@@ -37,47 +39,31 @@ class MyTournamentsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_my_tournaments, container, false)
+
         recyclerView = v.findViewById(R.id.tournament_list)
         btnAddTournament = v.findViewById(R.id.add_new_tournament)
 
         return v
     }
 
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(MyTournamentsViewModel::class.java)
+    }
+
     override fun onStart() {
         super.onStart()
 
-
-
-        db.collection("tournaments")
-            .get()
-            .addOnSuccessListener { documents ->
-               // val listaTorneos: MutableList<Tournament> = documents.toObjects(Tournament::class.java)
-
-                documents.forEach{ data ->
-                    Log.w("INFORMACION", data.data.toString())
-                    val d = data.data;
-                    val id = data.id
-                    val titulo = d["titulo"] as? String?: "Torneo default"
-                    val fecha = d["fecha"] as? String?: "No se proporciono fecha"
-                    val hora = d["hora"] as? String?: "No se proporciono hora"
-                    val categoría = d["categoria"] as? ArrayList<String>?: "No se proporciono categoria"
-                    val cupos = d["cupos"] as? Number?: 0
-                    val costoInscripción = d["costoInscripción"] as? Number?: 0
-                    val premios = d["premios"] as? String?: "No se proporciono premios"
-                    val imagenTorneo = d["imagenTorneo"] as? String?: "No se proporciono imagenTorneo"
-                    val torneo = Tournament(id,titulo,fecha,hora,categoría.toString(),cupos, costoInscripción, premios,imagenTorneo)
-                    list.add(torneo)
-                }
-
-                recyclerView.layoutManager = LinearLayoutManager(context)
-                adapter = TournamentAdapter(list, requireContext()) { pos ->
-                    onItemClick(pos)
-                }
-                recyclerView.adapter = adapter
+        lifecycleScope.launch {
+            // ESTO LLAMAR COROUTINA EN EL VIEWMODEL.
+            list = viewModel.getTournament();
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            adapter = TournamentAdapter(list, requireContext()) { pos ->
+                onItemClick(pos)
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
+            recyclerView.adapter = adapter
+        }
 
         btnAddTournament.setOnClickListener{
             val action = MyTournamentsFragmentDirections.actionMyTournamentsFragmentToAddTournamentFragment()
@@ -86,6 +72,8 @@ class MyTournamentsFragment : Fragment() {
     }
 
     fun onItemClick ( position : Int )  {
+        Log.w("POSICION", position.toString())
+        Log.w("LISTA", list.toString())
         val action = MyTournamentsFragmentDirections.actionMyTournamentsFragmentToTournamentDetailFragment(list[position])
         findNavController().navigate(action)
     }

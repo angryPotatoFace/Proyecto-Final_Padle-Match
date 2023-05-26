@@ -1,11 +1,10 @@
 package com.example.padle_match.fragments
 
 
-import android.content.ContentValues.TAG
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.format.DateFormat
@@ -17,20 +16,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import android.widget.*
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.padle_match.R
 import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
-import java.text.SimpleDateFormat
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -49,13 +47,20 @@ class TournamentDetailFragment : Fragment()  {
     private lateinit var detailHorario: EditText
     private lateinit var detailCupos: EditText
     private lateinit var detailMateriales: EditText
+    private lateinit var detailCostoInscripcion: EditText
+    private lateinit var detailClub: EditText
+    private lateinit var detailPremio: EditText
     private lateinit var detailImagen: EditText
+    private lateinit var imageDisplay : ImageView
     private lateinit var deleteButton: Button
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private lateinit var editButton: Button
     private lateinit var viewSwitcher: ViewSwitcher
-
+    private lateinit var viewModel: TournamentDetailFragmentViewModel
+    private lateinit var imageUri: Uri
+    private lateinit var tournamentSelec  : Tournament
+    private var auth: FirebaseAuth = Firebase.auth
     val db = Firebase.firestore
 
     override fun onCreateView(
@@ -63,20 +68,33 @@ class TournamentDetailFragment : Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_tournament_detail, container, false)
+
         titulo = v.findViewById(R.id.detail_tituloNombre)
-        titulo.isEnabled = false
+
         detailNombre = v.findViewById(R.id.detail_name)
-        detailNombre.isEnabled = false
+
         detailFecha = v.findViewById(R.id.detail_date)
-        detailFecha.isEnabled = false
+
+        detailClub = v.findViewById(R.id.detail_club)
+
         detailCategorias = v.findViewById(R.id.detail_categorias)
-        detailCategorias.isEnabled = false
+
         detailHorario = v.findViewById(R.id.detail_hour)
-        detailHorario.isEnabled = false
+
         detailCupos = v.findViewById(R.id.detail_cupos)
-        detailCupos.isEnabled = false
+
         detailMateriales = v.findViewById(R.id.detail_materiales)
+
+        detailCostoInscripcion = v.findViewById(R.id.detail_costoInscripcion)
+
+        detailPremio = v.findViewById(R.id.detail_premio)
+
         detailImagen = v.findViewById(R.id.ImagenEditTextDetail)
+
+        imageDisplay = v.findViewById(R.id.imagenDetailTorneo)
+
+        blockFields()
+
         deleteButton = v.findViewById(R.id.deleteTournamentButton)
         saveButton = v.findViewById(R.id.saveTournamentButton)
         cancelButton = v.findViewById(R.id.cancelTournamentButton)
@@ -85,146 +103,207 @@ class TournamentDetailFragment : Fragment()  {
         return v
     }
 
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(TournamentDetailFragmentViewModel::class.java)
+    }
+
     override fun onStart() {
         super.onStart()
         val tournamentSelected: Tournament =
             TournamentDetailFragmentArgs.fromBundle(requireArguments()).tournamentSelected
-        Log.w("Torneo selecionado", tournamentSelected.toString())
-        titulo.text = tournamentSelected.titulo
-        detailNombre.setText(tournamentSelected.titulo)
-        detailFecha.setText(tournamentSelected.fecha)
-        detailCategorias.setText(tournamentSelected.categoría.toString())
-        detailHorario.setText(tournamentSelected.hora)
-        detailCupos.setText(tournamentSelected.cupos.toString())
-        detailMateriales.setText("cemento")
+
+        setValues( tournamentSelected )
+
+        val datePicker = viewModel.createDatePicker();
+        datePickerHandler(datePicker, detailFecha);
+
+        val timePicker = viewModel.createHourPicker()
+        hourPickerHandler(timePicker, detailHorario)
 
 
-        // ============== CREO OBJETO DATE PICKER =================
-        val datePicker =
-            MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Seleccione una fecha")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
+        lifecycleScope.launch {
 
+            var data = viewModel.getClubsList()
+            ( detailClub as? MaterialAutoCompleteTextView)?.setSimpleItems(data);
 
-        // ============== CUANDO CLIKEAN EL CAMPO FECHA SE ACTIVA EL DATE PICKER =================
-        detailFecha.setOnClickListener {
-            datePicker.show(requireActivity().supportFragmentManager, "tag")
-            datePicker.addOnPositiveButtonClickListener { selection ->
-                val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
-                detailFecha.setText(dateString)
-            }
+            var data_cat = viewModel.getCategoriasList()
+            ( detailCategorias as? MaterialAutoCompleteTextView)?.setSimpleItems(data_cat)
+
+            var data_material = viewModel.getMaterialesList();
+            ( detailMateriales as? MaterialAutoCompleteTextView)?.setSimpleItems(data_material)
         }
 
-        // ============== CREO OBJETO TIME PICKER =================
-        val timePicker =
-            MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setTitleText("Seleccione una hora")
-                .build()
-
-
-        // ============== CUANDO CLIKEAN EL CAMPO HORA SE ACTIVA EL TIME PICKER =================
-        detailHorario.setOnClickListener {
-            timePicker.show(requireActivity().supportFragmentManager, "tag")
-            timePicker.addOnPositiveButtonClickListener {
-                val hour = timePicker.hour
-                val minute = timePicker.minute
-                detailHorario.setText(String.format("%02d:%02d", hour, minute))
-            }
-        }
-
-        // ============== PIDO LOS MATERIALES DE CANCHA Y LOS AGREGO A LA LISTA =================
-        db.collection("materialDeCancha")
-            .get()
-            .addOnSuccessListener { materiales ->
-                val data: List<String> =
-                    materiales.map { it -> it.data["materiales"] }[0] as List<String>
-                val mat: Array<String> = data.toTypedArray()
-                var mateList: AutoCompleteTextView = v.findViewById(R.id.detail_materiales)
-                (mateList as? MaterialAutoCompleteTextView)?.setSimpleItems(mat as Array<String>)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
-            }
-
-
-        // ============== SETEO EL CAMPO DE SELECCION DE IMAGEN =================
-        val imagen: EditText = v.findViewById(R.id.ImagenEditTextDetail)
-        imagen.setOnClickListener {
+        detailImagen.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, 100)
         }
 
+        handlerEdit()
+
+        handlerCancel( tournamentSelected )
+
+        handlerSave();
+
+        handlerDelete()
+
+        }
+
+    private fun setValues(tournamentSelected: Tournament) {
+        Log.w("Torneo selecionado", tournamentSelected.toString())
+        tournamentSelec = tournamentSelected
+        titulo.text = tournamentSelected.titulo
+        detailNombre.setText(tournamentSelected.titulo)
+        detailClub.setText(tournamentSelected.club)
+        detailFecha.setText(tournamentSelected.fecha)
+        detailCategorias.setText(tournamentSelected.categoría)
+        detailHorario.setText(tournamentSelected.hora)
+        detailCupos.setText(tournamentSelected.cupos.toString())
+        detailCostoInscripcion.setText(tournamentSelected.costoInscripción.toString())
+        detailPremio.setText(tournamentSelected.premios)
+        detailMateriales.setText(tournamentSelected.materialCancha)
+
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // =========== SI SE CARGO LA IMAGEN CORRECTAMENTE SE MUESTRA =================
+        val imagen = imageDisplay
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
+            if( data.data !== null ) {
+                imagen.setImageURI(data.data)
+                imageUri = data.data!!
+            }
+            /*  ======================================================  */
+        }
+    }
+    private fun handlerDelete() {
+        // ============== BOTON DE BORRAR TORNEO =================
+        deleteButton.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("¿Está seguro de eliminar el torneo? Esta acción será permanente.")
+                .setPositiveButton("Borrar torneo") { _, _ ->
+                    // aca borras
+                }
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
+        }
+    }
+
+    private fun handlerSave() {
+        // ============== BOTON DE GUARDAR CAMBIOS TORNEO =================
+        saveButton.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
+                .setPositiveButton("SI") { _, _ ->
+                    Log.w("NUEVO TORNEO", createTournament().toString())
+                }
+                .setNegativeButton("NO") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
+        }
+    }
+
+    private fun handlerCancel(tournamentSelected: Tournament) {
+        // ============== BOTON DE CANCELAR CAMBIOS =================
+        cancelButton.setOnClickListener {
+            viewSwitcher.showPrevious()
+            detailNombre.setText(tournamentSelected.titulo)
+            detailNombre.isEnabled = false
+            detailFecha.setText(tournamentSelected.fecha)
+            detailFecha.isEnabled = false
+            detailCategorias.setText(tournamentSelected.categoría.toString())
+            detailCategorias.isEnabled = false
+            detailHorario.setText(tournamentSelected.hora)
+            detailHorario.isEnabled = false
+            detailCupos.setText(tournamentSelected.cupos.toString())
+            detailCupos.isEnabled = false
+            detailMateriales.setText("cemento")
+            detailMateriales.isEnabled = false
+            detailImagen.setText(tournamentSelected.imagenTorneo)
+            detailImagen.isEnabled = false
+        }
+    }
+
+    private fun handlerEdit() {
         // ============== BOTON DE EDITAR TORNEO =================
         editButton.setOnClickListener {
             viewSwitcher.showNext()
             detailNombre.isEnabled = true
+            detailClub.isEnabled = true;
             detailFecha.isEnabled = true
             detailCategorias.isEnabled = true
             detailHorario.isEnabled = true
             detailCupos.isEnabled = true
             detailMateriales.isEnabled = true
-
-            // ============== BOTON DE CANCELAR CAMBIOS =================
-            cancelButton.setOnClickListener {
-                viewSwitcher.showPrevious()
-                detailNombre.setText(tournamentSelected.titulo)
-                detailNombre.isEnabled = false
-                detailFecha.setText(tournamentSelected.fecha)
-                detailFecha.isEnabled = false
-                detailCategorias.setText(tournamentSelected.categoría.toString())
-                detailCategorias.isEnabled = false
-                detailHorario.setText(tournamentSelected.hora)
-                detailHorario.isEnabled = false
-                detailCupos.setText(tournamentSelected.cupos.toString())
-                detailCupos.isEnabled = false
-                detailMateriales.setText("cemento")
-                detailMateriales.isEnabled = false
-                detailImagen.setText(tournamentSelected.imagenTorneo)
-                detailImagen.isEnabled = false
-            }
-
-            // ============== BOTON DE GUARDAR CAMBIOS TORNEO =================
-            saveButton.setOnClickListener {
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
-                    .setPositiveButton("SI") { _, _ ->
-                        // aca guardas los cambios
-                    }
-                    .setNegativeButton("NO") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                val dialog = builder.create()
-                dialog.show()
-            }
-
-            // ============== BOTON DE BORRAR TORNEO =================
-            deleteButton.setOnClickListener {
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setMessage("¿Está seguro de eliminar el torneo? Esta acción será permanente.")
-                    .setPositiveButton("Borrar torneo") { _, _ ->
-                        // aca borras
-                    }
-                    .setNegativeButton("Cancelar") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                val dialog = builder.create()
-                dialog.show()
-            }
+            detailCostoInscripcion.isEnabled = true
+            detailPremio.isEnabled = true
+            detailImagen.isEnabled = true
 
         }
-
-
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
-        // =========== SI SE CARGO LA IMAGEN CORRECTAMENTE SE MUESTRA =================
-        val imagen: ImageView = v.findViewById(R.id.imagenDetailTorneo)
-        if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
-            val imageUri = data.data
-            imagen.setImageURI(imageUri)
+
+    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText ) {
+        item.setOnClickListener{
+            datePicker.show(requireActivity().supportFragmentManager, "tag" )
+            datePicker.addOnPositiveButtonClickListener { selection ->
+                val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
+                item.setText(dateString)
+            }
         }
     }
+
+    private fun hourPickerHandler(timePicker: MaterialTimePicker, item: EditText ) {
+        item.setOnClickListener {
+            timePicker.show(requireActivity().supportFragmentManager, "tag")
+            timePicker.addOnPositiveButtonClickListener {
+                val hour = timePicker.hour
+                val minute = timePicker.minute
+                item.setText(String.format("%02d:%02d", hour, minute))
+            }
+        }
+    }
+
+    private fun blockFields() {
+        titulo.isEnabled = false
+        detailNombre.isEnabled = false
+        detailFecha.isEnabled = false
+        detailCategorias.isEnabled = false
+        detailHorario.isEnabled = false
+        detailCupos.isEnabled = false
+    }
+
+    private fun createTournament(): Tournament {
+        val id = tournamentSelec.id
+        val nombre = detailNombre.text.toString();
+        val club = detailClub.text.toString();
+        val date = detailFecha.text.toString();
+        val hour = detailHorario.text.toString();
+        val category = detailCategorias.text.toString();
+        val material = detailMateriales.text.toString();
+        val cupo = detailCupos.text.toString().toInt()
+        val cost = detailCupos.text.toString().toInt();
+        val premio = detailPremio.text.toString();
+        val userId = tournamentSelec.userId
+        var idClub = ""
+
+        lifecycleScope.launch {
+            idClub = viewModel.getIdClubByName(club)
+        }
+
+        val retorno = Tournament(id, nombre, club, date, hour, category, material, cupo, cost, premio,
+            "loading...", userId, idClub )
+
+        return retorno
+    }
+
 }

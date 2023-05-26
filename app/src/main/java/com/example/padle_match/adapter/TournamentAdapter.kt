@@ -31,7 +31,7 @@ class TournamentAdapter(
 
         fun setCategory(name: String) {
             val txt: TextView = view.findViewById(R.id.tournament_category )
-            txt.text = name.toString()
+            txt.text = name
         }
 
         fun setDate(name: String) {

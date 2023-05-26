@@ -157,17 +157,13 @@
 
 
     <Button
-        android:id="@+id/btnEnviarEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:height="60dp"
-        android:backgroundTint="#2196F3"
-        android:text="Crear cuenta"
-        app:circularflow_radiusInDP="0pd"
-        app:cornerRadius="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineAbajo"
+        android:id="@+id/btnCrearCuenta"
+        android:layout_width="288dp"
+        android:layout_height="46dp"
+        android:text="Crear Cuenta"
+        android:backgroundTint="@color/blueButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/etConfirContras" />
 

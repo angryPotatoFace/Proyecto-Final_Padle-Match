@@ -44,11 +44,11 @@
             app:layout_constraintTop_toTopOf="parent" >
 
             <EditText
-                android:id="@+id/input_name"
+                android:id="@+id/editTextAddTournament_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                />
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toTopOf="parent" >
 
             <AutoCompleteTextView
-                android:id="@+id/input_list_clubs"
+                android:id="@+id/editTextAddTournament_club"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -92,7 +92,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/fechaEditText"
+                android:id="@+id/editTextAddTournament_fecha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
@@ -118,12 +118,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/horarioEditText"
+                android:id="@+id/editTextAddTournament_horario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="true"
-                android:focusable="auto"
-                android:inputType="time"
+                android:focusable="false"
+                android:inputType="none"
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -142,7 +141,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView2"
+                android:id="@+id/editTextAddTournament_categorias"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -160,7 +159,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
-                android:id="@+id/listMateriales"
+                android:id="@+id/editTextAddTournament_materiales"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -175,19 +174,18 @@
             android:layout_marginTop="700dp"
             android:layout_marginEnd="20dp"
             android:hint="Cupo"
-            app:endIconDrawable="@drawable/ic_edit"
-            app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/cupoEditText"
+                android:id="@+id/editTextAddTournament_cupo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:editable="true"
                 android:focusable="auto"
                 android:inputType="number"
+                android:maxLength="3"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -199,19 +197,18 @@
             android:layout_marginTop="800dp"
             android:layout_marginEnd="20dp"
             android:hint="Costo de Inscripción"
-            app:endIconDrawable="@drawable/ic_edit"
-            app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/input_costoInscripcion"
+                android:id="@+id/editTextAddTournament_costo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:editable="true"
                 android:focusable="auto"
                 android:inputType="number"
+                android:maxLength="4"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -223,19 +220,18 @@
             android:layout_marginTop="900dp"
             android:layout_marginEnd="20dp"
             android:hint="Premios"
-            app:endIconDrawable="@drawable/ic_edit"
-            app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/input_premios"
+                android:id="@+id/editTextAddTournament_premios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:editable="true"
                 android:focusable="auto"
                 android:inputType="number"
+                android:maxLength="64"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -255,7 +251,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/ImagenEditText"
+                android:id="@+id/editTextAddTournament_imagen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
@@ -264,7 +260,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
-            android:id="@+id/imagen"
+            android:id="@+id/AddTournamentImagen"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:contentDescription="TODO"
@@ -275,10 +271,11 @@
             app:layout_constraintTop_toBottomOf="@+id/input_image" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_agregar_torneo"
             android:layout_width="250sp"
             android:layout_height="60sp"
-            android:layout_marginBottom="150dp"
             android:layout_marginTop="50dp"
+            android:layout_marginBottom="150dp"
             android:background="@drawable/custom_button"
             android:text="Agregar Torneo"
             android:textAllCaps="false"
@@ -286,7 +283,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imagen" />
+            app:layout_constraintTop_toBottomOf="@+id/AddTournamentImagen" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

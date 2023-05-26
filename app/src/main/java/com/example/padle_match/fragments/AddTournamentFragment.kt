@@ -1,41 +1,40 @@
 package com.example.padle_match.fragments
 
 import android.app.Activity.RESULT_OK
-import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.format.DateFormat
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
+import android.widget.TimePicker
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import com.example.padle_match.R
-import com.example.padle_match.adapter.TournamentAdapter
-import com.example.padle_match.entities.TournamentRepository
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import androidx.lifecycle.lifecycleScope
+import com.example.padle_match.databinding.FragmentAddTournamentBinding
+import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.*
 import java.util.*
+
+
 
 class AddTournamentFragment: Fragment()  {
 
-    private lateinit var v: View
-    private var repository: TournamentRepository = TournamentRepository()
-    private lateinit var adapter: TournamentAdapter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var btnAddTournament: Button
+    private lateinit var binding: FragmentAddTournamentBinding
+    lateinit var imageUri: Uri
+    private var auth: FirebaseAuth = Firebase.auth
 
-    val db = Firebase.firestore
     companion object {
         fun newInstance() = AddTournamentFragment()
     }
@@ -46,100 +45,154 @@ class AddTournamentFragment: Fragment()  {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        v = inflater.inflate(R.layout.fragment_add_tournament, container, false)
-
-        return v
+        binding = FragmentAddTournamentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(AddTournamentViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 
     override fun onStart() {
         super.onStart()
+        
+        var fecha: EditText = binding.editTextAddTournamentFecha
 
-        // ============== CREO OBJETO DATE PICKER =================
-        val datePicker =
-            MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Seleccione una fecha")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
+        val datePicker = viewModel.createDatePicker();
 
-        var fecha: EditText = v.findViewById(R.id.fechaEditText)
+        var hora : EditText = binding.editTextAddTournamentHorario
+        val timePicker = viewModel.createTimePicker();
 
-        // ============== CUANDO CLIKEAN EL CAMPO FECHA SE ACTIVA EL DATE PICKER =================
-        fecha.setOnClickListener{
-            datePicker.show(requireActivity().supportFragmentManager, "tag" )
-            datePicker.addOnPositiveButtonClickListener { selection ->
-                val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
-                fecha.setText(dateString)
-            }
+        datePickerHandler(datePicker, fecha);
+        timePickerHandler(timePicker, hora)
+
+        lifecycleScope.launch {
+
+            var clubList = binding.editTextAddTournamentClub
+            var data = viewModel.getClubsList()
+            (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(data);
+
+            var categoriaList =binding.editTextAddTournamentCategorias
+            var data_cat = viewModel.getCategoriasList()
+            ( categoriaList as? MaterialAutoCompleteTextView)?.setSimpleItems(data_cat as Array<String>)
+
+            var materialList = binding.editTextAddTournamentMateriales
+            var data_material = viewModel.getMaterialesList();
+            (materialList as? MaterialAutoCompleteTextView)?.setSimpleItems(data_material as Array<String>)
+
         }
 
-        // ============== PIDO LOS CLUBS Y LOS AGREGO A LA LISTA =================
-       db.collection("clubs")
-            .get()
-            .addOnSuccessListener { clubs ->
-                val data: List<String> = clubs.map { it -> it.data["nombre"] } as List<String>
-                val d: Array<String> = data.toTypedArray()
-                var clubList:AutoCompleteTextView = v.findViewById(R.id.input_list_clubs)
-                (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(d)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
-
-
-        // ============== PIDO LAS CATEGORIAS Y LOS AGREGO A LA LISTA =================
-        db.collection("categorias")
-            .get()
-            .addOnSuccessListener { categorias ->
-                val data: List<String> = categorias.map { it -> it.data["nombreCategoria"] }[0] as List<String>
-                val categorias: Array<String> = data.toTypedArray()
-                Log.w("CATEGORIAS", categorias.toString())
-                var categoriaList:AutoCompleteTextView = v.findViewById(R.id.autoCompleteTextView2)
-                (categoriaList as? MaterialAutoCompleteTextView)?.setSimpleItems(categorias as Array<String>)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
-
-
-        // ============== PIDO LOS MATERIALES DE CANCHA Y LOS AGREGO A LA LISTA =================
-        db.collection("materialDeCancha")
-            .get()
-            .addOnSuccessListener { materiales ->
-                val data: List<String> = materiales.map { it -> it.data["materiales"] }[0] as List<String>
-                val mat: Array<String> = data.toTypedArray()
-                var mateList:AutoCompleteTextView = v.findViewById(R.id.listMateriales)
-                (mateList as? MaterialAutoCompleteTextView)?.setSimpleItems(mat as Array<String>)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
-
-
-        // ============== SETEO EL CAMPO DE SELECCION DE IMAGEN =================
-        val imagen : EditText = v.findViewById(R.id.ImagenEditText)
+        val imagen = binding.editTextAddTournamentImagen
         imagen.setOnClickListener{
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, 100)
         }
-    }
+
+
+        handlerAddTournament( binding.btnAgregarTorneo )
+}
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // =========== SI SE CARGO LA IMAGEN CORRECTAMENTE SE MUESTRA =================
-        val imagen : ImageView = v.findViewById(R.id.imagen)
+        val imagen = binding.AddTournamentImagen
         if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            val imageUri = data.data
-            imagen.setImageURI(imageUri)
+            if( data.data !== null ) {
+                imagen.setImageURI(data.data)
+                imageUri = data.data!!
+            }
+        /*  ======================================================  */
         }
     }
 
+    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText ) {
+        item.setOnClickListener{
+            datePicker.show(requireActivity().supportFragmentManager, "tag" )
+            datePicker.addOnPositiveButtonClickListener { selection ->
+                val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
+                item.setText(dateString)
+            }
+        }
+    }
+
+    private fun timePickerHandler(timePicker: MaterialTimePicker, item: EditText){
+        item.setOnClickListener {
+            timePicker.show(requireActivity().supportFragmentManager, "tag")
+            timePicker.addOnPositiveButtonClickListener {
+                val hour = timePicker.hour
+                val minute = timePicker.minute
+                binding.editTextAddTournamentHorario.setText(String.format("%02d:%02d", hour, minute))
+            }
+        }
+    }
+
+
+    private fun handlerAddTournament(btn: AppCompatButton) {
+        btn.setOnClickListener {
+             val torneo = createTournament();
+
+            lifecycleScope.launch {
+                var udi = viewModel.addTournament(torneo)
+                val url = viewModel.uploadImagenStorage( imageUri, udi )
+                torneo.imagenTorneo = url;
+                torneo.id = udi;
+                viewModel.updateTournament(torneo, udi);
+                Snackbar.make(binding.root,"El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
+                cleanInputs()
+            }
+        }
+    }
+
+    private fun cleanInputs() {
+        binding.editTextAddTournamentName.setText("")
+        binding.editTextAddTournamentClub.setText("")
+        binding.editTextAddTournamentFecha.setText("")
+        binding.editTextAddTournamentHorario.setText("")
+        binding.editTextAddTournamentCategorias.setText("")
+        binding.editTextAddTournamentMateriales.setText("")
+        binding.editTextAddTournamentCupo.setText("")
+        binding.editTextAddTournamentCosto.setText("")
+        binding.editTextAddTournamentPremios.setText("")
+        binding.AddTournamentImagen.setImageURI(Uri.EMPTY)
+    }
+
+    private fun createTournament(): Tournament {
+
+        val nombre = binding.editTextAddTournamentName.text.toString();
+        val club = binding.editTextAddTournamentClub.text.toString();
+        val date = binding.editTextAddTournamentFecha.text.toString();
+        val hour = binding.editTextAddTournamentHorario.text.toString();
+        val category = binding.editTextAddTournamentCategorias.text.toString();
+        val material = binding.editTextAddTournamentMateriales.text.toString();
+        val cupo = binding.editTextAddTournamentCupo.text.toString().toInt()
+        val cost = binding.editTextAddTournamentCosto.text.toString().toInt();
+        val premio = binding.editTextAddTournamentPremios.text.toString();
+        val userId = auth.currentUser!!.uid
+        var idClub = ""
+
+        lifecycleScope.launch {
+            idClub = viewModel.getIdClubByName("nombre")
+        }
+
+        val retorno = Tournament(
+            "",
+            nombre,
+            club,
+            date,
+            hour,
+            category,
+            material,
+            cupo,
+            cost,
+            premio,
+            "loading...",
+            userId,
+            idClub
+        )
+
+        return retorno
+    }
 }

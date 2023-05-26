@@ -112,9 +112,9 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="15dp"
                     android:text="23 de mayo 2023"
-                    android:textAlignment="viewStart"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tournament_category" />
+                    android:textAlignment="viewStart"/>
+
+
 
                 <TextView
                     android:id="@+id/tournament_hour"
@@ -123,10 +123,9 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="15dp"
                     android:text="22:00"
-                    android:textAlignment="viewStart"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.384"
-                    app:layout_constraintTop_toBottomOf="@+id/tournament_date" />
+                    android:textAlignment="viewStart"/>
+
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
