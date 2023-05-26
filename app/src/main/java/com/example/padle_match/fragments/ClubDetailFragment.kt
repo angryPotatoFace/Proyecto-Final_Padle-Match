@@ -11,7 +11,9 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ViewSwitcher
+import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
+import com.google.android.material.snackbar.Snackbar
 
 class ClubDetailFragment : Fragment() {
 
@@ -84,6 +86,8 @@ class ClubDetailFragment : Fragment() {
             builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
                     // aca guardas los cambios
+                    findNavController().popBackStack(R.id.myClubsFragment, false)
+                    Snackbar.make(requireView(),"El club fue modificado con exito", Snackbar.LENGTH_LONG).show()
                 }
                 .setNegativeButton("NO") { dialog, _ ->
                     dialog.dismiss()
