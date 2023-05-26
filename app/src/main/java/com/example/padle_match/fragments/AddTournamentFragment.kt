@@ -122,8 +122,9 @@ class AddTournamentFragment: Fragment()  {
                 var udi = viewModel.addTournament(torneo)
                 val url = viewModel.uploadImagenStorage( imageUri, udi )
                 torneo.imagenTorneo = url;
+                torneo.id = udi;
                 viewModel.updateTournament(torneo, udi);
-                Snackbar.make(binding.root,"El torneo fue agregado con exito", Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.root,"El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
                 cleanInputs()
             }
         }
@@ -138,7 +139,8 @@ class AddTournamentFragment: Fragment()  {
         binding.listMateriales.setText("")
         binding.cupoEditText.setText("")
         binding.inputCostoInscripcion.setText("")
-        binding.inputCostoInscripcion.setText("")
+        binding.inputPremios.setText("")
+        binding.imagen.setImageURI(Uri.EMPTY)
     }
 
     private fun createTournament(): Tournament {
@@ -152,7 +154,7 @@ class AddTournamentFragment: Fragment()  {
         val cupo = binding.cupoEditText.text.toString().toInt()
         val cost = binding.inputCostoInscripcion.text.toString().toInt();
         val premio = binding.inputCostoInscripcion.text.toString();
-        val udi = auth.currentUser!!.uid
+        val userId = auth.currentUser!!.uid
         var idClub = ""
 
         lifecycleScope.launch {
@@ -161,6 +163,7 @@ class AddTournamentFragment: Fragment()  {
 
 
         val retorno = Tournament(
+            "",
             nombre,
             club,
             date,
@@ -171,7 +174,7 @@ class AddTournamentFragment: Fragment()  {
             cost,
             premio,
             "loading...",
-            udi,
+            userId,
             idClub
         )
 

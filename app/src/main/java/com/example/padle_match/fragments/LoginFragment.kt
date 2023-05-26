@@ -83,12 +83,13 @@ class LoginFragment : Fragment() {
             val email = inputEmail.text.toString();
             val pass = inputPass.text.toString();
 
+
+
             if( !email.isNullOrBlank() && !pass.isNullOrBlank() ) {
 
                 lifecycleScope.launch {
-                    viewModel.loginUser(email,pass);
-                    val user = viewModel.currentUser();
-                    if( ! user!!.uid.isNullOrBlank() ) {
+                    val res = viewModel.loginUser(email,pass);
+                    if( res ) {
                         val action = LoginFragmentDirections.actionLoginFragmentToMyTournamentsFragment()
                         findNavController().navigate(action)
                     }else{

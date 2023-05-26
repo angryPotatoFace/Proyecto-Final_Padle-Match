@@ -20,18 +20,16 @@ private var auth: FirebaseAuth = Firebase.auth
 
 class LoginViewModel : ViewModel() {
 
-    suspend fun loginUser(email: String, password: String) {
-        val request = auth.signInWithEmailAndPassword(email, password)
-
-
-
+    suspend fun loginUser(email: String, password: String): Boolean {
+        var res = false;
 
         try{
-            request.addOnSuccessListener() { task ->
-            }.await()
+            val request = auth.signInWithEmailAndPassword(email, password).await()
+            res = true;
         }catch (e: Exception) {
             Log.w("Login Method", "signInWithEmail:failure");
         }
+        return res
     }
 
 

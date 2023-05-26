@@ -24,23 +24,24 @@ class MyTournamentsViewModel: ViewModel() {
 
         var list = mutableListOf<Tournament>();
         var uid = auth.currentUser!!.uid
-        val documents = db.collection("tournaments").whereEqualTo("uid", uid).get().await()
+        val documents = db.collection("tournaments").whereEqualTo("userId", uid).get().await()
         documents.forEach { data ->
+            val id = data["id"] as? String?: "ID"
             val titulo = data["titulo"] as? String ?: "Torneo default"
             val club = data["club"] as? String ?: "Torneo default"
             val fecha = data["fecha"] as? String ?: "No se proporciono fecha"
             val hora = data["hora"] as? String ?: "No se proporciono hora"
-            val categoría = data["categoria"] as? String ?: "No se proporciono categoria"
+            val cat = data["categoría"] as? String ?: "No se proporciono categoria"
             val cupos = data["cupos"] as? Number ?: 0
             val costoInscripción = data["costoInscripción"] as? Number ?: 0
             val material = data["materialCancha"] as? String ?: "No se proporciono premios"
             val premios = data["premios"] as? String ?: "No se proporciono premios"
             val imagenTorneo = data["imagenTorneo"] as? String ?: "No se proporciono imagenTorneo"
-            val uid = data["uid"] as? String ?: ""
+            val userId = data["userId"] as? String ?: ""
             val idClub = data["idClub"] as? String ?: ""
 
 
-            val torneo =  Tournament(titulo, club, fecha, hora, categoría, material, cupos, costoInscripción, premios, imagenTorneo, uid, idClub)
+            val torneo =  Tournament(id, titulo, club, fecha, hora, cat, material, cupos, costoInscripción, premios, imagenTorneo, userId, idClub)
             list.add(torneo);
         }
 
