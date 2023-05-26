@@ -87,7 +87,11 @@
         android:id="@+id/clubDetailFragment"
         android:name="com.example.padle_match.fragments.ClubDetailFragment"
         android:label="fragment_club_detail"
-        tools:layout="@layout/fragment_club_detail" />
+        tools:layout="@layout/fragment_club_detail">
+        <argument
+            android:name="ClubSelected"
+              app:argType="com.example.padle_match.entities.Club" />
+    </fragment>
 
     <fragment
         android:id="@+id/addClubFragment"

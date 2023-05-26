@@ -23,7 +23,6 @@
         android:textStyle="bold" />
 
 
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,16 +39,16 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="15dp">
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
                 android:layout_gravity="left"
+                android:layout_weight="10"
                 android:orientation="vertical">
 
 
@@ -83,27 +82,27 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="70"
                 android:layout_gravity="right"
+                android:layout_weight="70"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/club_partido"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="C.A.B.A"
-                    android:textAlignment="viewStart"/>
+                    android:textAlignment="viewStart" />
 
 
                 <TextView
-                    android:id="@+id/club_localidad"
+                    android:id="@+id/club_direccion"
                     android:layout_width="220dp"
                     android:layout_height="21dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
                     android:text="Belgrano"
-                    android:textAlignment="viewStart"/>
-
+                    android:textAlignment="viewStart" />
 
 
                 <TextView
@@ -113,8 +112,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
                     android:text="115-123-4567"
-                    android:textAlignment="viewStart"/>
-
+                    android:textAlignment="viewStart" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
