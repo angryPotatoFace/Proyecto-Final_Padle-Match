@@ -14,6 +14,7 @@ import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
 import com.example.padle_match.databinding.FragmentAddClubBinding
 import com.example.padle_match.databinding.FragmentAddTournamentBinding
@@ -78,7 +79,8 @@ class AddClubFragment : Fragment() {
             lifecycleScope.launch {
                 var udi = viewModel.addClub(club)
                 viewModel.updateClub(club, udi);
-                Snackbar.make(binding.root,"El club fue agregado con exito", Snackbar.LENGTH_SHORT)
+                findNavController().popBackStack(R.id.myClubsFragment, false)
+                Snackbar.make(requireView(),"El club fue agregado con exito", Snackbar.LENGTH_LONG).show()
                 cleanInputs()
             }
         }
