@@ -44,7 +44,6 @@
             android:id="@+id/nombreEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:hint="Nombre"
             android:inputType="none" />
 
@@ -67,7 +66,6 @@
             android:id="@+id/cuitEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:hint="Cuit"
             android:inputType="number"/>
 
@@ -90,7 +88,6 @@
             android:id="@+id/provinciaEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:hint="Provincia"
             android:inputType="none"/>
 
@@ -113,7 +110,6 @@
             android:id="@+id/partidoEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:hint="Partido"
             android:inputType="none"/>
 
@@ -136,7 +132,6 @@
             android:id="@+id/direccionEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:hint="Dirección"
             android:inputType="none"/>
 
@@ -159,7 +154,6 @@
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:hint="Email"
             android:inputType="none"/>
 
@@ -182,7 +176,6 @@
             android:id="@+id/telefonoEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:hint="Teléfono"
             android:inputType="none"/>
 
