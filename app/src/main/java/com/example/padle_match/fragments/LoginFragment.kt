@@ -16,6 +16,7 @@ import com.example.padle_match.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
+import com.example.padle_match.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
@@ -24,6 +25,7 @@ class LoginFragment : Fragment() {
     }
 
 
+    private lateinit var binding: FragmentLoginBinding
     private lateinit var v: View
     private lateinit var viewModel: LoginViewModel
     private lateinit var btnLogear: Button
@@ -38,15 +40,17 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_login, container, false)
+            LoginFragment
 
-        btnLogear = v.findViewById(R.id.btnCreateAccount)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+
         btnCreateAccount = v.findViewById(R.id.txtLinkCrearCta)
         btnForgorPass = v.findViewById(R.id.tvOlividoContr)
 
         inputEmail = v.findViewById(R.id.login_email_input)
         inputPass = v.findViewById(R.id.login_pass_input)
 
-        return v;
+        return binding.root;
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,15 +79,17 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        btnLogear.setOnClickListener{
+        binding.btnCreateAccount.setOnClickListener{
             val email = inputEmail.text.toString();
             val pass = inputPass.text.toString();
 
+
+
             if( !email.isNullOrBlank() && !pass.isNullOrBlank() ) {
+
                 lifecycleScope.launch {
-                    viewModel.loginUser(email,pass);
-                    val user = viewModel.currentUser();
-                    if( ! user!!.uid.isNullOrBlank() ) {
+                    val res = viewModel.loginUser(email,pass);
+                    if( res ) {
                         val action = LoginFragmentDirections.actionLoginFragmentToMyTournamentsFragment()
                         findNavController().navigate(action)
                     }else{

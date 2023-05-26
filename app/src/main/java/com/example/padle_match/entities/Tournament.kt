@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Tournament(
+    var id: String,
     var titulo: String,
     var club: String,
     var fecha: String,
@@ -15,6 +16,6 @@ data class Tournament(
     var costoInscripción: Number,
     var premios: String,
     var imagenTorneo: String,
-    var uid: String,
+    var userId: String,
     var idClub: String,
 ) : Parcelable

@@ -59,7 +59,7 @@ class TournamentDetailFragment : Fragment()  {
     private lateinit var viewSwitcher: ViewSwitcher
     private lateinit var viewModel: TournamentDetailFragmentViewModel
     private lateinit var imageUri: Uri
-
+    private lateinit var tournamentSelec  : Tournament
     private var auth: FirebaseAuth = Firebase.auth
     val db = Firebase.firestore
 
@@ -152,6 +152,7 @@ class TournamentDetailFragment : Fragment()  {
 
     private fun setValues(tournamentSelected: Tournament) {
         Log.w("Torneo selecionado", tournamentSelected.toString())
+        tournamentSelec = tournamentSelected
         titulo.text = tournamentSelected.titulo
         detailNombre.setText(tournamentSelected.titulo)
         detailClub.setText(tournamentSelected.club)
@@ -282,7 +283,7 @@ class TournamentDetailFragment : Fragment()  {
     }
 
     private fun createTournament(): Tournament {
-
+        val id = tournamentSelec.id
         val nombre = detailNombre.text.toString();
         val club = detailClub.text.toString();
         val date = detailFecha.text.toString();
@@ -292,15 +293,15 @@ class TournamentDetailFragment : Fragment()  {
         val cupo = detailCupos.text.toString().toInt()
         val cost = detailCupos.text.toString().toInt();
         val premio = detailPremio.text.toString();
-        val udi = auth.currentUser!!.uid
+        val userId = tournamentSelec.userId
         var idClub = ""
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName(club)
         }
 
-        val retorno = Tournament( nombre, club, date, hour, category, material, cupo, cost, premio,
-            "loading...", udi, idClub )
+        val retorno = Tournament(id, nombre, club, date, hour, category, material, cupo, cost, premio,
+            "loading...", userId, idClub )
 
         return retorno
     }
