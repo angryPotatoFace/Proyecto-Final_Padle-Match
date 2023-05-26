@@ -58,7 +58,7 @@ class AddTournamentFragment: Fragment()  {
     override fun onStart() {
         super.onStart()
         
-        var fecha: EditText = binding.fechaEditText
+        var fecha: EditText = binding.editTextAddTournamentFecha
 
         val datePicker = viewModel.createDatePicker();
 
@@ -147,29 +147,29 @@ class AddTournamentFragment: Fragment()  {
     }
 
     private fun cleanInputs() {
-        binding.inputName.setText("")
-        binding.inputListClubs.setText("")
-        binding.fechaEditText.setText("")
-        binding.horarioEditText.setText("")
-        binding.autoCompleteTextView2.setText("")
-        binding.listMateriales.setText("")
-        binding.cupoEditText.setText("")
-        binding.inputCostoInscripcion.setText("")
-        binding.inputPremios.setText("")
-        binding.imagen.setImageURI(Uri.EMPTY)
+        binding.editTextAddTournamentName.setText("")
+        binding.editTextAddTournamentClub.setText("")
+        binding.editTextAddTournamentFecha.setText("")
+        binding.editTextAddTournamentHorario.setText("")
+        binding.editTextAddTournamentCategorias.setText("")
+        binding.editTextAddTournamentMateriales.setText("")
+        binding.editTextAddTournamentCupo.setText("")
+        binding.editTextAddTournamentCosto.setText("")
+        binding.editTextAddTournamentPremios.setText("")
+        binding.AddTournamentImagen.setImageURI(Uri.EMPTY)
     }
 
     private fun createTournament(): Tournament {
 
-        val nombre = binding.inputName.text.toString();
-        val club = binding.inputListClubs.text.toString();
-        val date = binding.fechaEditText.text.toString();
-        val hour = binding.horarioEditText.text.toString();
-        val category = binding.autoCompleteTextView2.text.toString();
-        val material = binding.listMateriales.text.toString();
-        val cupo = binding.cupoEditText.text.toString().toInt()
-        val cost = binding.inputCostoInscripcion.text.toString().toInt();
-        val premio = binding.inputCostoInscripcion.text.toString();
+        val nombre = binding.editTextAddTournamentName.text.toString();
+        val club = binding.editTextAddTournamentClub.text.toString();
+        val date = binding.editTextAddTournamentFecha.text.toString();
+        val hour = binding.editTextAddTournamentHorario.text.toString();
+        val category = binding.editTextAddTournamentCategorias.text.toString();
+        val material = binding.editTextAddTournamentMateriales.text.toString();
+        val cupo = binding.editTextAddTournamentCupo.text.toString().toInt()
+        val cost = binding.editTextAddTournamentCosto.text.toString().toInt();
+        val premio = binding.editTextAddTournamentPremios.text.toString();
         val userId = auth.currentUser!!.uid
         var idClub = ""
 
