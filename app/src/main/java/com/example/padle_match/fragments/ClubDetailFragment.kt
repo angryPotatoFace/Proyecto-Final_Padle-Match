@@ -101,6 +101,8 @@ class ClubDetailFragment : Fragment() {
             builder.setMessage("¿Está seguro que desea borrar el club? Esta acción será permanente.")
                 .setPositiveButton("Borrar club") { _, _ ->
                     // aca borras
+                    findNavController().popBackStack(R.id.myClubsFragment, false)
+                    Snackbar.make(requireView(),"El club fue eliminado con exito", Snackbar.LENGTH_LONG).show()
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
