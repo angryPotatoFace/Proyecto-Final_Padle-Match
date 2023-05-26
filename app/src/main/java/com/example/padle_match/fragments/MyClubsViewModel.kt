@@ -20,7 +20,7 @@ class MyClubsViewModel : ViewModel() {
 
         var list = mutableListOf<Club>();
         var uid = auth.currentUser!!.uid
-        val documents = db.collection("clubs").whereEqualTo("id", uid).get().await()
+        val documents = db.collection("clubs").whereEqualTo("uid", uid).get().await()
         documents.forEach { data ->
             val nombre = data["nombre"] as? String ?: "nombre default"
             val cuit = data["cuit"] as? String ?: "cuit default"
