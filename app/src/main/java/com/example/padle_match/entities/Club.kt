@@ -6,11 +6,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Club(
-    var cuit:String,
     var nombre:String,
+    var cuit:String,
+    var provincia:String,
     var partido:String,
     var localidad:String,
     var domicilio:String,
     var email: String,
-    var telefonos:String
+    var telefonos:String,
+    var uid: String,
 ): Parcelable
