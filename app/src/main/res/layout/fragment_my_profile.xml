@@ -103,22 +103,11 @@
 
         </ViewSwitcher>
 
-        <ImageView
-            android:id="@+id/imgPerfil"
-            android:layout_width="165dp"
-            android:layout_height="162dp"
-            android:layout_marginBottom="12dp"
-            android:src="@drawable/ic_baseline_account_circle_24"
-            app:layout_constraintBottom_toTopOf="@+id/detail_tituloNombre"
-            app:layout_constraintEnd_toEndOf="@+id/view2"
-            app:layout_constraintHorizontal_bias="0.565"
-            app:layout_constraintStart_toStartOf="@+id/view2" />
-
         <TextView
             android:id="@+id/detail_tituloNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="84dp"
             android:gravity="center"
             android:padding="10dp"
             android:text="Pepe"
@@ -126,7 +115,6 @@
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.544"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -264,6 +252,47 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_imageEdit"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Imagen"
+            app:endIconDrawable="@drawable/ic_addphoto"
+            app:endIconMode="custom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContraseña">
+
+            <EditText
+                android:id="@+id/ImagenEditTextDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:enabled="false"
+                android:focusable="false"
+                android:inputType="none"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="188dp"
+            android:layout_height="163dp"
+            android:src="@drawable/logo_img_base"
+            app:civ_border_color="@android:color/transparent"
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/detail_tituloNombre"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.936" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deleteTournamentButton"
             android:layout_width="60dp"
@@ -279,14 +308,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContraseña" />
+            app:layout_constraintTop_toBottomOf="@+id/input_imageEdit" />
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/closeSessionButton"
             android:layout_width="59dp"
             android:layout_height="73dp"
-            android:layout_marginBottom="48dp"
+            android:layout_marginBottom="40dp"
             android:background="@android:color/transparent"
             android:contentDescription="Cerrar Sesion"
             android:scaleType="fitCenter"

@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#00000000" /> <!-- Color transparente -->
+    <corners android:radius="50dp" /> <!-- Radio igual a la mitad del ancho/alto para que sea un círculo perfecto -->
+</shape>
