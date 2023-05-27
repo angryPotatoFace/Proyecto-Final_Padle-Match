@@ -28,7 +28,6 @@ class MyTournamentsViewModel: ViewModel() {
         documents.forEach { data ->
             val id = data["id"] as? String?: "ID"
             val titulo = data["titulo"] as? String ?: "Torneo default"
-            val club = data["club"] as? String ?: "Torneo default"
             val fecha = data["fecha"] as? String ?: "No se proporciono fecha"
             val hora = data["hora"] as? String ?: "No se proporciono hora"
             val cat = data["categoría"] as? String ?: "No se proporciono categoria"
@@ -41,7 +40,7 @@ class MyTournamentsViewModel: ViewModel() {
             val idClub = data["idClub"] as? String ?: ""
 
 
-            val torneo =  Tournament(id, titulo, club, fecha, hora, cat, material, cupos, costoInscripción, premios, imagenTorneo, userId, idClub)
+            val torneo =  Tournament(id, titulo, fecha, hora, cat, material, cupos,  costoInscripción, premios, imagenTorneo, userId, idClub)
             list.add(torneo);
         }
 

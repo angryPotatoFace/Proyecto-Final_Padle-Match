@@ -188,21 +188,8 @@ class AddTournamentFragment: Fragment()  {
             idClub = viewModel.getIdClubByName("nombre")
         }
 
-        val retorno = Tournament(
-            "",
-            nombre,
-            club,
-            date,
-            hour,
-            category,
-            material,
-            cupo,
-            cost,
-            premio,
-            "loading...",
-            userId,
-            idClub
-        )
+        val retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub)
+
 
         return retorno
     }

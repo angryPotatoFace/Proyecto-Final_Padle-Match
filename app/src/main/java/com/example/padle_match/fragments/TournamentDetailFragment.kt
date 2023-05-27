@@ -99,10 +99,10 @@ class TournamentDetailFragment : Fragment()  {
         blockFields()
 
         deleteButton = v.findViewById(R.id.deleteTournamentButton)
-        saveButton = v.findViewById(R.id.saveTournamentButton)
-        cancelButton = v.findViewById(R.id.cancelTournamentButton)
-        editButton = v.findViewById(R.id.editTournamentButton)
-        viewSwitcher = v.findViewById(R.id.viewSwitcherTournament)
+        saveButton = v.findViewById(R.id.saveButton)
+        cancelButton = v.findViewById(R.id.cancelButton)
+        editButton = v.findViewById(R.id.editButton)
+        viewSwitcher = v.findViewById(R.id.viewSwitcher)
         return v
     }
 
@@ -158,7 +158,6 @@ class TournamentDetailFragment : Fragment()  {
         tournamentSelec = tournamentSelected
         titulo.text = tournamentSelected.titulo
         detailNombre.setText(tournamentSelected.titulo)
-        detailClub.setText(tournamentSelected.club)
         detailFecha.setText(tournamentSelected.fecha)
         detailCategorias.setText(tournamentSelected.categoría)
         detailHorario.setText(tournamentSelected.hora)
@@ -321,8 +320,7 @@ class TournamentDetailFragment : Fragment()  {
             idClub = viewModel.getIdClubByName(club)
         }
 
-        val retorno = Tournament(id, nombre, club, date, hour, category, material, cupo, cost, premio,
-            imagen, userId, idClub)
+        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub)
 
         return retorno
     }
