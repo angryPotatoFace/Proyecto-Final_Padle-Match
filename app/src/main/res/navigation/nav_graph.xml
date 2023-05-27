@@ -101,7 +101,7 @@
 
     <fragment
         android:id="@+id/modifyProfileFragment"
-        android:name="com.example.padle_match.fragments.ModifyProfileFragment"
+        android:name="com.example.padle_match.fragments.MyProfileFragment"
         android:label="fragment_modify_profile"
         tools:layout="@layout/fragment_modify_profile" />
 

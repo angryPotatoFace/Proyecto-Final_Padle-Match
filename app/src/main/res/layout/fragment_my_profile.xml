@@ -119,7 +119,6 @@
             app:layout_constraintTop_toBottomOf="@+id/view2" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutNombre"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,7 +132,7 @@
             app:layout_constraintTop_toBottomOf="@+id/detail_tituloNombre">
 
             <EditText
-                android:id="@+id/detail_name"
+                android:id="@+id/editTextMyProfile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
@@ -142,7 +141,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutApellido"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,7 +154,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutNombre">
 
             <EditText
-                android:id="@+id/detail_surname"
+                android:id="@+id/editTextMyProfile_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
@@ -165,7 +163,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutEmail"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -179,7 +176,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutApellido">
 
             <EditText
-                android:id="@+id/detail_email"
+                android:id="@+id/editTextMyProfile_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
@@ -187,7 +184,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutTelefono"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -201,7 +197,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail">
 
             <EditText
-                android:id="@+id/detail_phone"
+                android:id="@+id/editTextMyProfile_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone" />
@@ -209,7 +205,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutDNI"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -223,7 +218,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTelefono">
 
             <EditText
-                android:id="@+id/detail_dni"
+                android:id="@+id/editTextMyProfile_dni"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -231,7 +226,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutContraseña"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -245,7 +239,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDNI">
 
             <EditText
-                android:id="@+id/detail_password"
+                android:id="@+id/editTextMyProfile_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -269,7 +263,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutContraseña">
 
             <EditText
-                android:id="@+id/ImagenEditTextDetail"
+                android:id="@+id/editTextMyProfile_imagen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
