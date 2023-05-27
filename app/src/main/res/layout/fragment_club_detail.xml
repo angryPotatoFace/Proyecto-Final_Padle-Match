@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:inputType="none"
-                android:textColor="@color/black" />
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:inputType="none"
-                android:textColor="@color/black" />
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="290dp"
             android:layout_marginEnd="20dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -109,36 +109,21 @@
             app:layout_constraintTop_toBottomOf="@+id/view2">
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:enabled="false"
                 android:hint="Partido">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/editTextPartido"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:enabled="false"
-                    android:inputType="none"
-                    android:textColor="@color/black" />
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_weight="1"
-                android:hint="Localidad">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextLocalidad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:inputType="none"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -147,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="280dp"
+            android:layout_marginTop="380dp"
             android:layout_marginEnd="20dp"
             android:hint="Dirección"
             app:layout_constraintEnd_toEndOf="parent"
@@ -159,8 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="none"
-                android:textColor="@color/black" />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -169,7 +153,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="370dp"
+            android:layout_marginTop="470dp"
             android:layout_marginEnd="20dp"
             android:hint="Email"
             app:layout_constraintEnd_toEndOf="parent"
@@ -182,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:inputType="none"
-                android:textColor="@color/black" />
+             />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -191,7 +175,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="460dp"
+            android:layout_marginTop="560dp"
             android:layout_marginEnd="20dp"
             android:hint="Teléfono"
             app:layout_constraintEnd_toEndOf="parent"
@@ -204,14 +188,14 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:inputType="none"
-                android:textColor="@color/black" />
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deleteClubButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="100dp"
             android:background="@drawable/delete_button"
             android:contentDescription="Borrar"
@@ -237,8 +221,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="340dp"
-                android:contentDescription="Editar"
                 android:background="@drawable/black_button_border"
+                android:contentDescription="Editar"
                 app:backgroundTint="@null"
                 app:icon="@drawable/ic_edit"
                 app:iconSize="28dp"
@@ -253,29 +237,27 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:orientation="horizontal">
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/cancelButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginEnd="30dp"
                     android:text="CANCELAR"
-                    android:textSize="16dp"
-                    android:textColor="@color/black"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    />
+                    android:textSize="16dp" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/saveButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="5dp"
-                    app:cornerRadius="20dp"
+                    android:layout_marginEnd="20dp"
                     android:text="GUARDAR"
                     android:textSize="16dp"
-                    android:textColor="@color/black"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    />
+                    app:cornerRadius="20dp" />
             </LinearLayout>
 
         </ViewSwitcher>
@@ -290,10 +272,28 @@
             android:text="Club Chacarita"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view2" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="200dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProvincia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="Provincia" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

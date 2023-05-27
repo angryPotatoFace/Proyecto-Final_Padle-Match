@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.format.DateFormat
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -62,11 +63,8 @@ class AddClubFragment : Fragment() {
 
         lifecycleScope.launch {
 
-            var partidosList = binding.partidoEditText
             var data = viewModel.getPartidosList()
-            (partidosList as? MaterialAutoCompleteTextView)?.setSimpleItems(data);
-
-
+            ( binding.listaPartidos as? MaterialAutoCompleteTextView )?.setSimpleItems(data)
         }
 
         handlerAddClub(binding.btnAddClub)
@@ -77,8 +75,9 @@ class AddClubFragment : Fragment() {
             val club = createClub();
 
             lifecycleScope.launch {
-                var udi = viewModel.addClub(club)
-                viewModel.updateClub(club, udi);
+                var id = viewModel.addClub(club)
+                club.id = id;
+                viewModel.updateClub(club, id);
                 findNavController().popBackStack(R.id.myClubsFragment, false)
                 Snackbar.make(requireView(),"El club fue agregado con exito", Snackbar.LENGTH_LONG).show()
                 cleanInputs()
@@ -90,7 +89,7 @@ class AddClubFragment : Fragment() {
         binding.nombreEditText.setText("")
         binding.cuitEditText.setText("")
         binding.provinciaEditText.setText("Buenos Aires")
-        binding.partidoEditText.setText("")
+        binding.listaPartidos.setText("")
         binding.direccionEditText.setText("")
         binding.emailEditText.setText("")
         binding.telefonoEditText.setText("")
@@ -98,17 +97,19 @@ class AddClubFragment : Fragment() {
 
     private fun createClub(): Club {
 
+        val id = ""
         val nombre = binding.nombreEditText.text.toString();
         val cuit = binding.cuitEditText.text.toString();
         val provincia = binding.provinciaEditText.text.toString();
-        val partido = binding.partidoEditText.text.toString();
+        val partido = binding.listaPartidos.text.toString();
         val localidad = "Agregar";
         val direccion = binding.direccionEditText.text.toString();
         val email = binding.emailEditText.text.toString();
         val telefono = binding.telefonoEditText.text.toString();
-        val udi = auth.currentUser!!.uid
+        val userId = auth.currentUser!!.uid
 
         val retorno = Club(
+            id,
             nombre,
             cuit,
             provincia,
@@ -117,7 +118,7 @@ class AddClubFragment : Fragment() {
             direccion,
             email,
             telefono,
-            udi,
+            userId,
         )
 
         return retorno

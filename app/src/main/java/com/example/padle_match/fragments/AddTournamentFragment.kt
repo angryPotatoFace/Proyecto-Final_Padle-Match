@@ -6,15 +6,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.format.DateFormat
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TimePicker
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.padle_match.R
 import com.example.padle_match.databinding.FragmentAddTournamentBinding
 import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -34,6 +36,8 @@ class AddTournamentFragment: Fragment()  {
     private lateinit var binding: FragmentAddTournamentBinding
     lateinit var imageUri: Uri
     private var auth: FirebaseAuth = Firebase.auth
+    private lateinit var lista: Array<String>
+    private lateinit var listaIds: List<String>
 
     companion object {
         fun newInstance() = AddTournamentFragment()
@@ -72,7 +76,10 @@ class AddTournamentFragment: Fragment()  {
 
             var clubList = binding.editTextAddTournamentClub
             var data = viewModel.getClubsList()
-            (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(data);
+            lista = data;
+            (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(data)
+
+            listaIds = viewModel.getClubsIds();
 
             var categoriaList =binding.editTextAddTournamentCategorias
             var data_cat = viewModel.getCategoriasList()
@@ -140,7 +147,9 @@ class AddTournamentFragment: Fragment()  {
                 torneo.imagenTorneo = url;
                 torneo.id = udi;
                 viewModel.updateTournament(torneo, udi);
-                Snackbar.make(binding.root,"El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
+
+                findNavController().popBackStack(R.id.myTournamentsFragment, false)
+                Snackbar.make(requireView(),"El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
                 cleanInputs()
             }
         }
@@ -160,6 +169,8 @@ class AddTournamentFragment: Fragment()  {
     }
 
     private fun createTournament(): Tournament {
+        val item = binding.editTextAddTournamentClub.text.toString();
+        val i =  getItemImpl( lista, item );
 
         val nombre = binding.editTextAddTournamentName.text.toString();
         val club = binding.editTextAddTournamentClub.text.toString();
@@ -171,7 +182,7 @@ class AddTournamentFragment: Fragment()  {
         val cost = binding.editTextAddTournamentCosto.text.toString().toInt();
         val premio = binding.editTextAddTournamentPremios.text.toString();
         val userId = auth.currentUser!!.uid
-        var idClub = ""
+        var idClub = listaIds[i]
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName("nombre")
@@ -195,4 +206,13 @@ class AddTournamentFragment: Fragment()  {
 
         return retorno
     }
+
+    private fun <T> getItemImpl(list: Array<String>, item: T): Int {
+        list.forEachIndexed { index, it ->
+            if (it == item)
+                return index
+        }
+        return -1
+    }
+
 }

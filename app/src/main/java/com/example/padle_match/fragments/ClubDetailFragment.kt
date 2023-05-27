@@ -3,6 +3,7 @@ package com.example.padle_match.fragments
 import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,16 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ViewSwitcher
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
+import com.example.padle_match.databinding.FragmentAddClubBinding
+import com.example.padle_match.entities.Club
 import com.google.android.material.snackbar.Snackbar
+import com.example.padle_match.databinding.FragmentClubDetailBinding
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import kotlinx.coroutines.launch
+
 
 class ClubDetailFragment : Fragment() {
 
@@ -21,46 +29,20 @@ class ClubDetailFragment : Fragment() {
         fun newInstance() = ClubDetailFragment()
     }
 
+    private lateinit var binding: FragmentClubDetailBinding
     private lateinit var viewModel: ClubDetailViewModel
-    lateinit var v : View
-    lateinit var editTextNombre : EditText
-    lateinit var editTextCuit : EditText
-    lateinit var editTextPartido: EditText
-    lateinit var editTextLocalidad: EditText
-    lateinit var editTextDireccion: EditText
-    lateinit var editTextEmail: EditText
-    lateinit var editTextTelefono : EditText
     lateinit var editButton: Button
     lateinit var saveButton: Button
     lateinit var cancelButton: Button
-    lateinit var deleteButton : Button
-    lateinit var viewSwitcher: ViewSwitcher
+    lateinit var deleteButton: Button
+    private lateinit var selected: Club
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_club_detail, container, false)
-        editTextNombre = v.findViewById(R.id.editTextNombre)
-        editTextCuit = v.findViewById(R.id.editTextCuit)
-        editTextPartido = v.findViewById(R.id.editTextPartido)
-        editTextLocalidad = v.findViewById(R.id.editTextLocalidad)
-        editTextDireccion = v.findViewById(R.id.editTextDirección)
-        editTextEmail = v.findViewById(R.id.editTextEmail)
-        editTextTelefono = v.findViewById(R.id.editTextTelefono)
-        editButton = v.findViewById(R.id.editButton)
-        saveButton = v.findViewById(R.id.saveButton)
-        cancelButton = v.findViewById(R.id.cancelButton)
-        deleteButton = v.findViewById(R.id.deleteClubButton)
-        viewSwitcher = v.findViewById(R.id.viewSwitcher)
-        editTextNombre.setText("Chacarita")
-        editTextCuit.setText("24272897626")
-        editTextPartido.setText("Buenos Aires")
-        editTextLocalidad.setText("San Isidro")
-        editTextDireccion.setText("Teodoro Garcia 3550")
-        editTextEmail.setText("chacaritafc@gmail.com")
-        editTextTelefono.setText("+54 9 3755 27-5457")
-        return v
+        binding = FragmentClubDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,23 +53,31 @@ class ClubDetailFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        editButton.setOnClickListener {
-            viewSwitcher.showNext()
-            editTextNombre.isEnabled = true
-            editTextCuit.isEnabled = true
-            editTextPartido.isEnabled = true
-            editTextLocalidad.isEnabled = true
-            editTextDireccion.isEnabled = true
-            editTextEmail.isEnabled = true
-            editTextTelefono.isEnabled = true
+        selected = ClubDetailFragmentArgs.fromBundle(requireArguments()).clubSelected
+        setValues( selected )
+        handlerEdit()
+        handlerCancel(selected)
+        handlerSave()
+        handlerDelete()
+
+        lifecycleScope.launch {
+            var data = viewModel.getPartidosList()
+            ( binding.editTextPartido as? MaterialAutoCompleteTextView)?.setSimpleItems(data)
         }
-        saveButton.setOnClickListener{
+
+    }
+
+    private fun handlerSave() {
+        binding.saveButton.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
-                    // aca guardas los cambios
+                    lifecycleScope.launch {
+                        val club = createClub()
+                        viewModel.updateClub(club, club.id)
+                    }
                     findNavController().popBackStack(R.id.myClubsFragment, false)
-                    Snackbar.make(requireView(),"El club fue modificado con exito", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make( requireView(), "El club fue modificado con exito", Snackbar.LENGTH_LONG).show()
                 }
                 .setNegativeButton("NO") { dialog, _ ->
                     dialog.dismiss()
@@ -95,14 +85,60 @@ class ClubDetailFragment : Fragment() {
             val dialog = builder.create()
             dialog.show()
         }
+    }
 
-        deleteButton.setOnClickListener{
+    private fun setValues(selected: Club) {
+        binding.editTextNombre.setText( selected.nombre)
+        binding.editTextCuit.setText( selected.cuit)
+        binding.editTextProvincia.setText( selected.provincia)
+        binding.editTextPartido.setText( selected.partido)
+        // binding.editTextLocalidad.setText( selected.localidad)
+        binding.editTextDirecciN.setText( selected.domicilio)
+        binding.editTextEmail.setText( selected.email)
+        binding.editTextTelefono.setText( selected.telefonos)
+    }
+
+    private fun handlerCancel(selected: Club) {
+        binding.cancelButton.setOnClickListener {
+            binding.viewSwitcher.showPrevious()
+            binding.editTextNombre.isEnabled = false
+            binding.editTextCuit.isEnabled = false
+            binding.editTextProvincia.isEnabled = false
+            binding.editTextPartido.isEnabled = false
+            // binding.editTextLocalidad.isEnabled = false
+            binding.editTextDirecciN.isEnabled = false
+            binding.editTextEmail.isEnabled = false
+            binding.editTextTelefono.isEnabled = false
+        }
+    }
+
+    private fun handlerEdit() {
+        binding.editButton.setOnClickListener {
+            binding.viewSwitcher.showNext()
+            binding.editTextNombre.isEnabled = true
+            binding.editTextCuit.isEnabled = true
+            binding.editTextProvincia.isEnabled = true
+            binding.editTextPartido.isEnabled = true
+            //binding.editTextLocalidad.isEnabled = true
+            binding.editTextDirecciN.isEnabled = true
+            binding.editTextEmail.isEnabled = true
+            binding.editTextTelefono.isEnabled = true
+        }
+    }
+
+
+    private fun handlerDelete() {
+        // ============== BOTON DE BORRAR TORNEO =================
+        binding.deleteClubButton.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("¿Está seguro que desea borrar el club? Esta acción será permanente.")
-                .setPositiveButton("Borrar club") { _, _ ->
-                    // aca borras
-                    findNavController().popBackStack(R.id.myClubsFragment, false)
-                    Snackbar.make(requireView(),"El club fue eliminado con exito", Snackbar.LENGTH_LONG).show()
+            builder.setMessage("¿Está seguro de eliminar el Club? Esta acción será permanente.")
+                .setPositiveButton("Borrar Club") { _, _ ->
+                    lifecycleScope.launch {
+                        viewModel.deleteClub(selected.id)
+                        viewModel.deleteTournamentAssociate(selected.id)
+                        findNavController().popBackStack(R.id.myClubsFragment, false)
+                        Snackbar.make(requireView(),"El Club fue borrado con exito", Snackbar.LENGTH_LONG).show()
+                    }
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
@@ -112,4 +148,21 @@ class ClubDetailFragment : Fragment() {
         }
     }
 
+    private fun createClub(): Club {
+        val id = selected.id
+        val nombre = binding.editTextNombre.text.toString()
+        val cuit = binding.editTextCuit.text.toString()
+        val provincia = binding.editTextProvincia.text.toString()
+        val partido = binding.editTextPartido.text.toString()
+        val localidad = selected.localidad
+        val domicilio = binding.editTextDirecciN.text.toString()
+        val email = binding.editTextEmail.text.toString()
+        val telefono = binding.editTextTelefono.text.toString()
+
+        val club = Club(id,nombre,cuit, provincia,partido,localidad,domicilio,email,telefono, selected.userId)
+
+        return club
+    }
+
 }
+

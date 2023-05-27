@@ -19,9 +19,12 @@ import android.widget.TextView
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.padle_match.R
 import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -58,7 +61,7 @@ class TournamentDetailFragment : Fragment()  {
     private lateinit var editButton: Button
     private lateinit var viewSwitcher: ViewSwitcher
     private lateinit var viewModel: TournamentDetailFragmentViewModel
-    private lateinit var imageUri: Uri
+    private  var imageUri: Uri = Uri.EMPTY
     private lateinit var tournamentSelec  : Tournament
     private var auth: FirebaseAuth = Firebase.auth
     val db = Firebase.firestore
@@ -163,6 +166,7 @@ class TournamentDetailFragment : Fragment()  {
         detailCostoInscripcion.setText(tournamentSelected.costoInscripción.toString())
         detailPremio.setText(tournamentSelected.premios)
         detailMateriales.setText(tournamentSelected.materialCancha)
+        Glide.with(this).load(tournamentSelected.imagenTorneo).into(imageDisplay)
 
     }
 
@@ -186,7 +190,12 @@ class TournamentDetailFragment : Fragment()  {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de eliminar el torneo? Esta acción será permanente.")
                 .setPositiveButton("Borrar torneo") { _, _ ->
-                    // aca borras
+                    lifecycleScope.launch {
+                        val torneo = createTournament()
+                        viewModel.deleteTournament( torneo.id )
+                        findNavController().popBackStack(R.id.myTournamentsFragment, false)
+                        Snackbar.make(requireView(),"El torneo fue modificado con exito", Snackbar.LENGTH_LONG).show()
+                    }
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
@@ -196,13 +205,25 @@ class TournamentDetailFragment : Fragment()  {
         }
     }
 
+
+
     private fun handlerSave() {
         // ============== BOTON DE GUARDAR CAMBIOS TORNEO =================
         saveButton.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
-                    Log.w("NUEVO TORNEO", createTournament().toString())
+
+                    lifecycleScope.launch {
+                        val torneo = createTournament()
+                        if( imageUri != Uri.EMPTY ) {
+                            val url = viewModel.uploadImagenStorage( imageUri, torneo.id );
+                            torneo.imagenTorneo = url
+                        }
+                        viewModel.updateTournament(torneo, torneo.id)
+                        findNavController().popBackStack(R.id.myTournamentsFragment, false)
+                        Snackbar.make(requireView(),"El torneo fue modificado con exito", Snackbar.LENGTH_LONG).show()
+                    }
                 }
                 .setNegativeButton("NO") { dialog, _ ->
                     dialog.dismiss()
@@ -247,7 +268,6 @@ class TournamentDetailFragment : Fragment()  {
             detailCostoInscripcion.isEnabled = true
             detailPremio.isEnabled = true
             detailImagen.isEnabled = true
-
         }
     }
 
@@ -294,14 +314,15 @@ class TournamentDetailFragment : Fragment()  {
         val cost = detailCupos.text.toString().toInt();
         val premio = detailPremio.text.toString();
         val userId = tournamentSelec.userId
-        var idClub = ""
+        val imagen = tournamentSelec.imagenTorneo
+        var idClub = tournamentSelec.idClub
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName(club)
         }
 
         val retorno = Tournament(id, nombre, club, date, hour, category, material, cupo, cost, premio,
-            "loading...", userId, idClub )
+            imagen, userId, idClub)
 
         return retorno
     }

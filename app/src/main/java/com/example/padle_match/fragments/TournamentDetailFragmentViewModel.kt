@@ -96,20 +96,28 @@ class TournamentDetailFragmentViewModel : ViewModel() {
     suspend fun addTournament( tournament: Tournament, ): String {
         val query = db.collection("tournaments")
         val data = query.add(tournament)
-        var udi = "NO HAY DATOS"
+        var id = "NO HAY DATOS"
 
         data.addOnSuccessListener{ document ->
-            udi = document.id
+            id = document.id
         }.await()
 
-        return udi;
+        return id;
     }
 
-    suspend fun updateTournament( tournament: Tournament, uid: String ){
+    suspend fun updateTournament( tournament: Tournament, id: String ){
         val query = db.collection("tournaments")
-        val data = query.document(uid).set(tournament)
+        val data = query.document(id).set(tournament)
         data.addOnSuccessListener{ document ->
-            Log.w("Update Tournament", "User ${uid} was update correctly")
+            Log.w("Update Tournament", "User ${id} was update correctly")
+        }.await()
+    }
+
+    suspend fun deleteTournament( id: String ){
+        val query = db.collection("tournaments")
+        val data = query.document(id).delete()
+        data.addOnSuccessListener{ document ->
+            Log.w("Deleted Tournament", "Torneo ${id} was deleted correctly")
         }.await()
     }
 

@@ -122,6 +122,13 @@ class AddTournamentViewModel : ViewModel() {
         return list;
     }
 
+    suspend fun getClubsIds(): List<String> {
+        val query =  db.collection("clubs")
+        val clubs = query.get().await();
+        val data = clubs.map { t -> t.id }
+        return data;
+    }
+
     suspend fun getCategoriasList(): Array<String> {
 
         val query =  db.collection("categorias")

@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Club(
+    var id: String,
     var nombre:String,
     var cuit:String,
     var provincia:String,
@@ -14,5 +15,5 @@ data class Club(
     var domicilio:String,
     var email: String,
     var telefonos:String,
-    var uid: String,
+    var userId: String,
 ): Parcelable

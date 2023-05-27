@@ -36,32 +36,27 @@ class AddClubViewModel : ViewModel() {
         val clubs = query.get().await();
         val data = clubs.map { t -> t.data["nombre"] } as List<String>
         var list = data.toTypedArray();
+
         return list;
     }
 
     suspend fun addClub( club: Club, ): String {
         val query = db.collection("clubs")
         val data = query.add(club)
-        var udi = "NO HAY DATOS"
+        var id = "NO HAY DATOS"
 
         data.addOnSuccessListener{ document ->
-            udi = document.id
+            id = document.id
         }.await()
 
-        return udi;
+        return id;
     }
 
-    suspend fun updateClub( club: Club, uid: String ){
+    suspend fun updateClub( club: Club, id: String ) {
         val query = db.collection("clubs")
-        val data = query.document(uid).set(club)
-        data.addOnSuccessListener{ document ->
-            Log.w("Update Club", "User ${uid} was update correctly")
+        val data = query.document(id).set(club)
+        data.addOnSuccessListener { document ->
+            Log.w("Update Club", "User ${id} was update correctly")
         }.await()
     }
-
-
-
-
-
-
 }

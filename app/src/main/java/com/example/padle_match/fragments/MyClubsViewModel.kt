@@ -1,5 +1,6 @@
 package com.example.padle_match.fragments
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.padle_match.entities.Club
@@ -20,22 +21,23 @@ class MyClubsViewModel : ViewModel() {
 
         var list = mutableListOf<Club>();
         var uid = auth.currentUser!!.uid
-        val documents = db.collection("clubs").whereEqualTo("uid", uid).get().await()
+        val documents = db.collection("clubs").whereEqualTo("userId", uid).get().await()
         documents.forEach { data ->
+            val id = data["id"] as? String?: "NULL"
             val nombre = data["nombre"] as? String ?: "nombre default"
             val cuit = data["cuit"] as? String ?: "cuit default"
             val provincia = data["provincia"] as? String ?: "Buenos Aires"
             val partido = data["partido"] as? String ?: "partido default"
             val localidad = data["localidad"] as? String ?: "localidad default"
-            val direccion = data["direccion"] as? String ?: "No se proporciono direccion"
+            val domilicio = data["domicilio"] as? String?: "No domicilio"
             val email = data["email"] as? String ?: "No se proporciono email"
-            val telefono = data["telefono"] as? String ?: "No se proporciono telefono"
-            val uid = data["uid"] as? String ?: ""
+            val telefono = data["telefonos"] as? String ?: "No se proporciono telefono"
+            val userId = data["userId"] as? String ?: ""
 
-            val club =  Club(nombre,cuit,provincia,partido,localidad,direccion,email,telefono,uid)
+
+            val club =  Club(id, nombre,cuit,provincia,partido,localidad,domilicio,email,telefono,userId)
             list.add(club);
         }
-
         return list
     }
 }
