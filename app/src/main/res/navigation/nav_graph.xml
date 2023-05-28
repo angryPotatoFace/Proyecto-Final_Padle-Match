@@ -3,39 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
-
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.padle_match.fragments.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_myTournamentsFragment"
-            app:destination="@id/myTournamentsFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
-            app:destination="@id/forgotPasswordFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.padle_match.fragments.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
-        <action
-            android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.padle_match.fragments.ForgotPasswordFragment"
-        android:label="fragment_forgot_password"
-        tools:layout="@layout/fragment_forgot_password" />
+    app:startDestination="@id/myTournamentsFragment">
 
     <fragment
         android:id="@+id/myTournamentsFragment"
@@ -90,7 +58,7 @@
         tools:layout="@layout/fragment_club_detail">
         <argument
             android:name="ClubSelected"
-              app:argType="com.example.padle_match.entities.Club" />
+            app:argType="com.example.padle_match.entities.Club" />
     </fragment>
 
     <fragment

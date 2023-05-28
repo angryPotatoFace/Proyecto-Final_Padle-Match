@@ -33,10 +33,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-
-
         return binding.root;
     }
 
@@ -70,7 +67,7 @@ class LoginFragment : Fragment() {
                 lifecycleScope.launch {
                     val res = viewModel.loginUser(email,pass);
                     if( res ) {
-                        val action = LoginFragmentDirections.actionLoginFragmentToMyTournamentsFragment()
+                        val action = LoginFragmentDirections.actionLoginFragmentToMainActivity()
                         findNavController().navigate(action)
                     }else{
                         Snackbar.make(binding.root, "Error on authentification", Snackbar.LENGTH_SHORT).show()
