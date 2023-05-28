@@ -81,8 +81,7 @@ class RegisterFragment : Fragment() {
                         viewModel.createUser( usuario);
                         clearInputs()
 
-                        val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-                        findNavController().navigate(action)
+                        findNavController().navigateUp()
                     }
 
                 }else{

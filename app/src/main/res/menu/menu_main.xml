@@ -18,6 +18,6 @@
         android:id="@+id/myProfileFragment"
         android:orderInCategory="100"
         android:icon="@drawable/logo_perfil_removebg_preview"
-        android:title="Login"
+        android:title="Perfil"
         app:showAsAction="never" />
 </menu>
