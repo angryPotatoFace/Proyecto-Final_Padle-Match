@@ -161,7 +161,7 @@
         android:layout_width="288dp"
         android:layout_height="46dp"
         android:text="Crear Cuenta"
-        android:backgroundTint="@color/blueButton"
+        android:backgroundTint="#2196F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
