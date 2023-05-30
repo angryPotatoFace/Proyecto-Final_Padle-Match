@@ -17,6 +17,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.app
@@ -33,6 +35,7 @@ class AddTournamentViewModel : ViewModel() {
     val db = Firebase.firestore
     val storage = Firebase.storage(Firebase.app)
     val storageRef = storage.reference
+    private var auth: FirebaseAuth = Firebase.auth
 
 
     companion object{
@@ -130,8 +133,8 @@ class AddTournamentViewModel : ViewModel() {
     }
 
     suspend fun getCategoriasList(): Array<String> {
-
-        val query =  db.collection("categorias")
+        var uid = auth.currentUser!!.uid
+        val query =  db.collection("categorias").whereEqualTo("userId", uid)
         val categorias = query.get().await();
         val data = categorias.map { t -> t.data["nombreCategoria"] }[0] as List<String>
         var list = data.toTypedArray();

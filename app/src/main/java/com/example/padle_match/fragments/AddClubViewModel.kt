@@ -13,6 +13,8 @@ import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.app
@@ -28,10 +30,10 @@ class AddClubViewModel : ViewModel() {
     //
     val db = Firebase.firestore
     val storage = Firebase.storage(Firebase.app)
-    val storageRef = storage.reference
+    private var auth: FirebaseAuth = Firebase.auth
 
     suspend fun getPartidosList(): Array<String> {
-
+        var uid = auth.currentUser!!.uid
         val query =  db.collection("partidos")
         val clubs = query.get().await();
         val data = clubs.map { t -> t.data["nombre"] } as List<String>
@@ -41,6 +43,7 @@ class AddClubViewModel : ViewModel() {
     }
 
     suspend fun addClub( club: Club, ): String {
+
         val query = db.collection("clubs")
         val data = query.add(club)
         var id = "NO HAY DATOS"
