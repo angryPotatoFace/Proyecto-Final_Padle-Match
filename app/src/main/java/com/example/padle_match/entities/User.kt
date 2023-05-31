@@ -6,5 +6,6 @@ data class User(
    var apellido:String,
    var email: String,
    var telefono: String,
-   var dni:String
+   var dni:String,
+   var imgProfile: String,
 )

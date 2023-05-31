@@ -77,7 +77,7 @@ class RegisterFragment : Fragment() {
                 if ( pass != null && pass == confir) {
                     lifecycleScope.launch {
                         val user = viewModel.registerUser(email, pass);
-                        val usuario = User( user.uid,name,last,email,telefono,dni );
+                        val usuario = User( user.uid,name,last,email,telefono,dni, "User created" );
                         viewModel.createUser( usuario);
                         clearInputs()
 
@@ -100,8 +100,6 @@ class RegisterFragment : Fragment() {
         input_Telefono.setText("")
         input_password.setText("")
         input_ConfirPassword.setText("")
-
-
     }
 
 }

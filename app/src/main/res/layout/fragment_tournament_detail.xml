@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:inputType="text"
-                />
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
