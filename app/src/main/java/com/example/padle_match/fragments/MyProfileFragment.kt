@@ -28,6 +28,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var imageUri: Uri
     private lateinit var currUser: User
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,9 +60,13 @@ class MyProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.editButton.setOnClickListener{
-            enableFields()
+
+        handlerEdit()
+
+        lifecycleScope.launch {
+            currUser = viewModel.getUser()
         }
+        handlerCancel(currUser)
 
         binding.saveButton.setOnClickListener {
             val user = createUser()
@@ -71,6 +76,26 @@ class MyProfileFragment : Fragment() {
         }
 
     }
+
+    private fun handlerCancel(currUser: User) {
+        binding.cancelButton.setOnClickListener {
+            binding.viewSwitcher.showPrevious()
+            binding.detailName.setText(currUser.nombre)
+            binding.detailSurname.setText(currUser.apellido)
+            binding.detailPhone.setText(currUser.telefono)
+            binding.detailDni.setText(currUser.dni)
+
+        }
+    }
+
+    private fun handlerEdit() {
+        binding.editButton.setOnClickListener{
+            binding.viewSwitcher.showNext()
+            enableFields()
+
+        }
+    }
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -90,6 +115,13 @@ class MyProfileFragment : Fragment() {
         binding.detailSurname.isEnabled = true
         binding.detailPhone.isEnabled = true
         binding.detailDni.isEnabled = true
+    }
+
+    fun blockFields(){
+        binding.detailName.isEnabled = false
+        binding.detailSurname.isEnabled = false
+        binding.detailPhone.isEnabled = false
+        binding.detailDni.isEnabled = false
     }
 
     fun createUser(): User {
