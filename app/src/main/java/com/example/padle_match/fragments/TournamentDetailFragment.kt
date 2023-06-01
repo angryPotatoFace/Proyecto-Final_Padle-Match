@@ -98,7 +98,7 @@ class TournamentDetailFragment : Fragment()  {
 
         blockFields()
 
-        deleteButton = v.findViewById(R.id.deleteTournamentButton)
+        deleteButton = v.findViewById(R.id.deleteProfile)
         saveButton = v.findViewById(R.id.saveButton)
         cancelButton = v.findViewById(R.id.cancelButton)
         editButton = v.findViewById(R.id.editButton)

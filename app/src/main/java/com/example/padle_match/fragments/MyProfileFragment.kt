@@ -11,9 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.padle_match.R
 import com.example.padle_match.databinding.FragmentMyProfileBinding
 import com.example.padle_match.entities.User
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 
@@ -44,37 +47,21 @@ class MyProfileFragment : Fragment() {
 
         lifecycleScope.launch {
             currUser = viewModel.getUser()
-            binding.detailName.setText( currUser.nombre )
-            binding.detailSurname.setText( currUser.apellido )
-            binding.detailEmail.setText( currUser.email )
-            binding.detailPhone.setText( currUser.telefono)
-            binding.detailDni.setText( currUser.dni )
-        }
 
+            setFields(currUser)
+            handlerCancel(currUser)
+            handlerDelete(currUser)
+            handlerSave()
+            handlerEdit()
+            handlerImage()
+        }
+    }
+
+    private fun handlerImage() {
         binding.profileImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, 100)
         }
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        handlerEdit()
-
-        lifecycleScope.launch {
-            currUser = viewModel.getUser()
-        }
-        handlerCancel(currUser)
-
-        binding.saveButton.setOnClickListener {
-            val user = createUser()
-            lifecycleScope.launch {
-                viewModel.updateUser(user)
-            }
-        }
-
     }
 
     private fun handlerCancel(currUser: User) {
@@ -84,7 +71,34 @@ class MyProfileFragment : Fragment() {
             binding.detailSurname.setText(currUser.apellido)
             binding.detailPhone.setText(currUser.telefono)
             binding.detailDni.setText(currUser.dni)
+            blockFields()
+        }
+    }
 
+    private fun handlerSave() {
+        binding.saveButton.setOnClickListener {
+            val user = createUser()
+            lifecycleScope.launch {
+                viewModel.updateUser(user)
+
+                if( imageUri != Uri.EMPTY ) {
+                    val url = viewModel.uploadImagenStorage( imageUri, user.idUsuario );
+                    user.imgProfile = url
+                }
+                viewModel.updateProfile(user);
+                Snackbar.make(binding.root,"Los datos fueron guardados correctamente", Snackbar.LENGTH_LONG).show()
+                blockFields()
+            }
+        }
+    }
+
+    private fun handlerDelete(user: User) {
+        binding.deleteProfile.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.deleteUser(user)
+                findNavController().popBackStack(R.id.loginFragment, false)
+                Snackbar.make(binding.root,"Su usuario fue borrado correctamente", Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -92,7 +106,18 @@ class MyProfileFragment : Fragment() {
         binding.editButton.setOnClickListener{
             binding.viewSwitcher.showNext()
             enableFields()
+        }
+    }
 
+    private fun setFields( user: User) {
+        binding.detailName.setText( user.nombre )
+        binding.detailSurname.setText( user.apellido )
+        binding.detailEmail.setText( user.email )
+        binding.detailPhone.setText( user.telefono)
+        binding.detailDni.setText( user.dni )
+
+        if( user.imgProfile != "No image" ){
+            Glide.with(this).load(user.imgProfile).into(binding.profileImage)
         }
     }
 
@@ -115,6 +140,7 @@ class MyProfileFragment : Fragment() {
         binding.detailSurname.isEnabled = true
         binding.detailPhone.isEnabled = true
         binding.detailDni.isEnabled = true
+        binding.profileImage.isEnabled = true
     }
 
     fun blockFields(){
@@ -122,10 +148,10 @@ class MyProfileFragment : Fragment() {
         binding.detailSurname.isEnabled = false
         binding.detailPhone.isEnabled = false
         binding.detailDni.isEnabled = false
+        binding.profileImage.isEnabled = false
     }
 
     fun createUser(): User {
-
         val id = currUser.idUsuario
         var nombre= binding.detailName.text.toString()
         var apellido = binding.detailSurname.text.toString()
