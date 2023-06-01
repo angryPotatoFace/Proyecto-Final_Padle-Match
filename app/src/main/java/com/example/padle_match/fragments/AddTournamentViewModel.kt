@@ -133,8 +133,7 @@ class AddTournamentViewModel : ViewModel() {
     }
 
     suspend fun getCategoriasList(): Array<String> {
-        var uid = auth.currentUser!!.uid
-        val query =  db.collection("categorias").whereEqualTo("userId", uid)
+        val query =  db.collection("categorias")
         val categorias = query.get().await();
         val data = categorias.map { t -> t.data["nombreCategoria"] }[0] as List<String>
         var list = data.toTypedArray();
