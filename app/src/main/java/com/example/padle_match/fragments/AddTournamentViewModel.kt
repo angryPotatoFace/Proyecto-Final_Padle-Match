@@ -117,8 +117,8 @@ class AddTournamentViewModel : ViewModel() {
     }
 
     suspend fun getClubsList(): Array<String> {
-
-        val query =  db.collection("clubs")
+        var uid = auth.currentUser!!.uid
+        val query =  db.collection("clubs").whereEqualTo("userId", uid)
         val clubs = query.get().await();
         val data = clubs.map { t -> t.data["nombre"] } as List<String>
         var list = data.toTypedArray();
@@ -133,11 +133,10 @@ class AddTournamentViewModel : ViewModel() {
     }
 
     suspend fun getCategoriasList(): Array<String> {
-        var uid = auth.currentUser!!.uid
-        val query =  db.collection("categorias").whereEqualTo("userId", uid)
+        val query =  db.collection("categorias")
         val categorias = query.get().await();
         val data = categorias.map { t -> t.data["nombreCategoria"] }[0] as List<String>
-        var list = data.toTypedArray();
+        var list = data.toTypedArray()
         return list;
     }
 
