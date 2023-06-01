@@ -66,7 +66,7 @@ class AddClubFragment : Fragment() {
             var data = viewModel.getPartidosList()
             ( binding.listaPartidos as? MaterialAutoCompleteTextView )?.setSimpleItems(data)
         }
-
+        binding.provinciaEditText.setText("Buenos Aires")
         handlerAddClub(binding.btnAddClub)
     }
 
