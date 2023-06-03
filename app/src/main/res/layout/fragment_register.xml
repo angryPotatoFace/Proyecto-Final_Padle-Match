@@ -3,168 +3,246 @@
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/registerFrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rectangulo"
+    android:orientation="vertical"
+    android:backgroundTint="@color/blueButton"
     tools:context=".fragments.RegisterFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineIzq"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.15" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineDer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineArriba"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineAbajo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.95" />
+    <ImageView
+        android:id="@+id/imgPerfil"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        android:transitionName="logo_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvCrearCta"
+        android:id="@+id/tvBienvenidoRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Crear cuenta"
+        android:layout_marginTop="90dp"
+        android:text="Bienvenido"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textSize="40sp"
         android:textStyle="bold"
+        android:transitionName="logo_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgPerfil" />
+
+    <TextView
+        android:id="@+id/tvCrearCuenta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Complete los siguientes campos para crear su cuenta"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:transitionName="logo_desc"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toTopOf="@+id/guidelineArriba" />
+        app:layout_constraintTop_toBottomOf="@+id/tvBienvenidoRegister" />
 
-    <EditText
-        android:id="@+id/etNombre"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:hint="  Nombre"
-        android:paddingBottom="20dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/tvCrearCta" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvBienvenidoRegister">
 
-    <EditText
-        android:id="@+id/etApellido"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_nombre"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Nombre">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:maxLength="64"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_apellido"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:hint="Apellido">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:hint="  Apellido"
-        android:paddingBottom="20dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etNombre" />
+        android:hint="Email"
+        android:transitionName="email_tran"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-    <EditText
-        android:id="@+id/etEmail"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_dni"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:hint="  Email"
-        android:paddingBottom="20dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etApellido" />
+        android:hint="DNI"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_email">
 
-    <EditText
-        android:id="@+id/etDni"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDni"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLength="8"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_telefono"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:hint="  DNI"
-        android:paddingBottom="20dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        android:hint="Teléfono"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_dni">
 
-    <EditText
-        android:id="@+id/etTelefono"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:hint="  Teléfono"
-        android:paddingBottom="20dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etDni" />
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_telefono">
 
-    <EditText
-        android:id="@+id/etContrasena"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:hint="  Contraseña"
-        android:paddingBottom="20dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etTelefono" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Contraseña"
+            android:transitionName="password_tran"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-    <EditText
-        android:id="@+id/etConfirContras"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rectangulo"
-        android:backgroundTint="#DDDDDD"
-        android:hint="  Confirmar contraseña"
-        android:paddingBottom="20dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etContrasena" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_confirmPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:hint="Confirmar contraseña"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etConfirContras"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnCrearCuenta"
-        android:layout_width="288dp"
-        android:layout_height="46dp"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/black"
         android:text="Crear Cuenta"
-        android:backgroundTint="#2196F3"
+        android:textColor="@color/blueButton"
+        android:transitionName="button_tran"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <TextView
+        android:id="@+id/txtYaTieneCuenta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
+        android:text="¿Ya tiene cuenta?"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/etConfirContras" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCrearCuenta" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

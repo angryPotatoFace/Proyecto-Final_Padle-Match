@@ -6,7 +6,10 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:background="@drawable/rectangulo"
+    android:backgroundTint="@color/blueButton"
     tools:context=".fragments.LoginFragment">
 
 
@@ -53,11 +56,11 @@
         android:id="@+id/tvBienvenido"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Bienvenido"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="40sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
@@ -67,10 +70,9 @@
         android:id="@+id/tvIniciarSesion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Inicie sesión para continuar"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
@@ -79,14 +81,17 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etEmail"
-        style="?attr/textInputFilledStyle"
+        style="@style/TextInputLayoutRoundedEdges"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:hint="Email"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintStart_toStartOf="@id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@id/tvBienvenido">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvIniciarSesion"
+        app:startIconDrawable="@drawable/ic_person_white">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_email_input"
@@ -100,15 +105,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etPassword"
-        style="?attr/textInputFilledStyle"
+        style="@style/TextInputLayoutRoundedEdges"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:hint="Contraseña"
         app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
-        app:layout_constraintStart_toStartOf="@id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@id/tvBienvenido">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail"
+        app:startIconDrawable="@drawable/ic_security">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_pass_input"
@@ -127,40 +135,42 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="¿Olvidó su contraseña?"
-        android:layout_marginTop="120dp"
         android:textAlignment="center"
-        android:textColor="#2196F3"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="120dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
 
     <Button
         android:id="@+id/btnCreateAccount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
         android:height="60dp"
-        android:backgroundTint="#2196F3"
+        android:backgroundTint="@color/black"
         android:text="Iniciar sesión"
+        android:textColor="@color/blueButton"
         app:circularflow_radiusInDP="0pd"
         app:cornerRadius="5dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvOlividoContr" />
 
     <TextView
         android:id="@+id/txtCrearCuenta"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:text="¿No tiene cuenta?"
         android:textAlignment="center"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/btnCreateAccount" />
 
@@ -168,13 +178,12 @@
         android:id="@+id/txtLinkCrearCta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="12dp"
         android:text="Crear una cuenta"
         android:textAlignment="center"
-        android:textColor="#2196F3"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintTop_toBottomOf="@+id/btnCreateAccount" />
 

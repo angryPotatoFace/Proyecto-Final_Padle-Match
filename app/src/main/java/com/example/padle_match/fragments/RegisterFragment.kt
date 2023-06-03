@@ -1,22 +1,33 @@
 package com.example.padle_match.fragments
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
 import com.example.padle_match.entities.User
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class RegisterFragment : Fragment() {
+
+    val db = Firebase.firestore
 
     companion object {
         fun newInstance() = RegisterFragment()
@@ -32,7 +43,7 @@ class RegisterFragment : Fragment() {
     private lateinit var input_password: EditText
     private lateinit var input_ConfirPassword: EditText
     private lateinit var btnEnviar: Button
-
+    private lateinit var frameLayout: ConstraintLayout
 
 
 
@@ -50,7 +61,7 @@ class RegisterFragment : Fragment() {
         input_Telefono = v.findViewById(R.id.etTelefono)
         input_password = v.findViewById(R.id.etContrasena)
         input_ConfirPassword = v.findViewById(R.id.etConfirContras)
-
+        frameLayout = v.findViewById(R.id.registerFrameLayout)
         btnEnviar = v.findViewById(R.id.btnCrearCuenta)
         return v;
     }
@@ -58,7 +69,6 @@ class RegisterFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-
     }
 
     override fun onStart() {
@@ -66,31 +76,68 @@ class RegisterFragment : Fragment() {
 
         btnEnviar.setOnClickListener{
 
-                val name = input_name.text.toString();
-                val last = input_apellido.text.toString()
-                val email = input_email.text.toString();
-                val dni = input_Dni.text.toString()
-                val telefono = input_Telefono.text.toString();
-                val pass = input_password.text.toString();
-                val confir = input_ConfirPassword.text.toString();
+            val name = input_name.text.toString();
+            val last = input_apellido.text.toString()
+            val email = input_email.text.toString();
+            val dni = input_Dni.text.toString()
+            val telefono = input_Telefono.text.toString();
+            val pass = input_password.text.toString();
+            val confir = input_ConfirPassword.text.toString();
 
-                if ( pass != null && pass == confir) {
-                    lifecycleScope.launch {
-                        val user = viewModel.registerUser(email, pass);
-                        val usuario = User( user.uid,name,last,email,telefono,dni, "User created" );
-                        viewModel.createUser( usuario);
-                        clearInputs()
-
-                        findNavController().navigateUp()
-                    }
-
-                }else{
-                    Snackbar.make(v, "Error on password are not equal", Snackbar.LENGTH_SHORT)
+            if(checkCredentials()){
+                lifecycleScope.launch {
+                    val user = viewModel.registerUser(email, pass);
+                    val usuario = User( user.uid,name,last,email,telefono,dni, "User created" );
+                    viewModel.createUser(usuario);
+                    clearInputs()
+                    findNavController().navigateUp()
                 }
+            }
+        }
+    }
+
+    private fun checkCredentials(): Boolean {
+        var isValid = true
+
+        // Validar campo Nombre
+        if (!viewModel.checkedNoSpecialCharacters(input_name)) {
+            isValid = false
+        }
+
+        // Validar campo Apellido
+        if (!viewModel.checkedNoSpecialCharacters(input_apellido)) {
+            isValid = false
+        }
+
+        // Validar campo Email
+        if (!viewModel.checkedEmail(input_email)) {
+            isValid = false
+        }
+
+        // Validar campo DNI
+        if (!viewModel.checkedDNI(input_Dni)) {
+            isValid = false
+        }
+
+        // Validar campo Telefono
+        if (!viewModel.checkedTelefono(input_Telefono)) {
+            isValid = false
+        }
+
+        // Validar campo Contraseña
+        if (!viewModel.checkedPassword(input_password)) {
+            isValid = false
+        }
+
+        // Validar campo Confirmar contraseña
+        if (!viewModel.checkedConfirPassword(input_ConfirPassword, input_password)) {
+            isValid = false
         }
 
 
+        return isValid
     }
+
 
     private fun clearInputs() {
         input_name.setText("")
