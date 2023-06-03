@@ -14,6 +14,15 @@
         </shape>
     </drawable>
 
+    <style name="TextInputLayoutRoundedEdges" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearanceOverlay">@style/RoundedEdgesShapeAppearance</item>
+    </style>
+
+    <style name="RoundedEdgesShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">70dp</item>
+    </style>
+
     <color name="edittext_background">#F2F2F2</color>
     <color name="edittext_textcolor">#555555</color>
 
