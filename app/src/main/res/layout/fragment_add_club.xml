@@ -57,7 +57,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp"
-        app:endIconDrawable="@drawable/ic_edit"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre"
+            android:maxLength="64"
             android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -79,7 +79,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="200dp"
         android:layout_marginEnd="20dp"
-        app:endIconDrawable="@drawable/ic_edit"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cuit"
+            android:maxLength="11"
             android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -102,7 +102,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="300dp"
             android:layout_marginEnd="20dp"
-            app:endIconDrawable="@drawable/ic_edit"
             app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +123,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="500dp"
         android:layout_marginEnd="20dp"
-        app:endIconDrawable="@drawable/ic_edit"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Dirección"
+            android:maxLength="123"
             android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -146,7 +145,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="600dp"
         android:layout_marginEnd="20dp"
-        app:endIconDrawable="@drawable/ic_edit"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -157,6 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
+            android:maxLength="256"
             android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -168,7 +167,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="700dp"
         android:layout_marginEnd="20dp"
-        app:endIconDrawable="@drawable/ic_edit"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

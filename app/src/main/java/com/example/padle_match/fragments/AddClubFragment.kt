@@ -34,12 +34,11 @@ class AddClubFragment : Fragment() {
 
     private lateinit var binding: FragmentAddClubBinding
     private var auth: FirebaseAuth = Firebase.auth
+    private lateinit var viewModel: AddClubViewModel
 
     companion object {
         fun newInstance() = AddClubFragment()
     }
-
-    private lateinit var viewModel: AddClubViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +66,9 @@ class AddClubFragment : Fragment() {
             ( binding.listaPartidos as? MaterialAutoCompleteTextView )?.setSimpleItems(data)
         }
 
-        handlerAddClub(binding.btnAddClub)
+        if(checkCredentials()){
+            handlerAddClub(binding.btnAddClub)
+        }
     }
 
     private fun handlerAddClub(btn: AppCompatButton) {
@@ -83,16 +84,6 @@ class AddClubFragment : Fragment() {
                 cleanInputs()
             }
         }
-    }
-
-    private fun cleanInputs() {
-        binding.nombreEditText.setText("")
-        binding.cuitEditText.setText("")
-        binding.provinciaEditText.setText("Buenos Aires")
-        binding.listaPartidos.setText("")
-        binding.direccionEditText.setText("")
-        binding.emailEditText.setText("")
-        binding.telefonoEditText.setText("")
     }
 
     private fun createClub(): Club {
@@ -122,6 +113,46 @@ class AddClubFragment : Fragment() {
         )
 
         return retorno
+    }
+
+    private fun checkCredentials(): Boolean {
+        var isValid = true
+
+        // Validar campo Cuit
+        if (!viewModel.checkedCuit(binding.cuitEditText)) {
+            isValid = false
+        }
+
+        // Validar campo Nombre
+        if (!viewModel.checkedNoSpecialCharacters(binding.nombreEditText)) {
+            isValid = false
+        }
+
+        // Validar campo Calle
+        if (!viewModel.checkedNoSpecialCharacters(binding.direccionEditText)) {
+            isValid = false
+        }
+
+        // Validar campo Email
+        if (!viewModel.checkedEmail(binding.emailEditText)) {
+            isValid = false
+        }
+
+        // Validar campo Telefono
+        if (!viewModel.checkedTelefono(binding.telefonoEditText)) {
+            isValid = false
+        }
+
+        return isValid
+    }
+    private fun cleanInputs() {
+        binding.nombreEditText.setText("")
+        binding.cuitEditText.setText("")
+        binding.provinciaEditText.setText("Buenos Aires")
+        binding.listaPartidos.setText("")
+        binding.direccionEditText.setText("")
+        binding.emailEditText.setText("")
+        binding.telefonoEditText.setText("")
     }
 
 }

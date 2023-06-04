@@ -62,4 +62,120 @@ class AddClubViewModel : ViewModel() {
             Log.w("Update Club", "User ${id} was update correctly")
         }.await()
     }
+
+
+    fun checkedTelefono(inputTelefono: EditText): Boolean {
+        return checkedEmpty(inputTelefono)
+    }
+
+    fun checkedCuit(inputCuit: EditText): Boolean {
+        return if(!checkedEmpty(inputCuit)){
+            false
+        } else {
+            val cuitRegistered = runBlocking {cuitAlreadyRegistered(inputCuit.text.toString())}
+            if(cuitRegistered){
+                showError(inputCuit, "Cuit ya registrado")
+                clearInput(inputCuit)
+                false
+            }
+            else{
+                true
+            }
+        }
+    }
+
+    private suspend fun cuitAlreadyRegistered(cuit: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val collection = db.collection("clubs")
+            val query = collection.whereEqualTo("cuit", cuit).limit(1).get().await()
+            query.documents.isNotEmpty()
+        }
+    }
+
+    private fun checkedEmpty(editText: EditText): Boolean {
+        var valid = true
+        if(editText.text.isEmpty()){
+            showError(editText,"Campo requerido" )
+            valid = false
+        }
+        return valid
+    }
+
+    fun checkedEmail(inputEmail: EditText): Boolean {
+        return if(!checkedLongitud(inputEmail, 5)){
+            false
+        } else if (!isValidEmail(inputEmail.text.toString())) {
+            showError(inputEmail, "Email inválido")
+            false
+        } else {
+            val emailRegistered = runBlocking { emailAlreadyRegistered(inputEmail.text.toString()) }
+            if (emailRegistered) {
+                showError(inputEmail, "Email ya registrado")
+                clearInput(inputEmail)
+                false
+            } else {
+                true
+            }
+        }
+    }
+
+    private suspend fun emailAlreadyRegistered(email: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val auth = FirebaseAuth.getInstance()
+            try {
+                val result = auth.fetchSignInMethodsForEmail(email).await()
+                val signInMethods = result.signInMethods
+                signInMethods != null && signInMethods.isNotEmpty()
+            } catch (e: Exception) {
+                // Error al verificar el correo electrónico
+                // Manejar el error según sea necesario
+                false
+            }
+        }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        val regex = Regex("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,})+\$")
+        return email.matches(regex)
+    }
+
+    fun checkedNoSpecialCharacters(editText: EditText): Boolean {
+        return if(!checkedEmpty(editText)){
+            false
+        }else if(!isValidInput(editText.text.toString())){
+            showError(editText, "Campo inválido")
+            false
+        } else{
+            true
+        }
+    }
+
+
+    private fun isValidInput(input: String): Boolean {
+        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ]+$")
+        return input.matches(regex)
+    }
+
+    private fun showError(editText: EditText, s: String) {
+        editText.error = s
+        editText.clearFocus()
+    }
+
+    private fun clearInput(editText: EditText) {
+        editText.setText("")
+    }
+
+    fun checkedLongitud(inputNombre: EditText, minCaracter: Int): Boolean {
+        return if(!checkedEmpty(inputNombre)){
+            false
+        } else if (inputNombre.text.toString().length < 3 ){
+            showError(inputNombre, "El ingreso minimo de carácteres es " + minCaracter)
+            false
+        }
+        else{
+            true
+        }
+    }
+
 }
+
