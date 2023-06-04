@@ -172,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="200dp"
             android:layout_marginEnd="20dp"
             android:hint="Fecha"
             app:endIconDrawable="@drawable/ic_calendar"
@@ -185,8 +185,8 @@
                 android:id="@+id/detail_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
                 android:contentDescription="Campo Fecha"
+                android:enabled="false"
                 android:focusable="false"
                 android:inputType="none"
                 tools:ignore="EditableContentDescCheck" />
@@ -200,7 +200,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="280dp"
+            android:layout_marginTop="300dp"
             android:layout_marginEnd="20dp"
             android:hint="Horario"
             app:endIconDrawable="@drawable/ic_watch"
@@ -213,9 +213,9 @@
                 android:id="@+id/detail_hour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:focusable="false"
                 android:inputType="none"
-                android:enabled="false"
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -225,7 +225,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="370dp"
+            android:layout_marginTop="400dp"
             android:layout_marginEnd="20dp"
             android:hint="Categoria/as"
             app:layout_constraintEnd_toEndOf="parent"
@@ -234,9 +234,9 @@
 
             <AutoCompleteTextView
                 android:id="@+id/detail_categorias"
-                android:enabled="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:enabled="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -246,7 +246,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="460dp"
+            android:layout_marginTop="500dp"
             android:layout_marginEnd="20dp"
             android:hint="Material de la cancha"
             app:layout_constraintEnd_toEndOf="parent"
@@ -263,11 +263,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout17"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="550dp"
+            android:layout_marginTop="600dp"
             android:layout_marginEnd="20dp"
             android:hint="Cupo"
             app:layout_constraintEnd_toEndOf="parent"
@@ -289,7 +290,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="640dp"
+            android:layout_marginTop="700dp"
             android:layout_marginEnd="20dp"
             android:hint="Costo de inscripción"
             app:layout_constraintEnd_toEndOf="parent"
@@ -310,7 +311,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="730dp"
+            android:layout_marginTop="800dp"
             android:layout_marginEnd="20dp"
             android:hint="Premios"
             app:layout_constraintEnd_toEndOf="parent"
@@ -332,7 +333,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="820dp"
+            android:layout_marginTop="1100dp"
             android:layout_marginEnd="20dp"
             android:hint="Imagen"
             app:endIconDrawable="@drawable/ic_addphoto"
@@ -345,8 +346,8 @@
                 android:id="@+id/ImagenEditTextDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:enabled="false"
+                android:focusable="false"
                 android:inputType="none"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -355,7 +356,7 @@
             android:id="@+id/imagenDetailTorneo"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="900dp"
+            android:layout_marginTop="1200dp"
             android:contentDescription="TODO"
             android:src="@drawable/logo_img_base"
             app:layout_constraintEnd_toEndOf="parent"
@@ -378,6 +379,42 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imagenDetailTorneo" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="1000dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/telefonoCoordinador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="Telefono Coordinador" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="900dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nombreCoordinador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="Nombre Coordinador" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

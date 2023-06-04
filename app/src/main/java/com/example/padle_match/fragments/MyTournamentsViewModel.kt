@@ -38,9 +38,10 @@ class MyTournamentsViewModel: ViewModel() {
             val imagenTorneo = data["imagenTorneo"] as? String ?: "No se proporciono imagenTorneo"
             val userId = data["userId"] as? String ?: ""
             val idClub = data["idClub"] as? String ?: ""
+            var nombreCoor = data["nombreCoordinador"] as? String ?: ""
+            var telefonoCood =data["telefonoCoordinador"] as? String ?: ""
 
-
-            val torneo =  Tournament(id, titulo, fecha, hora, cat, material, cupos,  costoInscripción, premios, imagenTorneo, userId, idClub)
+            val torneo =  Tournament(id, titulo, fecha, hora, cat, material, cupos,  costoInscripción, premios, imagenTorneo, userId, idClub, nombreCoor, telefonoCood)
             list.add(torneo);
         }
 
