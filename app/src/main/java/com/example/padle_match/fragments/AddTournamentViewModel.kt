@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.lifecycle.*
 import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
+import com.example.padle_match.entities.User
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -181,5 +182,21 @@ class AddTournamentViewModel : ViewModel() {
         }
 
         return idClub;
+    }
+
+    suspend fun getUser(): User {
+        val id = auth.currentUser!!.uid
+        val query =  db.collection("users").document(id)
+        val resp = query.get().await()
+        val data = resp.data
+        var idUsuario= data!!["idUsuario"] as String
+        var nombre= data!!["nombre"] as String
+        var apellido= data!!["apellido"] as String
+        var email= data!!["email"] as String
+        var telefono= data!!["telefono"] as String
+        var dni= data!!["dni"] as String
+        var imgProfile= data!!["imgProfile"] as String
+
+        return User(idUsuario,nombre,apellido,email,telefono,dni,imgProfile)
     }
 }

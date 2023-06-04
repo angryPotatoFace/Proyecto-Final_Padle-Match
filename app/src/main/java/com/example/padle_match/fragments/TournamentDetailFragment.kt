@@ -320,7 +320,7 @@ class TournamentDetailFragment : Fragment()  {
             idClub = viewModel.getIdClubByName(club)
         }
 
-        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub)
+        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub,"TODO","TODO")
 
         return retorno
     }

@@ -99,7 +99,8 @@ class AddTournamentFragment: Fragment()  {
 
 
         handlerAddTournament( binding.btnAgregarTorneo )
-}
+        handlerImOrganizator()
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -155,6 +156,21 @@ class AddTournamentFragment: Fragment()  {
         }
     }
 
+    private fun handlerImOrganizator() {
+        binding.checkBox2.setOnClickListener() {
+            if (binding.checkBox2.isChecked) {
+                lifecycleScope.launch {
+                    val user = viewModel.getUser()
+                    binding.nombreCoordinador.setText(user.nombre)
+                    binding.telefonoCoordinador.setText(user.telefono)
+                }
+            }else{
+                binding.nombreCoordinador.setText("")
+                binding.telefonoCoordinador.setText("")
+            }
+        }
+    }
+
     private fun cleanInputs() {
         binding.editTextAddTournamentName.setText("")
         binding.editTextAddTournamentClub.setText("")
@@ -183,12 +199,14 @@ class AddTournamentFragment: Fragment()  {
         val premio = binding.editTextAddTournamentPremios.text.toString();
         val userId = auth.currentUser!!.uid
         var idClub = listaIds[i]
+        var nombreCoor = binding.nombreCoordinador.text.toString()
+        var telefonoCood = binding.telefonoCoordinador.text.toString()
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName("nombre")
         }
 
-        val retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub)
+        val retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub, nombreCoor, telefonoCood)
 
 
         return retorno
