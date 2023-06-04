@@ -55,6 +55,8 @@ class RegisterViewModel : ViewModel() {
     fun checkedConfirPassword(inputConfirpassword: EditText, input_password: EditText): Boolean {
         return if(!checkedEmpty(inputConfirpassword)){
             false
+        }else if(!checkedMinLength(inputConfirpassword, 6)){
+            false
         } else if (!inputConfirpassword.text.toString().equals(input_password.text.toString())){
             showError(inputConfirpassword, "Las contraseñas no coinciden")
             false
@@ -66,20 +68,19 @@ class RegisterViewModel : ViewModel() {
     fun checkedPassword(inputPassword: EditText): Boolean {
         return if(!checkedEmpty(inputPassword)){
             false
-        } else if (inputPassword.text.toString().length < 6){
-            showError(inputPassword, "La contraseña debe tener al menos 6 carácteres")
-            false
-        } else{
-            true
-        }
+        } else checkedMinLength(inputPassword, 6)
     }
 
     fun checkedTelefono(inputTelefono: EditText): Boolean {
-        return checkedEmpty(inputTelefono)
+        return if(!checkedEmpty(inputTelefono)){
+            false
+        } else checkedMinLength(inputTelefono, 10)
     }
 
     fun checkedDNI(inputDni: EditText): Boolean {
         return if(!checkedEmpty(inputDni)){
+            false
+        } else if(!checkedMinLength(inputDni, 7)){
             false
         } else {
             val dniRegistered = runBlocking {dniAlreadyRegistered(inputDni.text.toString())}
@@ -102,6 +103,15 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
+    private fun checkedMinLength(editText: EditText, min : Int): Boolean {
+        var valid = true
+        if(editText.text.length < min){
+            showError(editText,"El campo debe tener al menos $min carácteres" )
+            valid = false
+        }
+        return valid
+    }
+
     private fun checkedEmpty(editText: EditText): Boolean {
         var valid = true
         if(editText.text.isEmpty()){
@@ -111,8 +121,11 @@ class RegisterViewModel : ViewModel() {
         return valid
     }
 
+
     fun checkedEmail(inputEmail: EditText): Boolean {
         return if(!checkedEmpty(inputEmail)){
+            false
+        } else if(!checkedMinLength(inputEmail, 6)){
             false
         } else if (!isValidEmail(inputEmail.text.toString())) {
             showError(inputEmail, "Email inválido")
@@ -151,6 +164,8 @@ class RegisterViewModel : ViewModel() {
 
     fun checkedNoSpecialCharacters(editText: EditText): Boolean {
         return if(!checkedEmpty(editText)){
+            false
+        }else if(!checkedMinLength(editText, 3)){
             false
         }else if(!isValidInput(editText.text.toString())){
             showError(editText, "Campo inválido")
