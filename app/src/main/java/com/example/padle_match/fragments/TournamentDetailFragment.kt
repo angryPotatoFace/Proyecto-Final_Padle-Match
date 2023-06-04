@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.padle_match.R
+import com.example.padle_match.databinding.FragmentAddTournamentBinding
 import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
@@ -33,7 +34,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import java.util.*
-
+import com.example.padle_match.databinding.FragmentTournamentDetailBinding
 
 //import com.example.padle_match.databinding.FragmentSecondBinding
 
@@ -54,6 +55,8 @@ class TournamentDetailFragment : Fragment()  {
     private lateinit var detailClub: EditText
     private lateinit var detailPremio: EditText
     private lateinit var detailImagen: EditText
+    private lateinit var detailNombCoordinador: EditText
+    private lateinit var detailTelCoordinador: EditText
     private lateinit var imageDisplay : ImageView
     private lateinit var deleteButton: Button
     private lateinit var saveButton: Button
@@ -71,6 +74,8 @@ class TournamentDetailFragment : Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_tournament_detail, container, false)
+
+
 
         titulo = v.findViewById(R.id.detail_tituloNombre)
 
@@ -95,6 +100,10 @@ class TournamentDetailFragment : Fragment()  {
         detailImagen = v.findViewById(R.id.ImagenEditTextDetail)
 
         imageDisplay = v.findViewById(R.id.imagenDetailTorneo)
+
+        detailNombCoordinador = v.findViewById(R.id.nombreCoordinador)
+
+        detailTelCoordinador = v.findViewById(R.id.telefonoCoordinador)
 
         blockFields()
 
@@ -166,7 +175,8 @@ class TournamentDetailFragment : Fragment()  {
         detailPremio.setText(tournamentSelected.premios)
         detailMateriales.setText(tournamentSelected.materialCancha)
         Glide.with(this).load(tournamentSelected.imagenTorneo).into(imageDisplay)
-
+        detailNombCoordinador.setText( tournamentSelected.nombreCoordinador)
+        detailTelCoordinador.setText(tournamentSelected.telefonoCoordinador)
     }
 
 
@@ -267,6 +277,8 @@ class TournamentDetailFragment : Fragment()  {
             detailCostoInscripcion.isEnabled = true
             detailPremio.isEnabled = true
             detailImagen.isEnabled = true
+            detailNombCoordinador.isEnabled = true
+            detailTelCoordinador.isEnabled = true
         }
     }
 
@@ -315,12 +327,14 @@ class TournamentDetailFragment : Fragment()  {
         val userId = tournamentSelec.userId
         val imagen = tournamentSelec.imagenTorneo
         var idClub = tournamentSelec.idClub
+        var nombreCoor = detailNombCoordinador.text.toString()
+        val telefonoCoor = detailTelCoordinador.text.toString()
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName(club)
         }
 
-        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub,"TODO","TODO")
+        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub,nombreCoor,telefonoCoor)
 
         return retorno
     }
