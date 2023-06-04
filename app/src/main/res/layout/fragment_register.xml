@@ -6,6 +6,8 @@
     android:id="@+id/registerFrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:background="@drawable/rectangulo"
     android:orientation="vertical"
     android:backgroundTint="@color/blueButton"
@@ -48,9 +50,7 @@
         android:transitionName="logo_desc"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/tvBienvenidoRegister" />
 
     <LinearLayout
@@ -72,11 +72,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Nombre">
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombre"
-                android:layout_width="match_parent"
                 android:maxLength="64"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,6 +90,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etApellido"
+                android:maxLength="64"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
