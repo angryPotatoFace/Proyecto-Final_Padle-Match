@@ -52,7 +52,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"
+                android:layout_weight="40"
                 android:layout_gravity="left"
                 android:orientation="vertical">
 
@@ -86,6 +86,13 @@
                     android:text="Hora :"
                     android:textAlignment="viewStart" />
 
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="85dp"
+                    android:layout_height="21dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Organizador :"
+                    android:textAlignment="viewStart" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -125,6 +132,14 @@
                     android:text="22:00"
                     android:textAlignment="viewStart"/>
 
+                <TextView
+                    android:id="@+id/tournament_user"
+                    android:layout_width="170dp"
+                    android:layout_height="21dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="15dp"
+                    android:text="Cristian Sancho"
+                    android:textAlignment="viewStart"/>
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
