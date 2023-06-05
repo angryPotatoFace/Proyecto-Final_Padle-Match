@@ -214,15 +214,12 @@ class TournamentDetailFragment : Fragment()  {
         }
     }
 
-
-
     private fun handlerSave() {
         // ============== BOTON DE GUARDAR CAMBIOS TORNEO =================
         saveButton.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
-
                     lifecycleScope.launch {
                         val torneo = createTournament()
                         if( imageUri != Uri.EMPTY ) {

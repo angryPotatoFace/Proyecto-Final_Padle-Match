@@ -58,4 +58,5 @@ class ClubDetailViewModel : ViewModel() {
             Log.w("Deleted Tournament", "Torneo ${id} was deleted correctly")
         }.await()
     }
+
 }

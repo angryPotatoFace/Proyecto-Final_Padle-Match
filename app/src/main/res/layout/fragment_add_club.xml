@@ -50,6 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout14"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
@@ -58,7 +59,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="20dp"
-            app:endIconDrawable="@drawable/ic_edit"
             app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +80,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="200dp"
         android:layout_marginEnd="20dp"
-        app:endIconDrawable="@drawable/ic_edit"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cuit"
+            android:maxLength="12"
             android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -103,8 +103,9 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="300dp"
             android:layout_marginEnd="20dp"
-            app:endIconDrawable="@drawable/ic_edit"
             app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_lock"
+            app:endIconContentDescription="Provincia no modificable"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -113,8 +114,9 @@
                 android:id="@+id/provinciaEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Provincia"
                 android:enabled="false"
+                android:hint="Provincia"
+                android:text="Buenos Aires"
                 android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -127,17 +129,16 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="500dp"
             android:layout_marginEnd="20dp"
-            app:endIconDrawable="@drawable/ic_edit"
             app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
             <EditText
                 android:id="@+id/direccionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Dirección"
+                android:maxLength="64"
                 android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -149,7 +150,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="600dp"
         android:layout_marginEnd="20dp"
-        app:endIconDrawable="@drawable/ic_edit"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -160,6 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
+            android:maxLength="256"
             android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -172,7 +173,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="700dp"
             android:layout_marginEnd="20dp"
-            app:endIconDrawable="@drawable/ic_edit"
             app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -203,7 +203,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout13"
+            android:id="@+id/listaPartidosTextInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
