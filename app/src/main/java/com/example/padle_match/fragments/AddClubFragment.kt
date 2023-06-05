@@ -1,34 +1,23 @@
 package com.example.padle_match.fragments
 
-import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.text.format.DateFormat
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
 import com.example.padle_match.databinding.FragmentAddClubBinding
-import com.example.padle_match.databinding.FragmentAddTournamentBinding
 import com.example.padle_match.entities.Club
-import com.example.padle_match.entities.Tournament
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
-import java.util.*
 
 class AddClubFragment : Fragment() {
 
@@ -66,23 +55,22 @@ class AddClubFragment : Fragment() {
             ( binding.listaPartidos as? MaterialAutoCompleteTextView )?.setSimpleItems(data)
         }
 
-        if(checkCredentials()){
-            handlerAddClub(binding.btnAddClub)
+        binding.btnAddClub.setOnClickListener {
+            if(checkCredentials()){
+                handlerAddClub(binding.btnAddClub)
+            }
         }
     }
 
     private fun handlerAddClub(btn: AppCompatButton) {
-        btn.setOnClickListener {
-            val club = createClub();
-
-            lifecycleScope.launch {
-                var id = viewModel.addClub(club)
-                club.id = id;
-                viewModel.updateClub(club, id);
-                findNavController().popBackStack(R.id.myClubsFragment, false)
-                Snackbar.make(requireView(),"El club fue agregado con exito", Snackbar.LENGTH_LONG).show()
-                cleanInputs()
-            }
+        val club = createClub();
+        lifecycleScope.launch {
+            var id = viewModel.addClub(club)
+            club.id = id;
+            viewModel.updateClub(club, id);
+            findNavController().popBackStack(R.id.myClubsFragment, false)
+            Snackbar.make(requireView(),"El club fue agregado con exito", Snackbar.LENGTH_LONG).show()
+            cleanInputs()
         }
     }
 
@@ -118,18 +106,25 @@ class AddClubFragment : Fragment() {
     private fun checkCredentials(): Boolean {
         var isValid = true
 
-        // Validar campo Cuit
-        if (!viewModel.checkedCuit(binding.cuitEditText)) {
-            isValid = false
-        }
-
         // Validar campo Nombre
         if (!viewModel.checkedNoSpecialCharacters(binding.nombreEditText)) {
             isValid = false
         }
 
-        // Validar campo Calle
-        if (!viewModel.checkedNoSpecialCharacters(binding.direccionEditText)) {
+        // Validar campo Cuit
+        if (!viewModel.checkedCuit(binding.cuitEditText)) {
+            isValid = false
+        }
+
+        // Validar campo Partido
+        if (!viewModel.checkedPartido(binding.listaPartidos, binding.listaPartidosTextInputLayout)) {
+            isValid = false
+        }
+
+        //validar localidad
+
+        // Validar campo Direccion
+        if (!viewModel.checkedDireccion(binding.direccionEditText)) {
             isValid = false
         }
 
