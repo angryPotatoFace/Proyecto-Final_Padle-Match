@@ -19,5 +19,5 @@ data class Tournament(
     var userId: String,
     var idClub: String,
     var nombreCoordinador: String,
-    val telefonoCoordinador: String
+    var telefonoCoordinador: String
 ) : Parcelable
