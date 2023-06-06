@@ -186,9 +186,9 @@ class AddTournamentViewModel : ViewModel() {
 
     suspend fun getUser(): User {
         val id = auth.currentUser!!.uid
-        val query =  db.collection("users").document(id)
+        val query =  db.collection("users").whereEqualTo("idUsuario", id)
         val resp = query.get().await()
-        val data = resp.data
+        val data = resp.documents.get(0)
         var idUsuario= data!!["idUsuario"] as String
         var nombre= data!!["nombre"] as String
         var apellido= data!!["apellido"] as String
