@@ -41,10 +41,21 @@ class MyTournamentsViewModel: ViewModel() {
             var nombreCoor = data["nombreCoordinador"] as? String ?: ""
             var telefonoCood =data["telefonoCoordinador"] as? String ?: ""
 
-            val torneo =  Tournament(id, titulo, fecha, hora, cat, material, cupos,  costoInscripción, premios, imagenTorneo, userId, idClub, nombreCoor, telefonoCood)
+
+                val torneo =  Tournament(id, titulo, fecha, hora, cat, material, cupos,  costoInscripción, premios, imagenTorneo, userId, idClub, nombreCoor, telefonoCood)
+
+
+            // Obtener el nombre de usuario a través del userId
+            val user = db.collection("users").document(userId).get().await()
+            val username = user.getString("nombre") ?: "No se encontró el nombre de usuario"
+
+
             list.add(torneo);
         }
 
         return list
     }
+
+
+
 }

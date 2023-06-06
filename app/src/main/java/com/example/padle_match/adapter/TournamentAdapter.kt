@@ -44,6 +44,10 @@ class TournamentAdapter(
             txt.text = name
         }
 
+        fun setOrganizador(name: String) {
+            val txt: TextView = view.findViewById(R.id.tournament_user)
+            txt.text = name
+        }
         fun getCardLayout ():CardView{
             return view.findViewById(R.id.item_torneo)
         }
@@ -65,6 +69,7 @@ class TournamentAdapter(
         holder.setCategory(tournamentList[position].categoría )
         holder.setDate(tournamentList[position].fecha )
         holder.setHour(tournamentList[position].hora )
+        holder.setOrganizador(tournamentList[position].nombreCoordinador)
 
         holder.getCardLayout().setOnClickListener{
             onItemCLick(position)

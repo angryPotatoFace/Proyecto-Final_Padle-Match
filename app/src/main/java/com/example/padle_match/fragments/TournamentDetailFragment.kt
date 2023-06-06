@@ -160,7 +160,13 @@ class TournamentDetailFragment : Fragment()  {
 
         handlerDelete()
 
+      /* boton flyer
+       flyerButton.setOnClickListener {
+            showFlyerDialog()
         }
+
+       */
+    }
 
     private fun setValues(tournamentSelected: Tournament) {
         Log.w("Torneo selecionado", tournamentSelected.toString())
@@ -335,5 +341,16 @@ class TournamentDetailFragment : Fragment()  {
 
         return retorno
     }
+
+    /* Dialog para el flyer
+    private fun showFlyerDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_flyer)
+
+
+
+        dialog.show()
+    }
+*/
 
 }
