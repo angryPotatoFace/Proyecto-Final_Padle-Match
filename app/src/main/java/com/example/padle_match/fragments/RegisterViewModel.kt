@@ -95,6 +95,26 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
+    fun checkedDNI(inputDni: EditText, DNI : String): Boolean {
+        return if(!checkedEmpty(inputDni)){
+            false
+        } else if(!checkedMinLength(inputDni, 7)){
+            false
+        } else if(!inputDni.text.toString().equals(DNI)) {
+            val dniRegistered = runBlocking { dniAlreadyRegistered(inputDni.text.toString()) }
+            if (dniRegistered) {
+                showError(inputDni, "DNI ya registrado")
+                clearInput(inputDni)
+                false
+            } else {
+                true
+            }
+        } else{
+            true
+        }
+    }
+
+
     private suspend fun dniAlreadyRegistered(dni: String): Boolean {
         return withContext(Dispatchers.IO) {
             val collection = db.collection("users")

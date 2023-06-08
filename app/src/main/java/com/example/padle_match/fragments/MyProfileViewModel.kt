@@ -2,8 +2,7 @@ package com.example.padle_match.fragments
 
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
@@ -26,8 +25,6 @@ class MyProfileViewModel : ViewModel() {
     private var auth: FirebaseAuth = Firebase.auth
     val storage = Firebase.storage(Firebase.app)
     val storageRef = storage.reference
-    var kill: MutableLiveData<Boolean> = MutableLiveData(false)
-
 
     suspend fun getUser(): User {
 

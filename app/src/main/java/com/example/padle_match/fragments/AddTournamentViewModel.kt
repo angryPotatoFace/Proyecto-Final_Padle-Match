@@ -1,21 +1,16 @@
 package com.example.padle_match.fragments
 
-import android.content.ContentValues
-import android.icu.text.CaseMap.Lower
 import android.net.Uri
-import android.security.identity.ResultData
-import android.text.format.DateFormat
 import android.util.Log
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.lifecycle.*
-import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
 import com.example.padle_match.entities.User
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +22,6 @@ import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import java.util.*
 
 class AddTournamentViewModel : ViewModel() {
 
@@ -41,21 +35,6 @@ class AddTournamentViewModel : ViewModel() {
 
     companion object{
         private val MSG_CAMPO_REQUERIDO = "Campo requerido"
-    }
-    fun validateFields(
-        editName: EditText,
-        editClub: AutoCompleteTextView,
-        editFecha: EditText,
-        editHorario: EditText,
-        editCategorias: AutoCompleteTextView,
-        editMateriales: AutoCompleteTextView,
-        editCupo: EditText,
-        editCosto: EditText,
-        editPremios: EditText,
-        editImagen: EditText
-    ) : Boolean {
-        return notEmpty(editName) && notEmpty(editClub) && notEmpty(editFecha) && notEmpty(editHorario) && notEmpty(editCategorias)
-                && notEmpty(editMateriales) && notEmpty(editCupo) && notEmpty(editCosto) && notEmpty(editPremios) && notEmpty(editImagen)
     }
 
     private fun notEmpty(editText: EditText) : Boolean {
@@ -199,4 +178,81 @@ class AddTournamentViewModel : ViewModel() {
 
         return User(idUsuario,nombre,apellido,email,telefono,dni,imgProfile)
     }
+
+    fun checkedNoSpecialCharacters(editText: EditText): Boolean {
+        return if(!checkedEmpty(editText)){
+            false
+        }else if(!checkedMinLength(editText, 3)){
+            false
+        }else if(!isValidInput(editText.text.toString())){
+            showError(editText, "Campo inválido")
+            false
+        } else{
+            true
+        }
+    }
+
+    private fun checkedEmpty(editText: EditText): Boolean {
+        var valid = true
+        if(editText.text.isEmpty()){
+            showError(editText,"Campo requerido" )
+            valid = false
+        }
+        return valid
+    }
+
+    private fun checkedEmpty(editText: EditText, textInputLayout: TextInputLayout): Boolean {
+        var valid = true
+        if(editText.text.isEmpty()){
+            showErrorTextInputLayout(textInputLayout,"Campo requerido" )
+            valid = false
+        }
+        return valid
+    }
+
+    private fun checkedMinLength(editText: EditText, min : Int): Boolean {
+        var valid = true
+        if(editText.text.length < min){
+            showError(editText,"El campo debe tener al menos $min carácteres" )
+            valid = false
+        }
+        return valid
+    }
+
+    private fun isValidInput(input: String): Boolean {
+        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ]+$")
+        return input.matches(regex)
+    }
+
+    private fun showError(editText: EditText, s: String) {
+        editText.error = s
+    }
+
+    private fun showErrorTextInputLayout(textInputLayout: TextInputLayout, s: String) {
+        textInputLayout.error = s
+        textInputLayout.errorIconDrawable = null
+    }
+
+    fun checkedClub(club: AutoCompleteTextView, textInputLayout: TextInputLayout): Boolean {
+        return if(!checkedEmpty(club, textInputLayout)){
+            false
+        }else{
+            textInputLayout.error = null
+            true
+        }
+    }
+
+    fun checkedTelefono(inputTelefono: EditText): Boolean {
+        return if(!checkedEmpty(inputTelefono)){
+            false
+        } else checkedMinLength(inputTelefono, 10)
+    }
+
+    fun checkedRequired(editTextAddTournament: EditText, input: TextInputLayout): Boolean {
+        return checkedEmpty(editTextAddTournament, input)
+    }
+
+
+
+
 }
