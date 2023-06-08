@@ -4,12 +4,15 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -43,6 +46,7 @@ class RegisterFragment : Fragment() {
     private lateinit var input_password: EditText
     private lateinit var input_ConfirPassword: EditText
     private lateinit var btnEnviar: Button
+    private lateinit var txtVolver: TextView
     private lateinit var frameLayout: ConstraintLayout
 
 
@@ -63,6 +67,7 @@ class RegisterFragment : Fragment() {
         input_ConfirPassword = v.findViewById(R.id.etConfirContras)
         frameLayout = v.findViewById(R.id.registerFrameLayout)
         btnEnviar = v.findViewById(R.id.btnCrearCuenta)
+        txtVolver = v.findViewById(R.id.txtYaTieneCuenta)
         return v;
     }
 
@@ -73,6 +78,11 @@ class RegisterFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        //NO FUNCIONA
+        setupFieldNavigation()
+
+        setBackLogin()
 
         btnEnviar.setOnClickListener{
 
@@ -94,6 +104,23 @@ class RegisterFragment : Fragment() {
                     Snackbar.make(requireView(), "Usuario creado con exito.", Snackbar.LENGTH_LONG).show()
                 }
             }
+        }
+    }
+
+    private fun setBackLogin() {
+        txtVolver.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    //NO FUNCIONA
+    private fun setupFieldNavigation() {
+        input_name.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_password.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
         }
     }
 
