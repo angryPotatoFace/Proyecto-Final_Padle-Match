@@ -116,8 +116,10 @@ class MyProfileFragment : Fragment() {
         binding.detailPhone.setText( user.telefono)
         binding.detailDni.setText( user.dni )
 
-        if( user.imgProfile != "No image" ){
+        if( user.imgProfile != "No image" && user.imgProfile != "User created" ){
             Glide.with(this).load(user.imgProfile).into(binding.profileImage)
+        }else {
+            Glide.with(this).load(R.drawable.logo_img_base).into(binding.profileImage)
         }
     }
 
