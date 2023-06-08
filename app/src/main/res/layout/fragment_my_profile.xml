@@ -124,8 +124,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="text"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:maxLength="64"
+                android:inputType="text" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -148,8 +149,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="text"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:maxLength="64"
+                android:inputType="text" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,6 +164,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:hint="Email"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_lock"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -220,8 +224,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="text"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:maxLength="8"
+                android:inputType="text" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -253,9 +258,6 @@
             android:id="@+id/profile_image"
             android:layout_width="188dp"
             android:layout_height="163dp"
-            android:layout_marginTop="100dp"
-            android:src="@drawable/logo_img_base"
-            android:visibility="visible"
             app:civ_border_color="@android:color/transparent"
             app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"

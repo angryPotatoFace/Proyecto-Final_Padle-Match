@@ -2,6 +2,7 @@ package com.example.padle_match.fragments
 
 import android.net.Uri
 import android.util.Log
+import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
@@ -16,12 +17,14 @@ import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 
-val db = Firebase.firestore
-private var auth: FirebaseAuth = Firebase.auth
-val storage = Firebase.storage(Firebase.app)
-val storageRef = storage.reference
+
 
 class MyProfileViewModel : ViewModel() {
+
+    val db = Firebase.firestore
+    private var auth: FirebaseAuth = Firebase.auth
+    val storage = Firebase.storage(Firebase.app)
+    val storageRef = storage.reference
 
     suspend fun getUser(): User {
 
@@ -43,6 +46,7 @@ class MyProfileViewModel : ViewModel() {
 
         user = User(id,nombre,apellido,email,telefono,dni,img)
         Log.w("USUARIO", user.toString())
+
         return user;
     }
 
@@ -53,6 +57,7 @@ class MyProfileViewModel : ViewModel() {
             Log.w("Update Club", "User ${user.idUsuario} was update correctly")
         }.await()
     }
+
 
     suspend fun deleteUser(user: User ) {
         val query = db.collection("users")

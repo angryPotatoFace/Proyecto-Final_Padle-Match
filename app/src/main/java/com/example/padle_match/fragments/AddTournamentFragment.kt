@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.format.DateFormat
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -140,20 +139,69 @@ class AddTournamentFragment: Fragment()  {
 
     private fun handlerAddTournament(btn: AppCompatButton) {
         btn.setOnClickListener {
-             val torneo = createTournament();
+            if(checkCredentials()) {
+                val torneo = createTournament();
+                lifecycleScope.launch {
+                    var udi = viewModel.addTournament(torneo)
+                    val url = viewModel.uploadImagenStorage(imageUri, udi)
+                    torneo.imagenTorneo = url;
+                    torneo.id = udi;
+                    viewModel.updateTournament(torneo, udi);
 
-            lifecycleScope.launch {
-                var udi = viewModel.addTournament(torneo)
-                val url = viewModel.uploadImagenStorage( imageUri, udi )
-                torneo.imagenTorneo = url;
-                torneo.id = udi;
-                viewModel.updateTournament(torneo, udi);
-
-                findNavController().popBackStack(R.id.myTournamentsFragment, false)
-                Snackbar.make(requireView(),"El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
-                cleanInputs()
+                    findNavController().popBackStack(R.id.myTournamentsFragment, false)
+                    Snackbar.make(
+                        requireView(),
+                        "El torneo fue agregado con exito",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    cleanInputs()
+                }
             }
         }
+    }
+
+    private fun checkCredentials(): Boolean {
+        var isValid = true
+
+        // campos opcionales: Material de cancha, cupo, costo, premios
+
+        // Validar campo Nombre
+        if (!viewModel.checkedNoSpecialCharacters(binding.editTextAddTournamentName)) {
+            isValid = false
+        }
+
+        // Validar campo Club
+        if(!viewModel.checkedClub(binding.editTextAddTournamentClub, binding.inputAddClub)){
+            isValid = false
+        }
+
+        // Validar campo Fecha
+        if(!viewModel.checkedRequired(binding.editTextAddTournamentFecha, binding.inputAddDate)){
+            isValid = false
+        }
+
+        // Validar campo Horario
+        if(!viewModel.checkedRequired(binding.editTextAddTournamentHorario, binding.inputAddHour)){
+            isValid = false
+        }
+
+        // Validar campo categoria
+        if(!viewModel.checkedRequired(binding.editTextAddTournamentCategorias, binding.inputAddCategories)){
+            isValid = false
+        }
+
+        // Validar campo nombre coordinador
+        if (!viewModel.checkedNoSpecialCharacters(binding.nombreCoordinador)) {
+            isValid = false
+        }
+
+        // Validar campo telefono coordinador
+        if(!viewModel.checkedTelefono(binding.telefonoCoordinador)){
+            isValid = false
+        }
+
+
+        return isValid
     }
 
     private fun handlerImOrganizator() {

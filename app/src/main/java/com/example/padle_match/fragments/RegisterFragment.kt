@@ -91,6 +91,7 @@ class RegisterFragment : Fragment() {
                     viewModel.createUser(usuario);
                     clearInputs()
                     findNavController().navigateUp()
+                    Snackbar.make(requireView(), "Usuario creado con exito.", Snackbar.LENGTH_LONG).show()
                 }
             }
         }

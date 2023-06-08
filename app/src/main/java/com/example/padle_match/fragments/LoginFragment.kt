@@ -88,7 +88,7 @@ class LoginFragment : Fragment() {
                     val action = LoginFragmentDirections.actionLoginFragmentToMainActivity()
                     findNavController().navigate(action)
                 } else{
-                    Snackbar.make(binding.root, "Email o contraseña incorrectos", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Email o contraseña incorrectos.", Snackbar.LENGTH_SHORT).show()
                     passEditText.clearFocus()
                     emailEditText.clearFocus()
                     clearErrors(passInputLayout, emailInputLayout)

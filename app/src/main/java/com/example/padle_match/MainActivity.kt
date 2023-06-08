@@ -1,5 +1,6 @@
     package com.example.padle_match
 
+    import android.content.Intent
     import android.graphics.Color
     import android.os.Bundle
     import com.google.android.material.snackbar.Snackbar
@@ -11,10 +12,14 @@
     import android.view.Menu
     import android.view.MenuItem
     import androidx.cardview.widget.CardView
+    import androidx.lifecycle.Observer
+    import androidx.lifecycle.ViewModelProvider
     import androidx.navigation.ui.NavigationUI
     import com.example.padle_match.databinding.ActivityMainBinding
+    import com.example.padle_match.fragments.AddClubViewModel
+    import com.example.padle_match.fragments.MyProfileViewModel
     import com.google.android.material.bottomnavigation.BottomNavigationView
-    import kotlin.random.Random
+    import androidx.lifecycle.findViewTreeLifecycleOwner
 
 
     class MainActivity : AppCompatActivity() {
@@ -22,7 +27,7 @@
         private lateinit var appBarConfiguration: AppBarConfiguration
         private lateinit var binding: ActivityMainBinding
         private lateinit var bottonNavView: BottomNavigationView
-
+        private lateinit var viewModel: MyProfileViewModel
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -30,12 +35,23 @@
             binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
-
             bottonNavView = findViewById(R.id.bottomBar)
 
+
+            viewModel = ViewModelProvider(this).get(MyProfileViewModel::class.java)
+
+
+            /*viewModel.kill.observe(viewLifecycleOwner, Observer { result ->
+                txtCartel.text = result.toString()
+            })*/
             val navController = findNavController(R.id.nav_host_fragment_content_main)
             NavigationUI.setupWithNavController(bottonNavView, navController)
         }
+
+         fun matar() {
+            this.finish()
+        }
+
 
 
         override fun onCreateOptionsMenu(menu: Menu): Boolean {
