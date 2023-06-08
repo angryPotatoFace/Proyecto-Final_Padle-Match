@@ -16,6 +16,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.padle_match.MainActivity
+import com.example.padle_match.NoBottomNavActivity
 import com.example.padle_match.R
 import com.example.padle_match.databinding.FragmentMyProfileBinding
 import com.example.padle_match.entities.User
@@ -51,12 +53,17 @@ class MyProfileFragment : Fragment() {
 
         lifecycleScope.launch {
             currUser = viewModel.getUser()
+
             setFields(currUser)
             handlerCancel(currUser)
             handlerDelete(currUser)
             handlerSave()
             handlerEdit()
             handlerImage()
+        }
+
+        binding.closeSessionButton.setOnClickListener() {
+            closeSession()
         }
     }
 
@@ -135,6 +142,7 @@ class MyProfileFragment : Fragment() {
 
     private fun handlerDelete(user: User) {
         binding.deleteProfile.setOnClickListener {
+
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
                 .setPositiveButton("Borrar Perfil") { _, _ ->
@@ -146,6 +154,7 @@ class MyProfileFragment : Fragment() {
                             "Su usuario fue borrado correctamente",
                             Snackbar.LENGTH_LONG
                         ).show()
+                        closeSession()
                     }
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
@@ -227,4 +236,9 @@ class MyProfileFragment : Fragment() {
         return user
     }
 
+    fun closeSession() {
+        val intent = Intent(activity, NoBottomNavActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
+    }
 }

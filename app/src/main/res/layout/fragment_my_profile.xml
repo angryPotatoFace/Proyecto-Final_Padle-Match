@@ -105,35 +105,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
-        <TextView
-            android:id="@+id/detail_tituloNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="84dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Pepe"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutNombre"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="100dp"
             android:layout_marginEnd="20dp"
             android:hint="Nombre"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_tituloNombre">
+            app:layout_constraintTop_toBottomOf="@+id/view2">
 
             <EditText
                 android:id="@+id/detail_name"
@@ -142,6 +126,7 @@
                 android:enabled="false"
                 android:maxLength="64"
                 android:inputType="text" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,6 +151,7 @@
                 android:enabled="false"
                 android:maxLength="64"
                 android:inputType="text" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -214,7 +200,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="phone" />
+                android:inputType="phone"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -239,6 +226,7 @@
                 android:enabled="false"
                 android:maxLength="8"
                 android:inputType="text" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -272,13 +260,12 @@
             android:layout_height="163dp"
             app:civ_border_color="@android:color/transparent"
             app:civ_border_width="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/detail_tituloNombre"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view2"
-            app:layout_constraintVertical_bias="0.936"
-            tools:ignore="MissingClass" />
+            tools:ignore="MissingClass"
+            tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deleteProfile"

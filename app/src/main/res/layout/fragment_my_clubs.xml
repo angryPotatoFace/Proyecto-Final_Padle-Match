@@ -9,8 +9,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/club_list"
-        android:layout_width="401dp"
-        android:layout_height="489dp"
+        android:layout_width="411dp"
+        android:layout_height="687dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTittleClub" />
@@ -29,17 +29,15 @@
 
     <Button
         android:id="@+id/add_new_club"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#6EDF6C"
+        android:layout_width="101dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#0F770C"
         android:text="+"
         android:textSize="34sp"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/club_list"
-        app:layout_constraintVertical_bias="0.068" />
+        app:layout_constraintVertical_bias="0.487" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
