@@ -1,6 +1,7 @@
 package com.example.padle_match.fragments
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -18,6 +21,7 @@ import com.example.padle_match.databinding.FragmentMyProfileBinding
 import com.example.padle_match.entities.User
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import java.io.File
 
 
 class MyProfileFragment : Fragment() {
@@ -47,7 +51,6 @@ class MyProfileFragment : Fragment() {
 
         lifecycleScope.launch {
             currUser = viewModel.getUser()
-
             setFields(currUser)
             handlerCancel(currUser)
             handlerDelete(currUser)
@@ -72,33 +75,84 @@ class MyProfileFragment : Fragment() {
             binding.detailPhone.setText(currUser.telefono)
             binding.detailDni.setText(currUser.dni)
             blockFields()
+            disableError()
         }
+    }
+
+    private fun checkCredentials(): Boolean {
+        var isValid = true
+        val registerViewModel : RegisterViewModel by viewModels()
+
+        // Validar campo Nombre
+        if (!registerViewModel.checkedNoSpecialCharacters(binding.detailName)) {
+            isValid = false
+        }
+
+        // Validar campo Apellido
+        if (!registerViewModel.checkedNoSpecialCharacters(binding.detailSurname)) {
+            isValid = false
+        }
+
+        // Validar campo Telefono
+        if (!registerViewModel.checkedTelefono(binding.detailPhone)) {
+            isValid = false
+        }
+
+        // Validar campo DNI
+        if (!registerViewModel.checkedDNI(binding.detailDni, binding.detailDni.text.toString())) {
+            isValid = false
+        }
+
+        return isValid
     }
 
     private fun handlerSave() {
         binding.saveButton.setOnClickListener {
-            val user = createUser()
-            lifecycleScope.launch {
-                viewModel.updateUser(user)
-
-                if( imageUri != Uri.EMPTY ) {
-                    val url = viewModel.uploadImagenStorage( imageUri, user.idUsuario );
-                    user.imgProfile = url
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
+                .setPositiveButton("SI") { _, _ ->
+                    if(checkCredentials()){
+                        lifecycleScope.launch {
+                            val user = createUser()
+                            viewModel.updateUser(user)
+                            if( imageUri != Uri.EMPTY ) {
+                                val url = viewModel.uploadImagenStorage( imageUri, user.idUsuario );
+                                user.imgProfile = url
+                            }
+                            viewModel.updateProfile(user);
+                            Snackbar.make(binding.root,"Los datos fueron guardados correctamente", Snackbar.LENGTH_LONG).show()
+                            blockFields()
+                        }
+                    }
                 }
-                viewModel.updateProfile(user);
-                Snackbar.make(binding.root,"Los datos fueron guardados correctamente", Snackbar.LENGTH_LONG).show()
-                blockFields()
-            }
+                .setNegativeButton("NO") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
     private fun handlerDelete(user: User) {
         binding.deleteProfile.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.deleteUser(user)
-                findNavController().popBackStack(R.id.loginFragment, false)
-                Snackbar.make(binding.root,"Su usuario fue borrado correctamente", Snackbar.LENGTH_LONG).show()
-            }
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
+                .setPositiveButton("Borrar Perfil") { _, _ ->
+                    lifecycleScope.launch {
+                        viewModel.deleteUser(user)
+                        findNavController().popBackStack(R.id.loginFragment, false)
+                        Snackbar.make(
+                            binding.root,
+                            "Su usuario fue borrado correctamente",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
@@ -116,7 +170,9 @@ class MyProfileFragment : Fragment() {
         binding.detailPhone.setText( user.telefono)
         binding.detailDni.setText( user.dni )
 
-        if( user.imgProfile != "No image" ){
+        binding.profileImage.setImageResource(R.drawable.logo_img_base)
+
+        if (user.imgProfile != "No image") {
             Glide.with(this).load(user.imgProfile).into(binding.profileImage)
         }
     }
@@ -128,7 +184,7 @@ class MyProfileFragment : Fragment() {
 
         val imagen = binding.profileImage
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
-            if( data.data !== null ) {
+            if (data.data != null) {
                 imagen.setImageURI(data.data)
                 imageUri = data.data!!
             }
@@ -151,6 +207,13 @@ class MyProfileFragment : Fragment() {
         binding.profileImage.isEnabled = false
     }
 
+    fun disableError(){
+        binding.detailName.error = null
+        binding.detailSurname.error = null
+        binding.detailPhone.error = null
+        binding.detailDni.error = null
+    }
+
     fun createUser(): User {
         val id = currUser.idUsuario
         var nombre= binding.detailName.text.toString()
@@ -163,6 +226,5 @@ class MyProfileFragment : Fragment() {
         val user = User(id,nombre,apellido,email,telefono,dni,img)
         return user
     }
-
 
 }

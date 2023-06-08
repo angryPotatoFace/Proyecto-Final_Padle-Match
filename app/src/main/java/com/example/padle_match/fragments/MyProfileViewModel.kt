@@ -2,6 +2,7 @@ package com.example.padle_match.fragments
 
 import android.net.Uri
 import android.util.Log
+import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament

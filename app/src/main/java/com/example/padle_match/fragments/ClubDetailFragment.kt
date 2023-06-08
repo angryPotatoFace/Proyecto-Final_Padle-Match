@@ -79,7 +79,7 @@ class ClubDetailFragment : Fragment() {
                             viewModel.updateClub(club, club.id)
                         }
                         findNavController().popBackStack(R.id.myClubsFragment, false)
-                        Snackbar.make( requireView(), "El club fue modificado con exito", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make( requireView(), "El club fue modificado con exito.", Snackbar.LENGTH_LONG).show()
                     }
                 }
                 .setNegativeButton("NO") { dialog, _ ->
@@ -156,7 +156,7 @@ class ClubDetailFragment : Fragment() {
                         viewModel.deleteClub(selected.id)
                         viewModel.deleteTournamentAssociate(selected.id)
                         findNavController().popBackStack(R.id.myClubsFragment, false)
-                        Snackbar.make(requireView(),"El Club fue borrado con exito", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(requireView(),"El Club fue borrado con exito.", Snackbar.LENGTH_LONG).show()
                     }
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
