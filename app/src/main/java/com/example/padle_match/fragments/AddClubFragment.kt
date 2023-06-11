@@ -1,10 +1,12 @@
 package com.example.padle_match.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -51,15 +53,36 @@ class AddClubFragment : Fragment() {
 
         lifecycleScope.launch {
 
-            var data = viewModel.getPartidosList()
-            ( binding.listaPartidos as? MaterialAutoCompleteTextView )?.setSimpleItems(data)
+
+            var clubs = viewModel.getPartidosList()
+            val data = clubs.map { t -> t.data["nombre"] } as List<String>
+            var list = data.toTypedArray();
+
+            (binding.listaPartidos as? MaterialAutoCompleteTextView)?.setSimpleItems(list)
+
+            binding.listaPartidos.onItemClickListener =
+                AdapterView.OnItemClickListener { parent, view, position, id ->
+                    binding.listaLocalidades.setText("")
+                    val selecPartido = binding.listaPartidos.text.toString()
+                    val selecClubs = clubs.filter { t -> t.data["nombre"] == selecPartido }
+
+                    selecClubs.forEach{ t ->
+                        val lista = t.data["localidades"] as List<String>
+                        val localidades = lista.toTypedArray()
+                        (binding.listaLocalidades as? MaterialAutoCompleteTextView)?.setSimpleItems(localidades)
+                    }
+
+                }
+
+
         }
 
         binding.btnAddClub.setOnClickListener {
-            if(checkCredentials()){
+            if (checkCredentials()) {
                 handlerAddClub(binding.btnAddClub)
             }
         }
+
     }
 
     private fun handlerAddClub(btn: AppCompatButton) {

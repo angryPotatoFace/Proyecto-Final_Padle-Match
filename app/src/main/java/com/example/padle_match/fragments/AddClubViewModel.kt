@@ -8,6 +8,7 @@ import com.example.padle_match.entities.Club
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.app
@@ -23,14 +24,11 @@ class AddClubViewModel : ViewModel() {
     val storage = Firebase.storage(Firebase.app)
     private var auth: FirebaseAuth = Firebase.auth
 
-    suspend fun getPartidosList(): Array<String> {
+    suspend fun getPartidosList(): QuerySnapshot {
         val query =  db.collection("partidos")
         val clubs = query.get().await();
-        val data = clubs.map { t -> t.data["nombre"] } as List<String>
-        Log.w("Lista DE CLUBS", data.toString())
-        var list = data.toTypedArray();
 
-        return list;
+        return clubs;
     }
 
     suspend fun addClub( club: Club, ): String {
