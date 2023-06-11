@@ -240,7 +240,7 @@ class AddClubViewModel : ViewModel() {
     }
 
     private fun isValidInput(input: String): Boolean {
-        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ]+$")
+        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ]+(\\s[A-Za-záéíóúÁÉÍÓÚ]+)*$")
         return input.matches(regex)
     }
 

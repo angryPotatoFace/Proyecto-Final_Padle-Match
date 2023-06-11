@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="64"
                 android:enabled="false"
-                android:inputType="none"
+                android:inputType="text"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:maxLength="12"
-                android:inputType="none"
+                android:inputType="number"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:maxLength="64"
-                android:inputType="none" />
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -169,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="none"
+                android:inputType="textEmailAddress"
              />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -191,7 +191,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="none"
+                android:inputType="number"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
