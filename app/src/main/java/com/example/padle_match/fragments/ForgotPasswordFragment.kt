@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
@@ -38,8 +39,22 @@ class ForgotPasswordFragment : Fragment(), ForgotPasswordListener {
     override fun onStart() {
         super.onStart()
         binding.btnSendEmail.setOnClickListener {
-            viewModel.sendEmail(binding.editTextForgotPassword.text.toString())
+            if(checkCredentials()){
+                binding.textInputLayoutEmailRecoverPassword.error = null
+                viewModel.sendEmail(binding.editTextForgotPassword.text.toString())
+            }
         }
+    }
+
+    private fun checkCredentials(): Boolean {
+        var isValid = true
+        val LoginViewModel : LoginViewModel by viewModels()
+
+        if(!LoginViewModel.checkedEmail(binding.editTextForgotPassword, binding.textInputLayoutEmailRecoverPassword)){
+            isValid = false
+        }
+
+        return isValid
     }
 
     override fun onEmailSentAndComplete() {

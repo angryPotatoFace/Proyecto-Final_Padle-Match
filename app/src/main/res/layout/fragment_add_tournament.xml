@@ -321,6 +321,7 @@
                 android:id="@+id/nombreCoordinador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="Nombre del Coordinador" />
         </com.google.android.material.textfield.TextInputLayout>
 
