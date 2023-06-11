@@ -130,7 +130,12 @@ class TournamentDetailFragmentViewModel : ViewModel() {
         categorias.forEach{data ->
             idClub = data.id
         }
-
         return idClub;
+    }
+
+    suspend fun getClubNameById(id: String): String {
+        val query = db.collection("clubs").document(id)
+        val club = query.get().await()
+        return club.getString("nombre") ?: ""
     }
 }
