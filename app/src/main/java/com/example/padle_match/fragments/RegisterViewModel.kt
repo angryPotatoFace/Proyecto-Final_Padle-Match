@@ -126,7 +126,7 @@ class RegisterViewModel : ViewModel() {
     private fun checkedMinLength(editText: EditText, min : Int): Boolean {
         var valid = true
         if(editText.text.length < min){
-            showError(editText,"El campo debe tener al menos $min carácteres" )
+            showError(editText,"El campo debe tener al menos $min caracteres" )
             valid = false
         }
         return valid

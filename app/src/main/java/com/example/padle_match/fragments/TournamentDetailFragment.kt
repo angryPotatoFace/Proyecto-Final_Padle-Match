@@ -17,6 +17,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.*
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -35,6 +36,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import java.util.*
 import com.example.padle_match.databinding.FragmentTournamentDetailBinding
+import com.google.android.material.textfield.TextInputLayout
 
 //import com.example.padle_match.databinding.FragmentSecondBinding
 
@@ -47,12 +49,16 @@ class TournamentDetailFragment : Fragment()  {
     private lateinit var titulo: TextView
     private lateinit var detailNombre: EditText
     private lateinit var detailFecha: EditText
+    private lateinit var layoutFecha: TextInputLayout
     private lateinit var detailCategorias: EditText
+    private lateinit var layoutCategorias: TextInputLayout
     private lateinit var detailHorario: EditText
+    private lateinit var layoutHorario: TextInputLayout
     private lateinit var detailCupos: EditText
     private lateinit var detailMateriales: EditText
     private lateinit var detailCostoInscripcion: EditText
-    private lateinit var detailClub: EditText
+    private lateinit var detailClub: AutoCompleteTextView
+    private lateinit var layoutClub: TextInputLayout
     private lateinit var detailPremio: EditText
     private lateinit var detailImagen: EditText
     private lateinit var detailNombCoordinador: EditText
@@ -69,6 +75,8 @@ class TournamentDetailFragment : Fragment()  {
     private var auth: FirebaseAuth = Firebase.auth
     val db = Firebase.firestore
 
+    private val addTournamentViewModel: AddTournamentViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,11 +91,19 @@ class TournamentDetailFragment : Fragment()  {
 
         detailFecha = v.findViewById(R.id.detail_date)
 
+        layoutFecha= v.findViewById(R.id.layout_fecha)
+
         detailClub = v.findViewById(R.id.detail_club)
+
+        layoutClub = v.findViewById(R.id.layout_club)
 
         detailCategorias = v.findViewById(R.id.detail_categorias)
 
+        layoutCategorias = v.findViewById(R.id.layout_categorias)
+
         detailHorario = v.findViewById(R.id.detail_hour)
+
+        layoutHorario = v.findViewById(R.id.layout_horario)
 
         detailCupos = v.findViewById(R.id.detail_cupos)
 
@@ -209,7 +225,7 @@ class TournamentDetailFragment : Fragment()  {
                         val torneo = createTournament()
                         viewModel.deleteTournament( torneo.id )
                         findNavController().popBackStack(R.id.myTournamentsFragment, false)
-                        Snackbar.make(requireView(),"El torneo fue modificado con exito", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(requireView(),"El torneo fue borrado con exito", Snackbar.LENGTH_LONG).show()
                     }
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
@@ -226,15 +242,21 @@ class TournamentDetailFragment : Fragment()  {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
-                    lifecycleScope.launch {
-                        val torneo = createTournament()
-                        if( imageUri != Uri.EMPTY ) {
-                            val url = viewModel.uploadImagenStorage( imageUri, torneo.id );
-                            torneo.imagenTorneo = url
+                    if(checkCredentials()) {
+                        lifecycleScope.launch {
+                            val torneo = createTournament()
+                            if (imageUri != Uri.EMPTY) {
+                                val url = viewModel.uploadImagenStorage(imageUri, torneo.id);
+                                torneo.imagenTorneo = url
+                            }
+                            viewModel.updateTournament(torneo, torneo.id)
+                            findNavController().popBackStack(R.id.myTournamentsFragment, false)
+                            Snackbar.make(
+                                requireView(),
+                                "El torneo fue modificado con exito",
+                                Snackbar.LENGTH_LONG
+                            ).show()
                         }
-                        viewModel.updateTournament(torneo, torneo.id)
-                        findNavController().popBackStack(R.id.myTournamentsFragment, false)
-                        Snackbar.make(requireView(),"El torneo fue modificado con exito", Snackbar.LENGTH_LONG).show()
                     }
                 }
                 .setNegativeButton("NO") { dialog, _ ->
@@ -245,24 +267,60 @@ class TournamentDetailFragment : Fragment()  {
         }
     }
 
+    private fun checkCredentials(): Boolean {
+        var isValid = true
+
+        // Validar campo Nombre
+        if (!addTournamentViewModel.checkedNoSpecialCharacters(detailNombre)) {
+            isValid = false
+        }
+
+        // Validar campo Club
+        if(!addTournamentViewModel.checkedClub(detailClub, layoutClub)){
+            isValid = false
+        }
+
+        // Validar campo Fecha
+        if(!addTournamentViewModel.checkedRequired(detailFecha, layoutFecha)){
+            isValid = false
+        }
+
+        // Validar campo Horario
+        if(!addTournamentViewModel.checkedRequired(detailHorario, layoutHorario)){
+            isValid = false
+        }
+
+        // Validar campo categoria
+        if(!addTournamentViewModel.checkedRequired(detailCategorias, layoutCategorias)){
+            isValid = false
+        }
+
+        // Validar campo nombre coordinador
+        if (!addTournamentViewModel.checkedNoSpecialCharacters(detailNombCoordinador)) {
+            isValid = false
+        }
+
+        // Validar campo telefono coordinador
+        if(!addTournamentViewModel.checkedTelefono(detailTelCoordinador)){
+            isValid = false
+        }
+
+        return isValid
+    }
+
     private fun handlerCancel(tournamentSelected: Tournament) {
         // ============== BOTON DE CANCELAR CAMBIOS =================
         cancelButton.setOnClickListener {
             viewSwitcher.showPrevious()
+            blockFields()
             detailNombre.setText(tournamentSelected.titulo)
-            detailNombre.isEnabled = false
             detailFecha.setText(tournamentSelected.fecha)
-            detailFecha.isEnabled = false
             detailCategorias.setText(tournamentSelected.categoría.toString())
-            detailCategorias.isEnabled = false
             detailHorario.setText(tournamentSelected.hora)
-            detailHorario.isEnabled = false
             detailCupos.setText(tournamentSelected.cupos.toString())
-            detailCupos.isEnabled = false
             detailMateriales.setText("cemento")
-            detailMateriales.isEnabled = false
             detailImagen.setText(tournamentSelected.imagenTorneo)
-            detailImagen.isEnabled = false
+
         }
     }
 
@@ -310,10 +368,17 @@ class TournamentDetailFragment : Fragment()  {
     private fun blockFields() {
         titulo.isEnabled = false
         detailNombre.isEnabled = false
+        detailClub.isEnabled = false
         detailFecha.isEnabled = false
-        detailCategorias.isEnabled = false
         detailHorario.isEnabled = false
+        detailCategorias.isEnabled = false
+        detailMateriales.isEnabled = false
         detailCupos.isEnabled = false
+        detailCostoInscripcion.isEnabled = false
+        detailPremio.isEnabled = false
+        detailNombCoordinador.isEnabled = false
+        detailTelCoordinador.isEnabled = false
+        detailImagen.isEnabled = false
     }
 
     private fun createTournament(): Tournament {

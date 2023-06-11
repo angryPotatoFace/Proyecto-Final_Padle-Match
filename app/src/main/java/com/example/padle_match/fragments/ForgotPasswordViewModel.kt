@@ -34,9 +34,6 @@ class ForgotPasswordViewModel : ViewModel() {
                     // El correo electrónico no está registrado en la base de datos de Firebase
                     listener?.onError("El correo electrónico no está registrado")
                 }
-            } else {
-                // Hubo un error al obtener los métodos de inicio de sesión del correo electrónico
-                listener?.onError("Error al obtener los métodos de inicio de sesión del correo electrónico")
             }
         }
     }
