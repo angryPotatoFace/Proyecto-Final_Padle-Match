@@ -305,8 +305,6 @@ class TournamentDetailFragment : Fragment()  {
             isValid = false
         }
 
-
-
         return isValid
     }
 
@@ -314,20 +312,15 @@ class TournamentDetailFragment : Fragment()  {
         // ============== BOTON DE CANCELAR CAMBIOS =================
         cancelButton.setOnClickListener {
             viewSwitcher.showPrevious()
+            blockFields()
             detailNombre.setText(tournamentSelected.titulo)
-            detailNombre.isEnabled = false
             detailFecha.setText(tournamentSelected.fecha)
-            detailFecha.isEnabled = false
             detailCategorias.setText(tournamentSelected.categoría.toString())
-            detailCategorias.isEnabled = false
             detailHorario.setText(tournamentSelected.hora)
-            detailHorario.isEnabled = false
             detailCupos.setText(tournamentSelected.cupos.toString())
-            detailCupos.isEnabled = false
             detailMateriales.setText("cemento")
-            detailMateriales.isEnabled = false
             detailImagen.setText(tournamentSelected.imagenTorneo)
-            detailImagen.isEnabled = false
+
         }
     }
 
@@ -375,10 +368,17 @@ class TournamentDetailFragment : Fragment()  {
     private fun blockFields() {
         titulo.isEnabled = false
         detailNombre.isEnabled = false
+        detailClub.isEnabled = false
         detailFecha.isEnabled = false
-        detailCategorias.isEnabled = false
         detailHorario.isEnabled = false
+        detailCategorias.isEnabled = false
+        detailMateriales.isEnabled = false
         detailCupos.isEnabled = false
+        detailCostoInscripcion.isEnabled = false
+        detailPremio.isEnabled = false
+        detailNombCoordinador.isEnabled = false
+        detailTelCoordinador.isEnabled = false
+        detailImagen.isEnabled = false
     }
 
     private fun createTournament(): Tournament {
