@@ -79,7 +79,8 @@ class AddClubFragment : Fragment() {
         val id = ""
         val nombre = binding.nombreEditText.text.toString();
         val cuit = binding.cuitEditText.text.toString();
-        val provincia = binding.provinciaEditText.text.toString();
+        val provincia = "Buenos Aires";
+        //binding.provinciaEditText.text.toString();
         val partido = binding.listaPartidos.text.toString();
         val localidad = "Agregar";
         val direccion = binding.direccionEditText.text.toString();
@@ -143,7 +144,7 @@ class AddClubFragment : Fragment() {
     private fun cleanInputs() {
         binding.nombreEditText.setText("")
         binding.cuitEditText.setText("")
-        binding.provinciaEditText.setText("Buenos Aires")
+        //binding.provinciaEditText.setText("Buenos Aires")
         binding.listaPartidos.setText("")
         binding.direccionEditText.setText("")
         binding.emailEditText.setText("")

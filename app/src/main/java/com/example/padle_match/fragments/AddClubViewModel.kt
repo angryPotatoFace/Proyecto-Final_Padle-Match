@@ -24,10 +24,10 @@ class AddClubViewModel : ViewModel() {
     private var auth: FirebaseAuth = Firebase.auth
 
     suspend fun getPartidosList(): Array<String> {
-        var uid = auth.currentUser!!.uid
         val query =  db.collection("partidos")
         val clubs = query.get().await();
         val data = clubs.map { t -> t.data["nombre"] } as List<String>
+        Log.w("Lista DE CLUBS", data.toString())
         var list = data.toTypedArray();
 
         return list;
