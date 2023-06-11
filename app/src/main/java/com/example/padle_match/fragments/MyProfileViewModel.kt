@@ -33,9 +33,11 @@ class MyProfileViewModel : ViewModel() {
         val query =  db.collection("users").whereEqualTo("idUsuario", uid)
         val usuario = query.get().await();
 
+
+
+
         val data = usuario.documents.get(0).data
 
-        Log.w("USUARIO", data.toString())
         val id = data!!.get("idUsuario") as String
         var nombre= data["nombre"] as String
         var apellido = data["apellido"] as String
@@ -43,6 +45,7 @@ class MyProfileViewModel : ViewModel() {
         var telefono= data["telefono"] as String
         var dni= data["dni"] as String
         var img = data["imgProfile"] as? String?: "No image"
+
 
         user = User(id,nombre,apellido,email,telefono,dni,img)
         Log.w("USUARIO", user.toString())
