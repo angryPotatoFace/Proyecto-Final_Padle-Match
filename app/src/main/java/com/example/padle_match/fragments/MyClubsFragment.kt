@@ -18,6 +18,7 @@ import com.example.padle_match.adapter.ClubAdapter
 import com.example.padle_match.adapter.TournamentAdapter
 import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -30,7 +31,7 @@ class MyClubsFragment : Fragment() {
     private lateinit var viewModel: MyClubsViewModel
     private lateinit var adapter: ClubAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var btnAddClub: Button
+    private lateinit var btnAddClub: FloatingActionButton
     private var list: MutableList<Club> = mutableListOf()
 
     // Create connection with the database

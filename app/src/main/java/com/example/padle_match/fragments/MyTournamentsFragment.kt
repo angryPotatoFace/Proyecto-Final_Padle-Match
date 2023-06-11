@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.padle_match.R
 import com.example.padle_match.adapter.TournamentAdapter
 import com.example.padle_match.entities.Tournament
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -28,7 +29,7 @@ class MyTournamentsFragment : Fragment() {
     private lateinit var viewModel: MyTournamentsViewModel
     private lateinit var adapter: TournamentAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var btnAddTournament: Button
+    private lateinit var btnAddTournament: FloatingActionButton
     private var list: MutableList<Tournament> = mutableListOf()
 
     // Create connection with the database
