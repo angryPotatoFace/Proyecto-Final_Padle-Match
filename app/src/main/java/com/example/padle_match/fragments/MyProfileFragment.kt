@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +35,7 @@ class MyProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentMyProfileBinding
     private lateinit var viewModel: MyProfileViewModel
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri = Uri.EMPTY
     private lateinit var currUser: User
 
 
@@ -122,7 +123,8 @@ class MyProfileFragment : Fragment() {
                         lifecycleScope.launch {
                             val user = createUser()
                             viewModel.updateUser(user)
-                            if( imageUri != Uri.EMPTY ) {
+                            if( imageUri != Uri.EMPTY) {
+                                Log.w("IMAGEN", "ENTROOOOOOO")
                                 val url = viewModel.uploadImagenStorage( imageUri, user.idUsuario );
                                 user.imgProfile = url
                             }
