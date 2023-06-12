@@ -4,6 +4,7 @@ package com.example.padle_match.fragments
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
+import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -133,9 +134,38 @@ class TournamentDetailFragmentViewModel : ViewModel() {
         return idClub;
     }
 
-    suspend fun getClubNameById(id: String): String {
-        val query = db.collection("clubs").document(id)
-        val club = query.get().await()
-        return club.getString("nombre") ?: ""
+    suspend fun getIdClubById( id: String): Club {
+        val query =  db.collection("clubs").whereEqualTo("id", id)
+        val clubs = query.get().await();
+        lateinit var retorno: Club
+
+
+        clubs.forEach{data ->
+            val id = data.data["id"] as String
+            val nombre = data.data["nombre"] as String
+            val cuit = data.data["cuit"] as String
+            val provincia = data.data["provincia"] as String
+            val partido = data.data["partido"] as String
+            val localidad = data.data["localidad"] as String
+            val direccion = data.data["id"] as String
+            val email = data.data["email"] as String
+            val telefono =  data.data["telefonos"] as String
+            val userId = data.data["userId"] as String
+
+            retorno = Club(
+                id,
+                nombre,
+                cuit,
+                provincia,
+                partido,
+                localidad,
+                direccion,
+                email,
+                telefono,
+                userId,
+            )
+        }
+
+        return retorno;
     }
 }

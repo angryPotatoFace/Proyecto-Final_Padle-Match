@@ -1,11 +1,13 @@
 package com.example.padle_match.fragments
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.format.DateFormat
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +35,7 @@ import java.util.*
 class AddTournamentFragment: Fragment()  {
 
     private lateinit var binding: FragmentAddTournamentBinding
-    lateinit var imageUri: Uri
+    private var imageUri = Uri.EMPTY
     private var auth: FirebaseAuth = Firebase.auth
     private lateinit var lista: Array<String>
     private lateinit var listaIds: List<String>
@@ -76,7 +78,12 @@ class AddTournamentFragment: Fragment()  {
             var clubList = binding.editTextAddTournamentClub
             var data = viewModel.getClubsList()
             lista = data;
-            (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(data)
+
+            if( data.isEmpty() ){
+                handlerNoClubs()
+            } else {
+                (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(data)
+            }
 
             listaIds = viewModel.getClubsIds();
 
@@ -101,17 +108,27 @@ class AddTournamentFragment: Fragment()  {
         handlerImOrganizator()
     }
 
+    private fun handlerNoClubs() {
+        binding.editTextAddTournamentClub.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("No hay clubs dados de altas. Por favor ingrese un nuevo torneo para continuar")
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val dialog = builder.create()
+            dialog.show()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // =========== SI SE CARGO LA IMAGEN CORRECTAMENTE SE MUESTRA =================
         val imagen = binding.AddTournamentImagen
         if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
             if( data.data !== null ) {
                 imagen.setImageURI(data.data)
                 imageUri = data.data!!
             }
-        /*  ======================================================  */
         }
     }
 
@@ -139,12 +156,14 @@ class AddTournamentFragment: Fragment()  {
 
     private fun handlerAddTournament(btn: AppCompatButton) {
         btn.setOnClickListener {
-            if(checkCredentials()) {
+            if( checkCredentials().all { !it } ) {
                 val torneo = createTournament();
                 lifecycleScope.launch {
                     var udi = viewModel.addTournament(torneo)
-                    val url = viewModel.uploadImagenStorage(imageUri, udi)
-                    torneo.imagenTorneo = url;
+                    if( imageUri != Uri.EMPTY) {
+                        val url = viewModel.uploadImagenStorage(imageUri, udi)
+                        torneo.imagenTorneo = url;
+                    }
                     torneo.id = udi;
                     viewModel.updateTournament(torneo, udi);
 
@@ -160,51 +179,42 @@ class AddTournamentFragment: Fragment()  {
         }
     }
 
-    private fun checkCredentials(): Boolean {
-        var isValid = true
+    private fun checkCredentials(): List<Boolean> {
+        var isValid = arrayListOf<Boolean>()
 
         // campos opcionales: Material de cancha, cupo, costo, premios
 
         // Validar campo Nombre
-        if (!viewModel.checkedNoSpecialCharacters(binding.editTextAddTournamentName)) {
-            isValid = false
-        }
+        isValid.add( !viewModel.checkedRequired(binding.editTextAddTournamentName, binding.textInputLayout) )
+        isValid.add( !viewModel.checkedNoSpecialCharacters(binding.editTextAddTournamentName) )
 
         // Validar campo Club
-        if(!viewModel.checkedClub(binding.editTextAddTournamentClub, binding.inputAddClub)){
-            isValid = false
-        }
+        isValid.add( !viewModel.checkedClub(binding.editTextAddTournamentClub, binding.inputAddClub) )
+
 
         // Validar campo Fecha
-        if(!viewModel.checkedRequired(binding.editTextAddTournamentFecha, binding.inputAddDate)){
-            isValid = false
-        }
+        isValid.add( !viewModel.checkedRequired(binding.editTextAddTournamentFecha, binding.inputAddDate) )
 
         // Validar campo Horario
-        if(!viewModel.checkedRequired(binding.editTextAddTournamentHorario, binding.inputAddHour)){
-            isValid = false
-        }
+        isValid.add( !viewModel.checkedRequired(binding.editTextAddTournamentHorario, binding.inputAddHour) )
 
         // Validar campo categoria
-        if(!viewModel.checkedRequired(binding.editTextAddTournamentCategorias, binding.inputAddCategories)){
-            isValid = false
-        }
+        isValid.add( !viewModel.checkedRequired(binding.editTextAddTournamentCategorias, binding.inputAddCategories) )
+
 
         // Validar campo nombre coordinador
-        if (!viewModel.checkedNoSpecialCharacters(binding.nombreCoordinador)) {
-            isValid = false
-        }
+        isValid.add( !viewModel.checkedRequired(binding.nombreCoordinador, binding.textInputLayoutNombreCoordinador) )
+        isValid.add( !viewModel.checkedNoSpecialCharacters(binding.nombreCoordinador) )
+
 
         // Validar campo telefono coordinador
-        if(!viewModel.checkedTelefono(binding.telefonoCoordinador)){
-            isValid = false
-        }
-
+        isValid.add( !viewModel.checkedRequired(binding.telefonoCoordinador, binding.textInputLayoutTelefonoCoordinador) )
+        isValid.add( !viewModel.checkedTelefono(binding.telefonoCoordinador) )
 
         return isValid
     }
 
-    private fun handlerImOrganizator() {
+    private fun  handlerImOrganizator() {
         binding.checkBox2.setOnClickListener() {
             if (binding.checkBox2.isChecked) {
                 lifecycleScope.launch {
@@ -242,8 +252,15 @@ class AddTournamentFragment: Fragment()  {
         val hour = binding.editTextAddTournamentHorario.text.toString();
         val category = binding.editTextAddTournamentCategorias.text.toString();
         val material = binding.editTextAddTournamentMateriales.text.toString();
-        val cupo = binding.editTextAddTournamentCupo.text.toString().toInt()
-        val cost = binding.editTextAddTournamentCosto.text.toString().toInt();
+        var cupo = 0
+        if ( !binding.editTextAddTournamentCupo.text.toString().isEmpty() ){
+            cupo = binding.editTextAddTournamentCupo.text.toString().toInt()
+        }
+        var cost = 0
+        if ( !binding.editTextAddTournamentCosto.text.toString().isEmpty() ){
+            cupo = binding.editTextAddTournamentCosto.text.toString().toInt()
+        }
+
         val premio = binding.editTextAddTournamentPremios.text.toString();
         val userId = auth.currentUser!!.uid
         var idClub = listaIds[i]
@@ -255,7 +272,6 @@ class AddTournamentFragment: Fragment()  {
         }
 
         val retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub, nombreCoor, telefonoCood)
-
 
         return retorno
     }

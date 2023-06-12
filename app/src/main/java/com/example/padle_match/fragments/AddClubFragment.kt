@@ -1,10 +1,12 @@
 package com.example.padle_match.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -51,15 +53,36 @@ class AddClubFragment : Fragment() {
 
         lifecycleScope.launch {
 
-            var data = viewModel.getPartidosList()
-            ( binding.listaPartidos as? MaterialAutoCompleteTextView )?.setSimpleItems(data)
+
+            var clubs = viewModel.getPartidosList()
+            val data = clubs.map { t -> t.data["nombre"] } as List<String>
+            var list = data.toTypedArray();
+
+            (binding.listaPartidos as? MaterialAutoCompleteTextView)?.setSimpleItems(list)
+
+            binding.listaPartidos.onItemClickListener =
+                AdapterView.OnItemClickListener { parent, view, position, id ->
+                    binding.listaLocalidades.setText("")
+                    val selecPartido = binding.listaPartidos.text.toString()
+                    val selecClubs = clubs.filter { t -> t.data["nombre"] == selecPartido }
+
+                    selecClubs.forEach{ t ->
+                        val lista = t.data["localidades"] as List<String>
+                        val localidades = lista.toTypedArray()
+                        (binding.listaLocalidades as? MaterialAutoCompleteTextView)?.setSimpleItems(localidades)
+                    }
+
+                }
+
+
         }
 
         binding.btnAddClub.setOnClickListener {
-            if(checkCredentials()){
+            if (checkCredentials()) {
                 handlerAddClub(binding.btnAddClub)
             }
         }
+
     }
 
     private fun handlerAddClub(btn: AppCompatButton) {
@@ -79,7 +102,8 @@ class AddClubFragment : Fragment() {
         val id = ""
         val nombre = binding.nombreEditText.text.toString();
         val cuit = binding.cuitEditText.text.toString();
-        val provincia = binding.provinciaEditText.text.toString();
+        val provincia = "Buenos Aires";
+        //binding.provinciaEditText.text.toString();
         val partido = binding.listaPartidos.text.toString();
         val localidad = "Agregar";
         val direccion = binding.direccionEditText.text.toString();
@@ -143,7 +167,7 @@ class AddClubFragment : Fragment() {
     private fun cleanInputs() {
         binding.nombreEditText.setText("")
         binding.cuitEditText.setText("")
-        binding.provinciaEditText.setText("Buenos Aires")
+        //binding.provinciaEditText.setText("Buenos Aires")
         binding.listaPartidos.setText("")
         binding.direccionEditText.setText("")
         binding.emailEditText.setText("")

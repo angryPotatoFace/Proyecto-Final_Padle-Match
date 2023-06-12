@@ -69,6 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nombre"
+                android:maxLength="64"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -90,34 +91,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cuit"
-            android:maxLength="12"
+            android:maxLength="11"
             android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout10"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:id="@+id/listaPartidosTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="300dp"
             android:layout_marginEnd="20dp"
-            app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_lock"
-            app:endIconContentDescription="Provincia no modificable"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
 
-            <EditText
-                android:id="@+id/provinciaEditText"
+
+            <AutoCompleteTextView
+                android:id="@+id/listaPartidos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="Provincia"
-                android:text="Buenos Aires"
-                android:inputType="none" />
+                android:hint="Partido"/>
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -203,7 +201,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/listaPartidosTextInputLayout"
+            android:id="@+id/listaLocalidadesTextInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -216,10 +214,10 @@
             tools:ignore="MissingConstraints">
 
             <AutoCompleteTextView
-                android:id="@+id/listaPartidos"
+                android:id="@+id/listaLocalidades"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Partido" />
+                android:hint="Localidad/Barrio" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

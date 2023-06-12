@@ -1,6 +1,7 @@
 package com.example.padle_match.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -65,6 +66,8 @@ class LoginFragment : Fragment() {
             val emailInputLayout = binding.etEmail
             checkCredentials(email, pass, passInputLayout, emailInputLayout)
         }
+
+        loadSavedCredentials()
     }
 
     fun checkCredentials(emailEditText: EditText, passEditText: EditText, passInputLayout: TextInputLayout, emailInputLayout: TextInputLayout){
@@ -85,6 +88,12 @@ class LoginFragment : Fragment() {
             lifecycleScope.launch {
                 val res = viewModel.loginUser(email,pass);
                 if (res){
+
+                    val email = emailEditText.text.toString()
+                    val pass = passEditText.text.toString()
+
+                    saveCredentials(email, pass)
+
                     val action = LoginFragmentDirections.actionLoginFragmentToMainActivity()
                     findNavController().navigate(action)
                 } else{
@@ -107,6 +116,27 @@ class LoginFragment : Fragment() {
     private fun cleanInputs() {
         binding.loginEmailInput.setText("")
         binding.loginPassInput.setText("")
+    }
+
+    // Guardar las credenciales en las preferencias compartidas
+    private fun saveCredentials(email: String, password: String) {
+        val sharedPref = requireContext().getSharedPreferences("credentials", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString("email", email)
+        editor.putString("password", password)
+        editor.apply()
+    }
+
+    // Cargar las credenciales guardadas, si existen
+    private fun loadSavedCredentials() {
+        val sharedPref = requireContext().getSharedPreferences("credentials", Context.MODE_PRIVATE)
+        val email = sharedPref.getString("email", null)
+        val password = sharedPref.getString("password", null)
+
+        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
+            binding.loginEmailInput.setText(email)
+            binding.loginPassInput.setText(password)
+        }
     }
 
 
