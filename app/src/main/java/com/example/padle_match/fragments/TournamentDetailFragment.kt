@@ -181,6 +181,12 @@ class TournamentDetailFragment : Fragment()  {
 
     private fun setValues(tournamentSelected: Tournament) {
         Log.w("Torneo selecionado", tournamentSelected.toString())
+
+
+        lifecycleScope.launch {
+            val club = viewModel.getIdClubById(  tournamentSelected.idClub )
+            detailClub.setText( club.nombre )
+        }
         tournamentSelec = tournamentSelected
         detailNombre.setText(tournamentSelected.titulo)
         detailFecha.setText(tournamentSelected.fecha)

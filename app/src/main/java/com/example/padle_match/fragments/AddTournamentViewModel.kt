@@ -233,6 +233,11 @@ class AddTournamentViewModel : ViewModel() {
         textInputLayout.errorIconDrawable = null
     }
 
+    private fun cleanErrorTextInputLayout(textInputLayout: TextInputLayout) {
+        textInputLayout.error = ""
+        textInputLayout.errorIconDrawable = null
+    }
+
     fun checkedClub(club: AutoCompleteTextView, textInputLayout: TextInputLayout): Boolean {
         return if(!checkedEmpty(club, textInputLayout)){
             false
@@ -251,8 +256,5 @@ class AddTournamentViewModel : ViewModel() {
     fun checkedRequired(editTextAddTournament: EditText, input: TextInputLayout): Boolean {
         return checkedEmpty(editTextAddTournament, input)
     }
-
-
-
 
 }
