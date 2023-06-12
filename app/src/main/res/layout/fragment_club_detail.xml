@@ -31,7 +31,7 @@
             android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="@color/celesteApp2"
+            android:background="#B0D8CE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +42,7 @@
             android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:background="@color/celesteApp2"
+            android:background="#B0D8CE"
             android:contentDescription="Atras"
             android:scaleType="centerInside"
             android:src="@drawable/ic_arrowback"
@@ -217,7 +217,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/view4"
-            app:layout_constraintTop_toTopOf="@+id/view2">
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.454"
+            tools:layout_editor_absoluteX="0dp">
 
             <!-- Layout del botón de "Editar" -->
             <com.google.android.material.button.MaterialButton

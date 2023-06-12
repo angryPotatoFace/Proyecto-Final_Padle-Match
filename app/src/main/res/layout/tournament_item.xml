@@ -5,7 +5,7 @@
     android:id="@+id/item_torneo"
     android:layout_margin="10dp"
     android:clickable="true"
-    app:cardBackgroundColor="@color/celesteApp"
+    app:cardBackgroundColor="#B0D8CE"
     app:cardCornerRadius="30dp"
     app:cardElevation="10dp"
     android:layout_width="match_parent"
@@ -20,7 +20,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:text="Club chacarita - torneo 2"
-        android:textAlignment="center"
+        android:layout_marginLeft="29dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.442"
@@ -39,7 +40,7 @@
             android:layout_height="150dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            app:srcCompat="@drawable/raqueta" />
+            app:srcCompat="@drawable/paleta" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -60,7 +61,7 @@
                     android:id="@+id/textView"
                     android:layout_width="70dp"
                     android:layout_height="21dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:text="Categoria :"
                     android:textAlignment="viewStart" />
 
@@ -109,8 +110,9 @@
                     android:id="@+id/tournament_category"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:text="C4"
+                    android:textStyle="bold"
                     android:textAlignment="viewStart" />
 
 
@@ -118,9 +120,10 @@
                     android:id="@+id/tournament_date"
                     android:layout_width="170dp"
                     android:layout_height="21dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="9dp"
                     android:layout_marginRight="15dp"
                     android:text="23 de mayo 2023"
+                    android:textStyle="bold"
                     android:textAlignment="viewStart" />
 
 
@@ -131,6 +134,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="15dp"
                     android:text="22:00"
+                    android:textStyle="bold"
                     android:textAlignment="viewStart"/>
 
                 <TextView
@@ -140,6 +144,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="15dp"
                     android:text="Cristian Sancho"
+                    android:textStyle="bold"
                     android:textAlignment="viewStart"/>
 
 

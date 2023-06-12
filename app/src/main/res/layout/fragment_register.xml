@@ -10,7 +10,7 @@
     android:focusableInTouchMode="true"
     android:background="@drawable/rectangulo"
     android:orientation="vertical"
-    android:backgroundTint="@color/blueButton"
+    android:backgroundTint="#C7E3DC"
     tools:context=".fragments.RegisterFragment">
 
 
@@ -74,12 +74,14 @@
             app:layout_constraintEnd_toStartOf="@id/textInputLayout_apellido"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/linearLayout2">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombre"
-                android:maxLength="64"
-                android:inputType="text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="#D9D9D9"
+                android:inputType="text"
+                android:maxLength="64" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -87,6 +89,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="#D9D9D9"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:hint="Apellido"
@@ -108,6 +111,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#D9D9D9"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
@@ -132,6 +136,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#D9D9D9"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
@@ -156,6 +161,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#D9D9D9"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
@@ -200,6 +206,7 @@
                 android:id="@+id/etContrasena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#D9D9D9"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -221,6 +228,7 @@
                 android:id="@+id/etConfirContras"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#D9D9D9"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -232,9 +240,10 @@
         android:id="@+id/btnCrearCuenta"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:backgroundTint="@color/black"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#83D6C2"
         android:text="Crear Cuenta"
-        android:textColor="@color/blueButton"
+        android:textColor="@color/white"
         android:transitionName="button_tran"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -248,7 +257,7 @@
         android:layout_marginBottom="15dp"
         android:text="¿Ya tiene cuenta?"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="#666666"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
