@@ -33,10 +33,6 @@ class ClubDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentClubDetailBinding
     private lateinit var viewModel: ClubDetailViewModel
-    lateinit var editButton: Button
-    lateinit var saveButton: Button
-    lateinit var cancelButton: Button
-    lateinit var deleteButton: Button
     private lateinit var selected: Club
 
     override fun onCreateView(
@@ -61,6 +57,7 @@ class ClubDetailFragment : Fragment() {
         handlerCancel(selected)
         handlerSave()
         handlerDelete()
+        handlerBack()
 
         lifecycleScope.launch {
             // var data = viewModel.getPartidosList()
@@ -88,6 +85,12 @@ class ClubDetailFragment : Fragment() {
                 }
         }
 
+    }
+
+    private fun handlerBack() {
+        binding.btnBackClubDetail.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun handlerSave() {

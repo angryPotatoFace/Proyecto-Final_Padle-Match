@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/btnBackClubDetail"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="10dp"
