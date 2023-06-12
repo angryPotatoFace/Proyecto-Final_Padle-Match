@@ -76,6 +76,10 @@ class AddTournamentFragment: Fragment()  {
             var clubList = binding.editTextAddTournamentClub
             var data = viewModel.getClubsList()
             lista = data;
+
+            if( data.isEmpty() ){
+                data = arrayOf("No hay clubs dados de altas")
+            }
             (clubList as? MaterialAutoCompleteTextView)?.setSimpleItems(data)
 
             listaIds = viewModel.getClubsIds();
