@@ -5,7 +5,7 @@
     android:id="@+id/item_club"
     android:layout_margin="10dp"
     android:clickable="true"
-    app:cardBackgroundColor="@color/celesteApp"
+    app:cardBackgroundColor="#B0D8CE"
     app:cardCornerRadius="30dp"
     app:cardElevation="10dp"
     android:layout_width="match_parent"
@@ -13,13 +13,15 @@
 
     <TextView
         android:id="@+id/club_title"
-        android:layout_width="match_parent"
+        android:layout_width="209dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif"
         android:text="Club chacarita"
-        android:textAlignment="center"
-        android:textSize="16sp"
+        android:layout_marginLeft="26dp"
+
+        android:textSize="18sp"
         android:textStyle="bold" />
 
 
@@ -31,10 +33,11 @@
         <ImageView
             android:id="@+id/flyer"
             android:layout_width="100dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            app:srcCompat="@drawable/club" />
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="8dp"
+            app:srcCompat="@drawable/clubcancha" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -57,7 +60,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="left"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
                     app:srcCompat="@drawable/ic_baseline_map_24" />
 
                 <ImageView
@@ -90,8 +93,9 @@
                     android:id="@+id/club_partido"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
                     android:text="C.A.B.A"
+                    android:textStyle="bold"
                     android:textAlignment="viewStart" />
 
 
@@ -102,6 +106,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
                     android:text="Belgrano"
+                    android:textStyle="bold"
                     android:textAlignment="viewStart" />
 
 
@@ -112,6 +117,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
                     android:text="115-123-4567"
+                    android:textStyle="bold"
                     android:textAlignment="viewStart" />
 
 

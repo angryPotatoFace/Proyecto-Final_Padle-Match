@@ -131,7 +131,6 @@ class TournamentDetailFragmentViewModel : ViewModel() {
         categorias.forEach{data ->
             idClub = data.id
         }
-
         return idClub;
     }
 

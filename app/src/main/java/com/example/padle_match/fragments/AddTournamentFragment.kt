@@ -111,7 +111,7 @@ class AddTournamentFragment: Fragment()  {
     private fun handlerNoClubs() {
         binding.editTextAddTournamentClub.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("No hay clubs dados de altas. Por favor ingrese un nuevo torneo para continuar")
+            builder.setMessage("No hay clubes dados de alta. Por favor ingrese un nuevo club desde 'mis clubes' para continuar")
                 .setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
                 }
@@ -158,6 +158,7 @@ class AddTournamentFragment: Fragment()  {
         btn.setOnClickListener {
             if( checkCredentials().all { !it } ) {
                 val torneo = createTournament();
+                Log.d(tag, "torneo")
                 lifecycleScope.launch {
                     var udi = viewModel.addTournament(torneo)
                     if( imageUri != Uri.EMPTY) {
@@ -210,6 +211,8 @@ class AddTournamentFragment: Fragment()  {
         // Validar campo telefono coordinador
         isValid.add( !viewModel.checkedRequired(binding.telefonoCoordinador, binding.textInputLayoutTelefonoCoordinador) )
         isValid.add( !viewModel.checkedTelefono(binding.telefonoCoordinador) )
+
+        Log.d("Validación", "Contenido del array: $isValid")
 
         return isValid
     }
