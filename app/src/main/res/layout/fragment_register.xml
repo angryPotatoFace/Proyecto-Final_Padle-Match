@@ -69,6 +69,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="#D9D9D9"
             android:layout_weight="1"
             android:hint="Nombre"
             app:layout_constraintEnd_toStartOf="@id/textInputLayout_apellido"
@@ -79,7 +80,6 @@
                 android:id="@+id/etNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#D9D9D9"
                 android:inputType="text"
                 android:maxLength="64" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -198,6 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Contraseña"
+            android:background="#D9D9D9"
             android:transitionName="password_tran"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -206,7 +207,6 @@
                 android:id="@+id/etContrasena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#D9D9D9"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -221,6 +221,7 @@
             android:layout_weight="1"
             android:layout_marginStart="8dp"
             android:hint="Confirmar contraseña"
+            android:background="#D9D9D9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -228,7 +229,6 @@
                 android:id="@+id/etConfirContras"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#D9D9D9"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -257,7 +257,7 @@
         android:layout_marginBottom="30dp"
         android:text="¿Ya tiene cuenta?"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/blueButton"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
