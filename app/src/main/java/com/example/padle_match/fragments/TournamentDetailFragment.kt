@@ -46,7 +46,6 @@ import com.google.android.material.textfield.TextInputLayout
 class TournamentDetailFragment : Fragment()  {
 
     private lateinit var v: View
-    private lateinit var titulo: TextView
     private lateinit var detailNombre: EditText
     private lateinit var detailFecha: EditText
     private lateinit var layoutFecha: TextInputLayout
@@ -82,10 +81,6 @@ class TournamentDetailFragment : Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_tournament_detail, container, false)
-
-
-
-        titulo = v.findViewById(R.id.detail_tituloNombre)
 
         detailNombre = v.findViewById(R.id.detail_name)
 
@@ -187,7 +182,6 @@ class TournamentDetailFragment : Fragment()  {
     private fun setValues(tournamentSelected: Tournament) {
         Log.w("Torneo selecionado", tournamentSelected.toString())
         tournamentSelec = tournamentSelected
-        titulo.text = tournamentSelected.titulo
         detailNombre.setText(tournamentSelected.titulo)
         detailFecha.setText(tournamentSelected.fecha)
         detailCategorias.setText(tournamentSelected.categoría)
@@ -366,7 +360,6 @@ class TournamentDetailFragment : Fragment()  {
     }
 
     private fun blockFields() {
-        titulo.isEnabled = false
         detailNombre.isEnabled = false
         detailClub.isEnabled = false
         detailFecha.isEnabled = false

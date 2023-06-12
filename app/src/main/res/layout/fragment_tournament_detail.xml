@@ -112,10 +112,10 @@
             android:layout_marginTop="100dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Nombre torneo"
+            android:text="DETALLE DEL TORNEO"
+            android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view2" />
