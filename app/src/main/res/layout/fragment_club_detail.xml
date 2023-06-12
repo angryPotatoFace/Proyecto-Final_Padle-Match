@@ -67,10 +67,9 @@
                 android:id="@+id/editTextNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="64"
                 android:enabled="false"
                 android:inputType="text"
-                />
+                android:maxLength="64" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="290dp"
+            android:layout_marginTop="200dp"
             android:layout_marginEnd="20dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -281,24 +280,23 @@
             app:layout_constraintTop_toTopOf="@+id/view2" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="300dp"
             android:layout_marginEnd="20dp"
-            app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_lock"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2">
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            android:enabled="false"
+            >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextProvincia"
+            <AutoCompleteTextView
+                android:id="@+id/editTextLocalidades"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="Provincia" />
+                android:hint="Localidades" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ViewSwitcher
@@ -62,8 +63,29 @@ class ClubDetailFragment : Fragment() {
         handlerDelete()
 
         lifecycleScope.launch {
-            var data = viewModel.getPartidosList()
-            ( binding.editTextPartido as? MaterialAutoCompleteTextView)?.setSimpleItems(data)
+            // var data = viewModel.getPartidosList()
+            // ( binding.editTextPartido as? MaterialAutoCompleteTextView)?.setSimpleItems(data)
+
+            var clubs = viewModel.getPartidosList()
+            val data = clubs.map { t -> t.data["nombre"] } as List<String>
+            var list = data.toTypedArray();
+
+            (binding.editTextPartido as? MaterialAutoCompleteTextView)?.setSimpleItems(list)
+
+            binding.editTextPartido.onItemClickListener =
+                AdapterView.OnItemClickListener { parent, view, position, id ->
+                    binding.editTextLocalidades.setText("")
+                    val selecPartido = binding.editTextPartido.text.toString()
+                    val selecClubs = clubs.filter { t -> t.data["nombre"] == selecPartido }
+
+                    selecClubs.forEach{ t ->
+                        val lista = t.data["localidades"] as List<String>
+                        Log.w("LISTA DE LOCALIDADES", lista.toString())
+                        val localidades = lista.toTypedArray()
+                        (binding.editTextLocalidades as? MaterialAutoCompleteTextView)?.setSimpleItems(localidades)
+                    }
+
+                }
         }
 
     }
@@ -93,9 +115,8 @@ class ClubDetailFragment : Fragment() {
     private fun setValues(selected: Club) {
         binding.editTextNombre.setText( selected.nombre)
         binding.editTextCuit.setText( selected.cuit)
-        binding.editTextProvincia.setText( selected.provincia)
         binding.editTextPartido.setText( selected.partido)
-        // binding.editTextLocalidad.setText( selected.localidad)
+        binding.editTextLocalidades.setText( selected.localidad)
         binding.editTextDirecciN.setText( selected.domicilio)
         binding.editTextEmail.setText( selected.email)
         binding.editTextTelefono.setText( selected.telefonos)
@@ -116,7 +137,6 @@ class ClubDetailFragment : Fragment() {
             binding.editTextPartido.isEnabled = false
             binding.textInputLayoutPartido.error = null
             binding.textInputLayoutPartido.clearFocus()
-            // binding.editTextLocalidad.isEnabled = false
             binding.editTextDirecciN.setText(selected.domicilio)
             binding.editTextDirecciN.isEnabled = false
             binding.editTextDirecciN.error = null
@@ -139,10 +159,10 @@ class ClubDetailFragment : Fragment() {
             binding.editTextNombre.isEnabled = true
             binding.editTextCuit.isEnabled = true
             binding.editTextPartido.isEnabled = true
-            //binding.editTextLocalidad.isEnabled = true
             binding.editTextDirecciN.isEnabled = true
             binding.editTextEmail.isEnabled = true
             binding.editTextTelefono.isEnabled = true
+            binding.editTextLocalidades.isEnabled = true
         }
     }
 
@@ -171,9 +191,9 @@ class ClubDetailFragment : Fragment() {
         val id = selected.id
         val nombre = binding.editTextNombre.text.toString()
         val cuit = binding.editTextCuit.text.toString()
-        val provincia = binding.editTextProvincia.text.toString()
+        val provincia = "Buenos Aires"
         val partido = binding.editTextPartido.text.toString()
-        val localidad = selected.localidad
+        val localidad = binding.editTextLocalidades.text.toString()
         val domicilio = binding.editTextDirecciN.text.toString()
         val email = binding.editTextEmail.text.toString()
         val telefono = binding.editTextTelefono.text.toString()
