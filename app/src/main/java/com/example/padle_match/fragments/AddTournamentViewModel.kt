@@ -37,20 +37,6 @@ class AddTournamentViewModel : ViewModel() {
         private val MSG_CAMPO_REQUERIDO = "Campo requerido"
     }
 
-    private fun notEmpty(editText: EditText) : Boolean {
-        var isValid : Boolean = true
-        val value = editText.text.toString().trim()
-        if(value.isNullOrEmpty()){
-            editText.error = MSG_CAMPO_REQUERIDO
-            isValid = false
-        }
-        return isValid
-    }
-    private fun notEmpty(autoCompleteTextView: AutoCompleteTextView): Boolean {
-        val editText: EditText = autoCompleteTextView
-        return notEmpty(editText)
-    }
-
     // Permite solo seleccionar una fecha a partir del dia actual
     fun createDatePicker(): MaterialDatePicker<Long> {
         val today = MaterialDatePicker.todayInUtcMilliseconds()
@@ -188,8 +174,18 @@ class AddTournamentViewModel : ViewModel() {
             showError(editText, "Campo inválido")
             false
         } else{
+            hideError(editText)
             true
         }
+    }
+
+    private fun hideError(editText: EditText) {
+        editText.error = null
+    }
+
+    private fun hideError(editText: EditText, textInputLayout: TextInputLayout) {
+        editText.error = null
+        textInputLayout.error = null
     }
 
     private fun checkedEmpty(editText: EditText): Boolean {
@@ -197,6 +193,8 @@ class AddTournamentViewModel : ViewModel() {
         if(editText.text.isEmpty()){
             showError(editText,"Campo requerido" )
             valid = false
+        }else{
+            hideError(editText)
         }
         return valid
     }
@@ -206,6 +204,8 @@ class AddTournamentViewModel : ViewModel() {
         if(editText.text.isEmpty()){
             showErrorTextInputLayout(textInputLayout,"Campo requerido" )
             valid = false
+        }else{
+            hideError(editText,textInputLayout)
         }
         return valid
     }
@@ -215,6 +215,8 @@ class AddTournamentViewModel : ViewModel() {
         if(editText.text.length < min){
             showError(editText,"El campo debe tener al menos $min carácteres" )
             valid = false
+        }else{
+            hideError(editText)
         }
         return valid
     }
@@ -233,11 +235,12 @@ class AddTournamentViewModel : ViewModel() {
         textInputLayout.errorIconDrawable = null
     }
 
+
     fun checkedClub(club: AutoCompleteTextView, textInputLayout: TextInputLayout): Boolean {
         return if(!checkedEmpty(club, textInputLayout)){
             false
         }else{
-            textInputLayout.error = null
+            hideError(club,textInputLayout)
             true
         }
     }
@@ -245,14 +248,16 @@ class AddTournamentViewModel : ViewModel() {
     fun checkedTelefono(inputTelefono: EditText): Boolean {
         return if(!checkedEmpty(inputTelefono)){
             false
-        } else checkedMinLength(inputTelefono, 10)
+        } else if(!checkedMinLength(inputTelefono, 10)){
+            false
+        } else{
+            hideError(inputTelefono)
+            true
+        }
     }
 
     fun checkedRequired(editTextAddTournament: EditText, input: TextInputLayout): Boolean {
         return checkedEmpty(editTextAddTournament, input)
     }
-
-
-
 
 }

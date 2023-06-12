@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:maxLength="12"
+                android:maxLength="11"
                 android:inputType="number"
                 />
 
@@ -275,8 +275,8 @@
             android:layout_marginTop="100dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Club Chacarita"
-            android:textSize="24sp"
+            android:text="DETALLE DEL CLUB"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

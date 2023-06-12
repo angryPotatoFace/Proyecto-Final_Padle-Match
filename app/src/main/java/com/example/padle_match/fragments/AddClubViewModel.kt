@@ -69,7 +69,7 @@ class AddClubViewModel : ViewModel() {
     fun checkedCuit(inputCuit: EditText): Boolean {
         return if(!checkedEmpty(inputCuit)){
             false
-        } else if(!checkedMinLength(inputCuit, 12)){
+        } else if(!checkedMinLength(inputCuit, 11)){
             false
         } else {
             val cuitRegistered = runBlocking {cuitAlreadyRegistered(inputCuit.text.toString())}
@@ -87,7 +87,7 @@ class AddClubViewModel : ViewModel() {
     fun checkedCuit(inputCuit: EditText, club: Club): Boolean {
         return if(!checkedEmpty(inputCuit)){
             false
-        } else if(!checkedMinLength(inputCuit, 12)){
+        } else if(!checkedMinLength(inputCuit, 11)){
             false
         } else if(!inputCuit.text.toString().equals(club.cuit)) {
             val cuitRegistered = runBlocking {cuitAlreadyRegistered(inputCuit.text.toString())}
