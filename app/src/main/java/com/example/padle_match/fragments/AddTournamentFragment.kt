@@ -158,6 +158,7 @@ class AddTournamentFragment: Fragment()  {
         btn.setOnClickListener {
             if( checkCredentials().all { !it } ) {
                 val torneo = createTournament();
+                Log.d(tag, "torneo")
                 lifecycleScope.launch {
                     var udi = viewModel.addTournament(torneo)
                     if( imageUri != Uri.EMPTY) {
@@ -210,6 +211,8 @@ class AddTournamentFragment: Fragment()  {
         // Validar campo telefono coordinador
         isValid.add( !viewModel.checkedRequired(binding.telefonoCoordinador, binding.textInputLayoutTelefonoCoordinador) )
         isValid.add( !viewModel.checkedTelefono(binding.telefonoCoordinador) )
+
+        Log.d("Validación", "Contenido del array: $isValid")
 
         return isValid
     }
