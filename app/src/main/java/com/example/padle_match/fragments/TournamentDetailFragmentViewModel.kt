@@ -9,6 +9,8 @@ import com.example.padle_match.entities.Tournament
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.app
@@ -20,6 +22,7 @@ import kotlinx.coroutines.tasks.await
 class TournamentDetailFragmentViewModel : ViewModel() {
 
     val db = Firebase.firestore
+    private var auth: FirebaseAuth = Firebase.auth
     val storage = Firebase.storage(Firebase.app)
     val storageRef = storage.reference
 
@@ -68,7 +71,8 @@ class TournamentDetailFragmentViewModel : ViewModel() {
 
     suspend fun getClubsList(): Array<String> {
 
-        val query =  db.collection("clubs")
+        var uid = auth.currentUser!!.uid
+        val query =  db.collection("clubs").whereEqualTo("userId", uid)
         val clubs = query.get().await();
         val data = clubs.map { t -> t.data["nombre"] } as List<String>
         var list = data.toTypedArray();
@@ -137,23 +141,22 @@ class TournamentDetailFragmentViewModel : ViewModel() {
     suspend fun getIdClubById( id: String): Club {
 
         lateinit var retorno: Club
-        
-        val query =  db.collection("clubs").whereEqualTo("id", id)
-        val clubs = query.get().await();
+        Log.w("CLUB ID", id)
 
-        val id = clubs.documents[0].data!!["id"] as String
-        val nombre = clubs.documents[0].data!!["nombre"] as String
-        val cuit = clubs.documents[0].data!!["cuit"] as String
-        val provincia = clubs.documents[0].data!!["provincia"] as String
-        val partido = clubs.documents[0].data!!["partido"] as String
-        val localidad = clubs.documents[0].data!!["localidad"] as String
-        val direccion = clubs.documents[0].data!!["id"] as String
-        val email = clubs.documents[0].data!!["email"] as String
-        val telefono =  clubs.documents[0].data!!["telefonos"] as String
-        val userId = clubs.documents[0].data!!["userId"] as String
+        val query =  db.collection("clubs").document(id)
+        val club = query.get().await();
 
-        retorno = Club( id, nombre, cuit, provincia, partido, localidad, direccion, email, telefono, userId,)
+        val id = club.data!!["id"] as String
+        val nombre = club.data!!["nombre"] as String
+        val cuit = club.data!!["cuit"] as String
+        val provincia = club.data!!["provincia"] as String
+        val partido = club.data!!["partido"] as String
+        val localidad = club.data!!["localidad"] as String
+        val direccion = club.data!!["id"] as String
+        val email = club.data!!["email"] as String
+        val telefono = club.data!!["telefonos"] as String
+        val userId = club.data!!["userId"] as String
 
-        return retorno;
+        return  Club( id, nombre, cuit, provincia, partido, localidad, direccion, email, telefono, userId )
     }
 }
