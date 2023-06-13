@@ -135,36 +135,24 @@ class TournamentDetailFragmentViewModel : ViewModel() {
     }
 
     suspend fun getIdClubById( id: String): Club {
+
+        lateinit var retorno: Club
+        
         val query =  db.collection("clubs").whereEqualTo("id", id)
         val clubs = query.get().await();
-        lateinit var retorno: Club
 
+        val id = clubs.documents[0].data!!["id"] as String
+        val nombre = clubs.documents[0].data!!["nombre"] as String
+        val cuit = clubs.documents[0].data!!["cuit"] as String
+        val provincia = clubs.documents[0].data!!["provincia"] as String
+        val partido = clubs.documents[0].data!!["partido"] as String
+        val localidad = clubs.documents[0].data!!["localidad"] as String
+        val direccion = clubs.documents[0].data!!["id"] as String
+        val email = clubs.documents[0].data!!["email"] as String
+        val telefono =  clubs.documents[0].data!!["telefonos"] as String
+        val userId = clubs.documents[0].data!!["userId"] as String
 
-        clubs.forEach{data ->
-            val id = data.data["id"] as String
-            val nombre = data.data["nombre"] as String
-            val cuit = data.data["cuit"] as String
-            val provincia = data.data["provincia"] as String
-            val partido = data.data["partido"] as String
-            val localidad = data.data["localidad"] as String
-            val direccion = data.data["id"] as String
-            val email = data.data["email"] as String
-            val telefono =  data.data["telefonos"] as String
-            val userId = data.data["userId"] as String
-
-            retorno = Club(
-                id,
-                nombre,
-                cuit,
-                provincia,
-                partido,
-                localidad,
-                direccion,
-                email,
-                telefono,
-                userId,
-            )
-        }
+        retorno = Club( id, nombre, cuit, provincia, partido, localidad, direccion, email, telefono, userId,)
 
         return retorno;
     }

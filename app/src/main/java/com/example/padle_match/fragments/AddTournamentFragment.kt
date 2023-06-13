@@ -157,9 +157,9 @@ class AddTournamentFragment: Fragment()  {
     private fun handlerAddTournament(btn: AppCompatButton) {
         btn.setOnClickListener {
             if( checkCredentials().all { !it } ) {
-                val torneo = createTournament();
-                Log.d(tag, "torneo")
                 lifecycleScope.launch {
+                    val torneo = createTournament();
+                    Log.d(tag, "torneo")
                     var udi = viewModel.addTournament(torneo)
                     if( imageUri != Uri.EMPTY) {
                         val url = viewModel.uploadImagenStorage(imageUri, udi)
@@ -201,7 +201,6 @@ class AddTournamentFragment: Fragment()  {
 
         // Validar campo categoria
         isValid.add( !viewModel.checkedRequired(binding.editTextAddTournamentCategorias, binding.inputAddCategories) )
-
 
         // Validar campo nombre coordinador
         isValid.add( !viewModel.checkedRequired(binding.nombreCoordinador, binding.textInputLayoutNombreCoordinador) )
@@ -245,7 +244,9 @@ class AddTournamentFragment: Fragment()  {
         binding.AddTournamentImagen.setImageURI(Uri.EMPTY)
     }
 
-    private fun createTournament(): Tournament {
+    private suspend fun createTournament(): Tournament {
+
+        lateinit var retorno: Tournament
         val item = binding.editTextAddTournamentClub.text.toString();
         val i =  getItemImpl( lista, item );
 
@@ -270,11 +271,8 @@ class AddTournamentFragment: Fragment()  {
         var nombreCoor = binding.nombreCoordinador.text.toString()
         var telefonoCood = binding.telefonoCoordinador.text.toString()
 
-        lifecycleScope.launch {
-            idClub = viewModel.getIdClubByName("nombre")
-        }
-
-        val retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub, nombreCoor, telefonoCood)
+        idClub = viewModel.getIdClubByName(club)
+        retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub, nombreCoor, telefonoCood)
 
         return retorno
     }
