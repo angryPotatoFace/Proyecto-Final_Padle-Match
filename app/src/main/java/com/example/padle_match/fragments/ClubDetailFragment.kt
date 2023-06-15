@@ -77,9 +77,7 @@ class ClubDetailFragment : Fragment() {
 
                     selecClubs.forEach{ t ->
                         val lista = t.data["localidades"] as List<String>
-                        Log.w("LISTA DE LOCALIDADES", lista.toString())
-                        val localidades = lista.toTypedArray()
-                        (binding.editTextLocalidades as? MaterialAutoCompleteTextView)?.setSimpleItems(localidades)
+                        handlerLocalidades( lista )
                     }
 
                 }
@@ -91,6 +89,11 @@ class ClubDetailFragment : Fragment() {
         binding.btnBackClubDetail.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    private fun handlerLocalidades( lista: List<String>) {
+        val localidades = lista.toTypedArray()
+        (binding.editTextLocalidades as? MaterialAutoCompleteTextView)?.setSimpleItems(localidades)
     }
 
     private fun handlerSave() {
@@ -123,6 +126,19 @@ class ClubDetailFragment : Fragment() {
         binding.editTextDirecciN.setText( selected.domicilio)
         binding.editTextEmail.setText( selected.email)
         binding.editTextTelefono.setText( selected.telefonos)
+
+        lifecycleScope.launch {
+            var clubs = viewModel.getPartidosList()
+            val selecClubs = clubs.filter { t -> t.data["nombre"] == selected.partido }
+
+            selecClubs.forEach{ t ->
+                val lista = t.data["localidades"] as List<String>
+                handlerLocalidades( lista )
+            }
+        }
+
+
+
     }
 
     private fun handlerCancel(selected: Club) {

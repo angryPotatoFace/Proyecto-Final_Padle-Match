@@ -24,6 +24,7 @@ class ClubDetailViewModel : ViewModel() {
         return clubs;
     }
 
+
     suspend fun updateClub(club: Club, id: String ) {
         val query = db.collection("clubs")
         val data = query.document(id).set(club)
