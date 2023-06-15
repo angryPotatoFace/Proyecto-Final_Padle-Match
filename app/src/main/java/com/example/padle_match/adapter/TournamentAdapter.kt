@@ -9,7 +9,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.padle_match.entities.Tournament
 import com.example.padle_match.R
-
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class TournamentAdapter(
     private var tournamentList: MutableList<Tournament>,
@@ -17,6 +18,7 @@ class TournamentAdapter(
     val onItemCLick: (Int) -> Unit
     ): RecyclerView.Adapter<TournamentAdapter.TournamentHolder >()  {
 
+    val db = Firebase.firestore
     class TournamentHolder (v: View) : RecyclerView.ViewHolder(v) {
         private var view: View
 
@@ -28,7 +30,10 @@ class TournamentAdapter(
             val txt: TextView = view.findViewById(R.id.tournament_title )
             txt.text = name
         }
-
+        fun setNombreClub(name: String) {
+            val txt: TextView = view.findViewById(R.id.tournament_club_nombre)
+            txt.text = name
+        }
         fun setCategory(name: String) {
             val txt: TextView = view.findViewById(R.id.tournament_category )
             txt.text = name
@@ -46,6 +51,10 @@ class TournamentAdapter(
 
         fun setOrganizador(name: String) {
             val txt: TextView = view.findViewById(R.id.tournament_user)
+            txt.text = name
+        }
+        fun setTelefono(name: String) {
+            val txt: TextView = view.findViewById(R.id.tournament_phone)
             txt.text = name
         }
         fun getCardLayout ():CardView{
@@ -70,10 +79,20 @@ class TournamentAdapter(
         holder.setDate(tournamentList[position].fecha )
         holder.setHour(tournamentList[position].hora )
         holder.setOrganizador(tournamentList[position].nombreCoordinador)
+        holder.setTelefono(tournamentList[position].telefonoCoordinador)
+
+        val id = tournamentList[position].idClub
+
+        db.collection("clubs").document(id).get().addOnSuccessListener { document ->
+            if (document != null) {
+                // Log.w("ADAPTADOR", document.data!!["nombre"].toString())
+                holder.setNombreClub( document.data!!["nombre"].toString())
+            }
 
         holder.getCardLayout().setOnClickListener{
             onItemCLick(position)
         }
 
+    }
     }
 }
