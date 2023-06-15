@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.padle_match.entities.Club
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.app
@@ -15,15 +16,14 @@ class ClubDetailViewModel : ViewModel() {
 
     val db = Firebase.firestore
 
-    suspend fun getPartidosList(): Array<String> {
+    suspend fun getPartidosList(): QuerySnapshot {
 
         val query =  db.collection("partidos")
         val clubs = query.get().await();
-        val data = clubs.map { t -> t.data["nombre"] } as List<String>
-        var list = data.toTypedArray();
 
-        return list;
+        return clubs;
     }
+
 
     suspend fun updateClub(club: Club, id: String ) {
         val query = db.collection("clubs")

@@ -67,6 +67,7 @@ class TournamentDetailFragment : Fragment()  {
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private lateinit var editButton: Button
+    private lateinit var backButton: ImageButton
     private lateinit var viewSwitcher: ViewSwitcher
     private lateinit var viewModel: TournamentDetailFragmentViewModel
     private  var imageUri: Uri = Uri.EMPTY
@@ -115,6 +116,8 @@ class TournamentDetailFragment : Fragment()  {
         detailNombCoordinador = v.findViewById(R.id.nombreCoordinador)
 
         detailTelCoordinador = v.findViewById(R.id.telefonoCoordinador)
+
+        backButton = v.findViewById(R.id.btnBackTournamentDetail)
 
         blockFields()
 
@@ -171,6 +174,8 @@ class TournamentDetailFragment : Fragment()  {
 
         handlerDelete()
 
+        handlerBack()
+
       /* boton flyer
        flyerButton.setOnClickListener {
             showFlyerDialog()
@@ -179,26 +184,37 @@ class TournamentDetailFragment : Fragment()  {
        */
     }
 
+    private fun handlerBack() {
+        backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
     private fun setValues(tournamentSelected: Tournament) {
         Log.w("Torneo selecionado", tournamentSelected.toString())
 
-
         lifecycleScope.launch {
-            val club = viewModel.getIdClubById(  tournamentSelected.idClub )
+            val club = viewModel.getIdClubById( tournamentSelected.idClub )
             detailClub.setText( club.nombre )
+            tournamentSelec = tournamentSelected
+            detailNombre.setText(tournamentSelected.titulo)
+            detailFecha.setText(tournamentSelected.fecha)
+            detailCategorias.setText(tournamentSelected.categoría)
+            detailHorario.setText(tournamentSelected.hora)
+            detailCupos.setText(tournamentSelected.cupos.toString())
+            detailCostoInscripcion.setText(tournamentSelected.costoInscripción.toString())
+            detailPremio.setText(tournamentSelected.premios)
+            detailMateriales.setText(tournamentSelected.materialCancha)
+            detailNombCoordinador.setText( tournamentSelected.nombreCoordinador)
+            detailTelCoordinador.setText(tournamentSelected.telefonoCoordinador)
         }
-        tournamentSelec = tournamentSelected
-        detailNombre.setText(tournamentSelected.titulo)
-        detailFecha.setText(tournamentSelected.fecha)
-        detailCategorias.setText(tournamentSelected.categoría)
-        detailHorario.setText(tournamentSelected.hora)
-        detailCupos.setText(tournamentSelected.cupos.toString())
-        detailCostoInscripcion.setText(tournamentSelected.costoInscripción.toString())
-        detailPremio.setText(tournamentSelected.premios)
-        detailMateriales.setText(tournamentSelected.materialCancha)
-        Glide.with(this).load(tournamentSelected.imagenTorneo).into(imageDisplay)
-        detailNombCoordinador.setText( tournamentSelected.nombreCoordinador)
-        detailTelCoordinador.setText(tournamentSelected.telefonoCoordinador)
+
+
+        if( tournamentSelected.imagenTorneo != "loading..."){
+            Glide.with(this).load(tournamentSelected.imagenTorneo).into(imageDisplay)
+        }else {
+            Glide.with(this).load(R.drawable.logo_img_base).into(imageDisplay)
+        }
     }
 
 
