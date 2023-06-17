@@ -167,8 +167,6 @@ class AddTournamentFragment: Fragment()  {
             if( checkCredentials().all { !it } ) {
                 lifecycleScope.launch {
                     val torneo = createTournament();
-                    findNavController().popBackStack(R.id.myTournamentsFragment, false)
-                    Snackbar.make( requireView(), "El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
                     cleanInputs()
                     Log.d(tag, "torneo")
                     var udi = viewModel.addTournament(torneo)
@@ -178,6 +176,8 @@ class AddTournamentFragment: Fragment()  {
                     }
                     torneo.id = udi;
                     viewModel.updateTournament(torneo, udi);
+                    findNavController().popBackStack(R.id.myTournamentsFragment, false)
+                    Snackbar.make( requireView(), "El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
                 }
             } else {
                 Snackbar.make(requireView(), "Hay campos invalidos", Snackbar.LENGTH_LONG).show()
@@ -206,9 +206,6 @@ class AddTournamentFragment: Fragment()  {
 
         // Validar campo categoria
         isValid.add( !viewModel.checkedRequired(binding.editTextAddTournamentCategorias, binding.inputAddCategories) )
-
-        // Validar campo premios
-        isValid.add( !viewModel.checkedPremio(binding.editTextAddTournamentPremios))
 
         // Validar campo nombre coordinador
         isValid.add( !viewModel.checkedRequired(binding.nombreCoordinador, binding.textInputLayoutNombreCoordinador) )
