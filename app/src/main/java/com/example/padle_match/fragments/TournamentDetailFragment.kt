@@ -4,6 +4,7 @@ package com.example.padle_match.fragments
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -360,12 +361,19 @@ class TournamentDetailFragment : Fragment()  {
     }
 
 
-    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText ) {
-        item.setOnClickListener{
-            datePicker.show(requireActivity().supportFragmentManager, "tag" )
+    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText) {
+        item.setOnClickListener {
+            datePicker.show(requireActivity().supportFragmentManager, "tag")
             datePicker.addOnPositiveButtonClickListener { selection ->
-                val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
-                item.setText(dateString)
+                val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val date = Date(selection)
+                val calendar = Calendar.getInstance()
+                calendar.time = date
+                calendar.add(Calendar.DAY_OF_MONTH, 1)
+                val nuevaFecha = calendar.time
+                val nuevaFechaString = formatoFecha.format(nuevaFecha)
+                item.setText(nuevaFechaString)
+                Log.d("DatePickerHandler", "Selected date: $nuevaFechaString")
             }
         }
     }
