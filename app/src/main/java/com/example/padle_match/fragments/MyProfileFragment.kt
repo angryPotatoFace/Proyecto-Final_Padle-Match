@@ -107,7 +107,7 @@ class MyProfileFragment : Fragment() {
         }
 
         // Validar campo DNI
-        if (!registerViewModel.checkedDNI(binding.detailDni, binding.detailDni.text.toString())) {
+        if (!registerViewModel.checkedDNI(binding.detailDni, currUser.dni)) {
             isValid = false
         }
 
@@ -130,6 +130,7 @@ class MyProfileFragment : Fragment() {
                             }
                             viewModel.updateProfile(user);
                             Snackbar.make(binding.root,"Los datos fueron guardados correctamente", Snackbar.LENGTH_LONG).show()
+                            binding.viewSwitcher.showPrevious()
                             blockFields()
                         }
                     }
