@@ -63,12 +63,10 @@ class MyProfileViewModel : ViewModel() {
 
 
     suspend fun deleteUser(user: User ) {
-        val query = db.collection("users")
-        val data = query.document(user.idUsuario).delete()
-        data.addOnSuccessListener { document ->
-            Log.w("Delete User", "User ${user.idUsuario} was deleted correctly")
-        }.await()
-
+        val query = db.collection("users").whereEqualTo("idUsuario", user.idUsuario)
+        val data = query.get().await()
+        val delete = db.collection("users").document(data.documents.get(0).id).delete().await()
+        
         val user = Firebase.auth.currentUser
         user!!.delete().await()
     }
