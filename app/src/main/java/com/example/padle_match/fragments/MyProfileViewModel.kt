@@ -74,11 +74,15 @@ class MyProfileViewModel : ViewModel() {
     }
 
     suspend fun updateProfile(profile: User){
-        val query = db.collection("users")
-        val data = query.document(profile.idUsuario).set(profile)
-        data.addOnSuccessListener{ document ->
-            Log.w("Update Tournament", "User ${profile.idUsuario} was update correctly")
-        }.await()
+        try{
+            val query = db.collection("users").whereEqualTo("idUsuario", profile.idUsuario)
+            val data = query.get().await()
+            db.collection("users").document(data.documents.get(0).id).set(profile).await()
+            Log.w("Update Club", "User ${profile.idUsuario} was update correctly");
+        }catch (e: java.lang.Exception) {
+            Log.w("Error Update Club", "Error on Updating User");
+        }
+
     }
 
     suspend fun uploadImagenStorage(data: Uri, udi: String): String {
