@@ -54,11 +54,14 @@ class MyProfileViewModel : ViewModel() {
     }
 
     suspend fun updateUser(user: User ) {
-        val query = db.collection("users")
-        val data = query.document(user.idUsuario).set(user)
-        data.addOnSuccessListener { document ->
-            Log.w("Update Club", "User ${user.idUsuario} was update correctly")
-        }.await()
+        try{
+            val query = db.collection("users").whereEqualTo("idUsuario", user.idUsuario)
+            val data = query.get().await()
+            db.collection("users").document(data.documents.get(0).id).set(user).await()
+            Log.w("Update Club", "User ${user.idUsuario} was update correctly");
+        } catch (e: java.lang.Exception) {
+            Log.w("Error Update Club", "Error on Updating User");
+        }
     }
 
 
@@ -66,7 +69,6 @@ class MyProfileViewModel : ViewModel() {
         val query = db.collection("users").whereEqualTo("idUsuario", user.idUsuario)
         val data = query.get().await()
         val delete = db.collection("users").document(data.documents.get(0).id).delete().await()
-        
         val user = Firebase.auth.currentUser
         user!!.delete().await()
     }
