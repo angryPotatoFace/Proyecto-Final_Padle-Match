@@ -105,7 +105,7 @@ class AddClubFragment : Fragment() {
         val provincia = "Buenos Aires";
         //binding.provinciaEditText.text.toString();
         val partido = binding.listaPartidos.text.toString();
-        val localidad = "Agregar";
+        val localidad = binding.listaLocalidades.text.toString();
         val direccion = binding.direccionEditText.text.toString();
         val email = binding.emailEditText.text.toString();
         val telefono = binding.telefonoEditText.text.toString();
