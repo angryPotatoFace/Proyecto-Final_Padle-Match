@@ -136,10 +136,28 @@ class AddClubViewModel : ViewModel() {
             true
         }
     }
+
+    fun checkedLocalidad(listaLocalidades: AutoCompleteTextView, listaLocalidadesTextInputLayout: TextInputLayout
+    ): Boolean {
+        return if(!checkedEmpty(listaLocalidades, listaLocalidadesTextInputLayout)){
+            false
+        } else{
+            listaLocalidadesTextInputLayout.error = null
+            true
+        }
+    }
+
     fun checkedDireccion(direccionEditText: EditText): Boolean {
         return if(!checkedEmpty(direccionEditText)){
             false
-        }else checkedMinLength(direccionEditText, 6)
+        }else if (!checkedMinLength(direccionEditText, 6)){
+            false
+        }else if(!isValidAddress(direccionEditText.text.toString())){
+            showError(direccionEditText, "Campo inválido" )
+            false
+        } else{
+            true
+        }
     }
 
     fun checkedEmail(inputEmail: EditText): Boolean {
@@ -238,9 +256,16 @@ class AddClubViewModel : ViewModel() {
     }
 
     private fun isValidInput(input: String): Boolean {
-        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ]+(\\s[A-Za-záéíóúÁÉÍÓÚ]+)*$")
+        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ0-9]+(\\s[A-Za-záéíóúÁÉÍÓÚ0-9]+)*$")
         return input.matches(regex)
     }
+
+    private fun isValidAddress(address: String): Boolean {
+        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ0-9.\\s]+(\\s[A-Za-záéíóúÁÉÍÓÚ0-9.\\s]+)*$")
+        return address.matches(regex)
+    }
+
+
 
     private fun showError(editText: EditText, s: String) {
         editText.error = s
@@ -254,7 +279,6 @@ class AddClubViewModel : ViewModel() {
     private fun clearInput(editText: EditText) {
         editText.setText("")
     }
-
 
 }
 

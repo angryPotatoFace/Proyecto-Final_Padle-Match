@@ -1,7 +1,6 @@
 package com.example.padle_match.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -146,6 +145,9 @@ class AddClubFragment : Fragment() {
         }
 
         //validar localidad
+        if(!viewModel.checkedLocalidad(binding.listaLocalidades, binding.listaLocalidadesTextInputLayout)){
+            isValid = false
+        }
 
         // Validar campo Direccion
         if (!viewModel.checkedDireccion(binding.direccionEditText)) {

@@ -3,6 +3,7 @@ package com.example.padle_match.fragments
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -132,12 +133,19 @@ class AddTournamentFragment: Fragment()  {
         }
     }
 
-    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText ) {
-        item.setOnClickListener{
-            datePicker.show(requireActivity().supportFragmentManager, "tag" )
+    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText) {
+        item.setOnClickListener {
+            datePicker.show(requireActivity().supportFragmentManager, "tag")
             datePicker.addOnPositiveButtonClickListener { selection ->
-                val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
-                item.setText(dateString)
+                val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val date = Date(selection)
+                val calendar = Calendar.getInstance()
+                calendar.time = date
+                calendar.add(Calendar.DAY_OF_MONTH, 1)
+                val nuevaFecha = calendar.time
+                val nuevaFechaString = formatoFecha.format(nuevaFecha)
+                item.setText(nuevaFechaString)
+                Log.d("DatePickerHandler", "Selected date: $nuevaFechaString")
             }
         }
     }
@@ -148,7 +156,7 @@ class AddTournamentFragment: Fragment()  {
             timePicker.addOnPositiveButtonClickListener {
                 val hour = timePicker.hour
                 val minute = timePicker.minute
-                binding.editTextAddTournamentHorario.setText(String.format("%02d:%02d", hour, minute))
+                item.setText(String.format("%02d:%02d", hour, minute))
             }
         }
     }
@@ -198,6 +206,9 @@ class AddTournamentFragment: Fragment()  {
 
         // Validar campo categoria
         isValid.add( !viewModel.checkedRequired(binding.editTextAddTournamentCategorias, binding.inputAddCategories) )
+
+        // Validar campo premios
+        isValid.add( !viewModel.checkedPremio(binding.editTextAddTournamentPremios))
 
         // Validar campo nombre coordinador
         isValid.add( !viewModel.checkedRequired(binding.nombreCoordinador, binding.textInputLayoutNombreCoordinador) )
