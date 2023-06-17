@@ -28,6 +28,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import android.view.inputmethod.InputMethodManager
+
 
 class RegisterFragment : Fragment() {
 
@@ -116,69 +118,6 @@ class RegisterFragment : Fragment() {
 
     //NO FUNCIONA
     private fun setupFieldNavigation() {
-        input_name.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                input_password.requestFocus()
-                return@setOnEditorActionListener true
-            }
-            false
-        }
-    }
-
-    private fun checkCredentials(): Boolean {
-        var isValid = true
-
-        // Validar campo Nombre
-        if (!viewModel.checkedNoSpecialCharacters(input_name)) {
-            isValid = false
-        }
-
-        // Validar campo Apellido
-        if (!viewModel.checkedNoSpecialCharacters(input_apellido)) {
-            isValid = false
-        }
-
-        // Validar campo Email
-        if (!viewModel.checkedEmail(input_email)) {
-            isValid = false
-        }
-
-        // Validar campo DNI
-        if (!viewModel.checkedDNI(input_Dni)) {
-            isValid = false
-        }
-
-        // Validar campo Telefono
-        if (!viewModel.checkedTelefono(input_Telefono)) {
-            isValid = false
-        }
-
-        // Validar campo Contraseña
-        if (!viewModel.checkedPassword(input_password)) {
-            isValid = false
-        }
-
-        // Validar campo Confirmar contraseña
-        if (!viewModel.checkedConfirPassword(input_ConfirPassword, input_password)) {
-            isValid = false
-        }
-
-
-        return isValid
-    }
-
-
-    private fun clearInputs() {
-        input_name.setText("")
-        input_apellido.setText("")
-        input_email.setText("")
-        input_Dni.setText("")
-        input_Telefono.setText("")
-        input_password.setText("")
-        input_ConfirPassword.setText("")
-    }
-
-    private fun setupFieldNavigation() {
         input_name.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 input_apellido.requestFocus()
@@ -236,4 +175,57 @@ class RegisterFragment : Fragment() {
             }
             false
         }
+
+    }
+
+    private fun checkCredentials(): Boolean {
+        var isValid = true
+
+        // Validar campo Nombre
+        if (!viewModel.checkedNoSpecialCharacters(input_name)) {
+            isValid = false
+        }
+
+        // Validar campo Apellido
+        if (!viewModel.checkedNoSpecialCharacters(input_apellido)) {
+            isValid = false
+        }
+
+        // Validar campo Email
+        if (!viewModel.checkedEmail(input_email)) {
+            isValid = false
+        }
+
+        // Validar campo DNI
+        if (!viewModel.checkedDNI(input_Dni)) {
+            isValid = false
+        }
+
+        // Validar campo Telefono
+        if (!viewModel.checkedTelefono(input_Telefono)) {
+            isValid = false
+        }
+
+        // Validar campo Contraseña
+        if (!viewModel.checkedPassword(input_password)) {
+            isValid = false
+        }
+
+        // Validar campo Confirmar contraseña
+        if (!viewModel.checkedConfirPassword(input_ConfirPassword, input_password)) {
+            isValid = false
+        }
+
+        return isValid
+    }
+
+    private fun clearInputs() {
+        input_name.setText("")
+        input_apellido.setText("")
+        input_email.setText("")
+        input_Dni.setText("")
+        input_Telefono.setText("")
+        input_password.setText("")
+        input_ConfirPassword.setText("")
+    }
 }
