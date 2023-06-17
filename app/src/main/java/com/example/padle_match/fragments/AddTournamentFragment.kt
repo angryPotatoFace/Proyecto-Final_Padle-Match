@@ -207,9 +207,6 @@ class AddTournamentFragment: Fragment()  {
         // Validar campo categoria
         isValid.add( !viewModel.checkedRequired(binding.editTextAddTournamentCategorias, binding.inputAddCategories) )
 
-        // Validar campo premios
-        isValid.add( !viewModel.checkedPremio(binding.editTextAddTournamentPremios))
-
         // Validar campo nombre coordinador
         isValid.add( !viewModel.checkedRequired(binding.nombreCoordinador, binding.textInputLayoutNombreCoordinador) )
         isValid.add( !viewModel.checkedNoSpecialCharacters(binding.nombreCoordinador) )

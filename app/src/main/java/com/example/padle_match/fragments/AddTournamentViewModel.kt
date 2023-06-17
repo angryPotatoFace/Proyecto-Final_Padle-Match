@@ -261,10 +261,6 @@ class AddTournamentViewModel : ViewModel() {
     fun checkedRequired(editTextAddTournament: EditText, input: TextInputLayout): Boolean {
         return checkedEmpty(editTextAddTournament, input)
     }
-
-    fun checkedPremio(editTextAddTournamentPremios: EditText): Boolean {
-        return isValidInput(editTextAddTournamentPremios.text.toString())
-    }
-
+    
 
 }
