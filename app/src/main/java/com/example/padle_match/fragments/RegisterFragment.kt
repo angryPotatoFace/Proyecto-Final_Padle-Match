@@ -1,5 +1,6 @@
 package com.example.padle_match.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +28,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import android.view.inputmethod.InputMethodManager
+
 
 class RegisterFragment : Fragment() {
 
@@ -115,13 +118,64 @@ class RegisterFragment : Fragment() {
 
     //NO FUNCIONA
     private fun setupFieldNavigation() {
-        input_name.setOnEditorActionListener { _, actionId, event ->
+        input_name.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_apellido.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        input_apellido.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_email.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        input_email.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_Dni.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        input_Dni.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_Telefono.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        input_Telefono.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 input_password.requestFocus()
                 return@setOnEditorActionListener true
             }
             false
         }
+
+        input_password.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_ConfirPassword.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        // Para el último campo de entrada, es posible que desees hacer algo diferente, como cerrar el teclado virtual
+        input_ConfirPassword.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
     }
 
     private fun checkCredentials(): Boolean {
@@ -162,10 +216,8 @@ class RegisterFragment : Fragment() {
             isValid = false
         }
 
-
         return isValid
     }
-
 
     private fun clearInputs() {
         input_name.setText("")
@@ -176,5 +228,4 @@ class RegisterFragment : Fragment() {
         input_password.setText("")
         input_ConfirPassword.setText("")
     }
-
 }
