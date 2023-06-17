@@ -20,6 +20,7 @@
     import com.example.padle_match.fragments.MyProfileViewModel
     import com.google.android.material.bottomnavigation.BottomNavigationView
     import androidx.lifecycle.findViewTreeLifecycleOwner
+    import com.example.padle_match.fragments.MyTournamentsViewModel
 
 
     class MainActivity : AppCompatActivity() {
@@ -46,6 +47,10 @@
             })*/
             val navController = findNavController(R.id.nav_host_fragment_content_main)
             NavigationUI.setupWithNavController(bottonNavView, navController)
+
+           //borrado de torneos anteriores al dia de la fecha
+            val myTournamentsViewModel = ViewModelProvider(this).get(MyTournamentsViewModel::class.java)
+            myTournamentsViewModel.deleteOldTournaments()
         }
 
          fun matar() {
