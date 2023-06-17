@@ -413,7 +413,7 @@ class TournamentDetailFragment : Fragment()  {
         val category = detailCategorias.text.toString();
         val material = detailMateriales.text.toString();
         val cupo = detailCupos.text.toString().toInt()
-        val cost = detailCupos.text.toString().toInt();
+        val cost = detailCostoInscripcion.text.toString().toInt();
         val premio = detailPremio.text.toString();
         val userId = tournamentSelec.userId
         val imagen = tournamentSelec.imagenTorneo
