@@ -107,7 +107,7 @@ class MyProfileFragment : Fragment() {
         }
 
         // Validar campo DNI
-        if (!registerViewModel.checkedDNI(binding.detailDni, currUser.dni)) {
+        if (!registerViewModel.checkedDNI(binding.detailDni, binding.detailDni.text.toString())) {
             isValid = false
         }
 
@@ -130,7 +130,6 @@ class MyProfileFragment : Fragment() {
                             }
                             viewModel.updateProfile(user);
                             Snackbar.make(binding.root,"Los datos fueron guardados correctamente", Snackbar.LENGTH_LONG).show()
-                            binding.viewSwitcher.showPrevious()
                             blockFields()
                         }
                     }
@@ -145,18 +144,20 @@ class MyProfileFragment : Fragment() {
 
     private fun handlerDelete(user: User) {
         binding.deleteProfile.setOnClickListener {
+
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
                 .setPositiveButton("Borrar Perfil") { _, _ ->
                     lifecycleScope.launch {
                         viewModel.deleteUser(user)
+                        closeSession()
                         findNavController().popBackStack(R.id.loginFragment, false)
                         Snackbar.make(
                             binding.root,
                             "Su usuario fue borrado correctamente",
                             Snackbar.LENGTH_LONG
                         ).show()
-                        closeSession()
+
                     }
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
@@ -186,7 +187,6 @@ class MyProfileFragment : Fragment() {
         }else {
             Glide.with(this).load(R.drawable.logo_img_base).into(binding.profileImage)
         }
-        binding.profileImage.isEnabled = false
     }
 
 
