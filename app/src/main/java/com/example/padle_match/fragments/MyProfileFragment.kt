@@ -145,7 +145,6 @@ class MyProfileFragment : Fragment() {
 
     private fun handlerDelete(user: User) {
         binding.deleteProfile.setOnClickListener {
-
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
                 .setPositiveButton("Borrar Perfil") { _, _ ->
@@ -187,6 +186,7 @@ class MyProfileFragment : Fragment() {
         }else {
             Glide.with(this).load(R.drawable.logo_img_base).into(binding.profileImage)
         }
+        binding.profileImage.isEnabled = false
     }
 
 
