@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -27,13 +29,17 @@ class TournamentDetailFragmentViewModel : ViewModel() {
     val storageRef = storage.reference
 
     fun createDatePicker(): MaterialDatePicker<Long> {
-
+        val today = System.currentTimeMillis()
         return MaterialDatePicker.Builder.datePicker()
             .setTitleText("Seleccione una fecha")
-            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setSelection(today)
+            .setCalendarConstraints(
+                CalendarConstraints.Builder()
+                    .setValidator(DateValidatorPointForward.from(today))
+                    .build()
+            )
             .build();
     }
-
 
     fun createHourPicker(): MaterialTimePicker {
         val timePicker =

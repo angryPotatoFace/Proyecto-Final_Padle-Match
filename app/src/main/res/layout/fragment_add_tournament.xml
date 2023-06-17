@@ -254,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:editable="true"
                 android:focusable="auto"
-                android:inputType="number"
+                android:inputType="text"
                 android:maxLength="64"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
