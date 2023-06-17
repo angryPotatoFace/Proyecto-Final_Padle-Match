@@ -130,6 +130,7 @@ class MyProfileFragment : Fragment() {
                             }
                             viewModel.updateProfile(user);
                             Snackbar.make(binding.root,"Los datos fueron guardados correctamente", Snackbar.LENGTH_LONG).show()
+                            binding.viewSwitcher.showPrevious()
                             blockFields()
                         }
                     }
@@ -187,6 +188,7 @@ class MyProfileFragment : Fragment() {
         }else {
             Glide.with(this).load(R.drawable.logo_img_base).into(binding.profileImage)
         }
+        binding.profileImage.isEnabled = false
     }
 
 
