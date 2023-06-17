@@ -267,7 +267,7 @@ class AddTournamentFragment: Fragment()  {
         }
         var cost = 0
         if ( !binding.editTextAddTournamentCosto.text.toString().isEmpty() ){
-            cupo = binding.editTextAddTournamentCosto.text.toString().toInt()
+            cost = binding.editTextAddTournamentCosto.text.toString().toInt()
         }
 
         val premio = binding.editTextAddTournamentPremios.text.toString();
