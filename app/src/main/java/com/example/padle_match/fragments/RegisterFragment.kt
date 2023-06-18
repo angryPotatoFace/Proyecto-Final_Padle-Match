@@ -82,10 +82,14 @@ class RegisterFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        //NO FUNCIONA
         setupFieldNavigation()
 
         setBackLogin()
+
+        with(requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit()) {
+            putBoolean("clear_credentials", true)
+            apply()
+        }
 
         btnEnviar.setOnClickListener{
 
@@ -102,12 +106,17 @@ class RegisterFragment : Fragment() {
                     val user = viewModel.registerUser(email, pass);
                     val usuario = User( user.uid,name,last,email,telefono,dni, "User created" );
                     viewModel.createUser(usuario);
+
+                    // No guardamos las credenciales en las preferencias compartidas
+
                     clearInputs()
                     findNavController().navigateUp()
                     Snackbar.make(requireView(), "Usuario creado con exito.", Snackbar.LENGTH_LONG).show()
                 }
             }
         }
+
+
     }
 
     private fun setBackLogin() {
@@ -116,7 +125,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    //NO FUNCIONA
+
     private fun setupFieldNavigation() {
         input_name.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {

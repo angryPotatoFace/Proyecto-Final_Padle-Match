@@ -2,6 +2,7 @@ package com.example.padle_match.fragments
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
@@ -151,6 +152,11 @@ class MyProfileFragment : Fragment() {
                 .setPositiveButton("Borrar Perfil") { _, _ ->
                     lifecycleScope.launch {
                         viewModel.deleteUser(user)
+                        val prefs = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                        with(prefs.edit()) {
+                            putBoolean("clear_credentials", true)
+                            apply()
+                        }
                         closeSession()
                         findNavController().popBackStack(R.id.loginFragment, false)
                         Snackbar.make(
@@ -168,6 +174,7 @@ class MyProfileFragment : Fragment() {
             dialog.show()
         }
     }
+
 
     private fun handlerEdit() {
         binding.editButton.setOnClickListener{

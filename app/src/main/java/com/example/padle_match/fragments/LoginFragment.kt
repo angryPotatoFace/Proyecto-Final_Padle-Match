@@ -59,6 +59,18 @@ class LoginFragment : Fragment() {
     @SuppressLint("ShowToast")
     override fun onStart() {
         super.onStart()
+
+        val prefs = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val clearCredentials = prefs.getBoolean("clear_credentials", false)
+        if (clearCredentials) {
+            // Limpia tus campos de entrada de credenciales aquí
+            cleanInputs()
+            with(prefs.edit()) {
+                putBoolean("clear_credentials", false)
+                apply()
+            }
+        }
+
         binding.btnCreateAccount.setOnClickListener{
             val email =  binding.loginEmailInput
             val pass = binding.loginPassInput
@@ -67,8 +79,12 @@ class LoginFragment : Fragment() {
             checkCredentials(email, pass, passInputLayout, emailInputLayout)
         }
 
-        loadSavedCredentials()
+        if (!clearCredentials) {
+            loadSavedCredentials()
+        }
     }
+
+
 
     fun checkCredentials(emailEditText: EditText, passEditText: EditText, passInputLayout: TextInputLayout, emailInputLayout: TextInputLayout){
         var isValid = true
