@@ -419,15 +419,29 @@ class TournamentDetailFragment : Fragment()  {
         val imagen = tournamentSelec.imagenTorneo
         var idClub = tournamentSelec.idClub
         var nombreCoor = detailNombCoordinador.text.toString()
-        val telefonoCoor = detailTelCoordinador.text.toString()
+        val detailTelCoordinador = detailTelCoordinador.text.toString()
+        val telefono = asignarTelefono(detailTelCoordinador)
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName(club)
         }
 
-        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub,nombreCoor,telefonoCoor)
+        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub,nombreCoor,telefono)
 
         return retorno
+    }
+
+
+    fun asignarTelefono(detailTelCoordinador: String): String {
+        val telefono: String
+
+        if (detailTelCoordinador.startsWith("549")) {
+            telefono = detailTelCoordinador
+        } else {
+            telefono = "549$detailTelCoordinador"
+        }
+
+        return telefono
     }
 
     /* Dialog para el flyer

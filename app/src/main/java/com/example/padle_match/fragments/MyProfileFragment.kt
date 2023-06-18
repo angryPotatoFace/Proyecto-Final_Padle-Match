@@ -240,7 +240,7 @@ class MyProfileFragment : Fragment() {
         var nombre= binding.detailName.text.toString()
         var apellido = binding.detailSurname.text.toString()
         var email= binding.detailEmail.text.toString()
-        var telefono= binding.detailPhone.text.toString()
+        var telefono= "549" + binding.detailPhone.text.toString()
         var dni= binding.detailDni.text.toString()
         var img = currUser.imgProfile
 
