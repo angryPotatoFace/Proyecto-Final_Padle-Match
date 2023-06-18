@@ -419,7 +419,7 @@ class TournamentDetailFragment : Fragment()  {
         val imagen = tournamentSelec.imagenTorneo
         var idClub = tournamentSelec.idClub
         var nombreCoor = detailNombCoordinador.text.toString()
-        val telefonoCoor = detailTelCoordinador.text.toString()
+        val telefonoCoor = "549" + detailTelCoordinador.text.toString()
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName(club)

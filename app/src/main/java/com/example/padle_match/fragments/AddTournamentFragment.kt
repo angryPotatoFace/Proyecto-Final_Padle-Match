@@ -274,7 +274,7 @@ class AddTournamentFragment: Fragment()  {
         val userId = auth.currentUser!!.uid
         var idClub = listaIds[i]
         var nombreCoor = binding.nombreCoordinador.text.toString()
-        var telefonoCood = binding.telefonoCoordinador.text.toString()
+        var telefonoCood = "549" + binding.telefonoCoordinador.text.toString()
 
         idClub = viewModel.getIdClubByName(club)
         retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub, nombreCoor, telefonoCood)

@@ -93,7 +93,7 @@ class RegisterFragment : Fragment() {
             val last = input_apellido.text.toString()
             val email = input_email.text.toString();
             val dni = input_Dni.text.toString()
-            val telefono = input_Telefono.text.toString();
+            val telefono = "549" + input_Telefono.text.toString();
             val pass = input_password.text.toString();
             val confir = input_ConfirPassword.text.toString();
 
