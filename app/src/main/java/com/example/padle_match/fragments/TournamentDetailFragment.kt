@@ -362,29 +362,34 @@ class TournamentDetailFragment : Fragment()  {
 
 
     private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText) {
-        item.setOnClickListener {
-            datePicker.show(requireActivity().supportFragmentManager, "tag")
-            datePicker.addOnPositiveButtonClickListener { selection ->
-                val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                val date = Date(selection)
-                val calendar = Calendar.getInstance()
-                calendar.time = date
-                calendar.add(Calendar.DAY_OF_MONTH, 1)
-                val nuevaFecha = calendar.time
-                val nuevaFechaString = formatoFecha.format(nuevaFecha)
-                item.setText(nuevaFechaString)
-                Log.d("DatePickerHandler", "Selected date: $nuevaFechaString")
+        if( !datePicker.isAdded()) {
+            item.setOnClickListener {
+                datePicker.show(requireActivity().supportFragmentManager, "tag")
+                datePicker.addOnPositiveButtonClickListener { selection ->
+                    val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    val date = Date(selection)
+                    val calendar = Calendar.getInstance()
+                    calendar.time = date
+                    calendar.add(Calendar.DAY_OF_MONTH, 1)
+                    val nuevaFecha = calendar.time
+                    val nuevaFechaString = formatoFecha.format(nuevaFecha)
+                    item.setText(nuevaFechaString)
+                    Log.d("DatePickerHandler", "Selected date: $nuevaFechaString")
+                }
             }
         }
     }
 
-    private fun hourPickerHandler(timePicker: MaterialTimePicker, item: EditText ) {
-        item.setOnClickListener {
-            timePicker.show(requireActivity().supportFragmentManager, "tag")
-            timePicker.addOnPositiveButtonClickListener {
-                val hour = timePicker.hour
-                val minute = timePicker.minute
-                item.setText(String.format("%02d:%02d", hour, minute))
+    private fun hourPickerHandler(materialTimePicker: MaterialTimePicker, item: EditText ) {
+        if (!materialTimePicker.isAdded()) {
+
+            item.setOnClickListener {
+                materialTimePicker.show(requireActivity().supportFragmentManager, "tag")
+                materialTimePicker.addOnPositiveButtonClickListener {
+                    val hour = materialTimePicker.hour
+                    val minute = materialTimePicker.minute
+                    item.setText(String.format("%02d:%02d", hour, minute))
+                }
             }
         }
     }
