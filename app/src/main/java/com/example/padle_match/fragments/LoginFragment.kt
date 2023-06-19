@@ -60,18 +60,9 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val prefs = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        val clearCredentials = prefs.getBoolean("clear_credentials", false)
-        if (clearCredentials) {
-            // Limpia tus campos de entrada de credenciales aquí
-            cleanInputs()
-            with(prefs.edit()) {
-                putBoolean("clear_credentials", false)
-                apply()
-            }
-        }
+        var clearCredentials = clearCredentialsIfNeeded()
 
-        binding.btnCreateAccount.setOnClickListener{
+        binding.btnLogin.setOnClickListener{
             val email =  binding.loginEmailInput
             val pass = binding.loginPassInput
             val passInputLayout = binding.etPassword
@@ -104,7 +95,6 @@ class LoginFragment : Fragment() {
             lifecycleScope.launch {
                 val res = viewModel.loginUser(email,pass);
                 if (res){
-
                     val email = emailEditText.text.toString()
                     val pass = passEditText.text.toString()
 
@@ -134,7 +124,6 @@ class LoginFragment : Fragment() {
         binding.loginPassInput.setText("")
     }
 
-    // Guardar las credenciales en las preferencias compartidas
     private fun saveCredentials(email: String, password: String) {
         val sharedPref = requireContext().getSharedPreferences("credentials", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
@@ -143,7 +132,6 @@ class LoginFragment : Fragment() {
         editor.apply()
     }
 
-    // Cargar las credenciales guardadas, si existen
     private fun loadSavedCredentials() {
         val sharedPref = requireContext().getSharedPreferences("credentials", Context.MODE_PRIVATE)
         val email = sharedPref.getString("email", null)
@@ -155,5 +143,23 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun clearCredentialsIfNeeded(): Boolean {
+        val prefs = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val clearCredentials = prefs.getBoolean("clear_credentials", false)
+        if (clearCredentials) {
+            cleanInputs()
+            val credentialsPrefs = requireContext().getSharedPreferences("credentials", Context.MODE_PRIVATE)
+            with(credentialsPrefs.edit()) {
+                remove("email")
+                remove("password")
+                apply()
+            }
+            with(prefs.edit()) {
+                putBoolean("clear_credentials", false)
+                apply()
+            }
+        }
+        return clearCredentials
+    }
 
 }

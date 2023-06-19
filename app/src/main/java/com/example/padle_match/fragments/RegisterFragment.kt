@@ -86,11 +86,6 @@ class RegisterFragment : Fragment() {
 
         setBackLogin()
 
-        with(requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit()) {
-            putBoolean("clear_credentials", true)
-            apply()
-        }
-
         btnEnviar.setOnClickListener{
 
             val name = input_name.text.toString();
@@ -107,7 +102,10 @@ class RegisterFragment : Fragment() {
                     val usuario = User( user.uid,name,last,email,telefono,dni, "User created" );
                     viewModel.createUser(usuario);
 
-                    // No guardamos las credenciales en las preferencias compartidas
+                    with(requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit()) {
+                        putBoolean("clear_credentials", true)
+                        apply()
+                    }
 
                     clearInputs()
                     findNavController().navigateUp()
