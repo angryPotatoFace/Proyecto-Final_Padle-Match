@@ -249,7 +249,7 @@ class MyProfileFragment : Fragment() {
         return user
     }
 
-    fun asignarTelefono(telef: String): String {
+    private fun asignarTelefono(telef: String): String {
         val telefono: String
 
         if (telef.startsWith("549")) {
