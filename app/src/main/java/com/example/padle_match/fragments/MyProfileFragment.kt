@@ -240,12 +240,25 @@ class MyProfileFragment : Fragment() {
         var nombre= binding.detailName.text.toString()
         var apellido = binding.detailSurname.text.toString()
         var email= binding.detailEmail.text.toString()
-        var telefono= "549" + binding.detailPhone.text.toString()
+        val telef = binding.detailPhone.text.toString()
+        val telefono = asignarTelefono(telef)
         var dni= binding.detailDni.text.toString()
         var img = currUser.imgProfile
 
         val user = User(id,nombre,apellido,email,telefono,dni,img)
         return user
+    }
+
+    fun asignarTelefono(telef: String): String {
+        val telefono: String
+
+        if (telef.startsWith("549")) {
+            telefono = telef
+        } else {
+            telefono = "549$telef"
+        }
+
+        return telefono
     }
 
     fun closeSession() {
