@@ -20,18 +20,14 @@ class ForgotPasswordViewModel : ViewModel() {
             if (task.isSuccessful) {
                 val signInMethods = task.result?.signInMethods ?: emptyList()
                 if (signInMethods.isNotEmpty()) {
-                    // El correo electrónico está presente en la base de datos de Firebase
                     auth.sendPasswordResetEmail(email).addOnCompleteListener { resetTask ->
                         if (resetTask.isSuccessful) {
-                            // El correo electrónico de cambio de contraseña se ha enviado correctamente
                             listener?.onEmailSentAndComplete()
                         } else {
-                            // Hubo un error al enviar el correo electrónico de cambio de contraseña
                             listener?.onError("Error al enviar el correo electrónico de cambio de contraseña")
                         }
                     }
                 } else {
-                    // El correo electrónico no está registrado en la base de datos de Firebase
                     listener?.onError("El correo electrónico no está registrado")
                 }
             }

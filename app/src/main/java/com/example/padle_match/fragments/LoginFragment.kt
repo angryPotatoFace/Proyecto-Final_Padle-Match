@@ -80,11 +80,10 @@ class LoginFragment : Fragment() {
     fun checkCredentials(emailEditText: EditText, passEditText: EditText, passInputLayout: TextInputLayout, emailInputLayout: TextInputLayout){
         var isValid = true
 
-        // Validar campo Email
         if (!viewModel.checkedEmail(emailEditText, emailInputLayout)) {
             isValid = false
         }
-        // Validar campo Contraseña
+
         if (!viewModel.checkedPassword(passEditText, passInputLayout)) {
             isValid = false
         }

@@ -1,11 +1,8 @@
 package com.example.padle_match.fragments
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,15 +17,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
 import com.example.padle_match.entities.User
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import android.view.inputmethod.InputMethodManager
+import com.google.android.material.textfield.TextInputLayout
 
 
 class RegisterFragment : Fragment() {
@@ -47,7 +40,9 @@ class RegisterFragment : Fragment() {
     private lateinit var input_Dni: EditText
     private lateinit var input_Telefono: EditText
     private lateinit var input_password: EditText
+    private lateinit var textInputLayout_password: TextInputLayout
     private lateinit var input_ConfirPassword: EditText
+    private lateinit var textInputLayout_confirPassword: TextInputLayout
     private lateinit var btnEnviar: Button
     private lateinit var txtVolver: TextView
     private lateinit var frameLayout: ConstraintLayout
@@ -67,7 +62,9 @@ class RegisterFragment : Fragment() {
         input_Dni = v.findViewById(R.id.etDni)
         input_Telefono = v.findViewById(R.id.etTelefono)
         input_password = v.findViewById(R.id.etContrasena)
+        textInputLayout_password = v.findViewById(R.id.textInputLayout_password)
         input_ConfirPassword = v.findViewById(R.id.etConfirContras)
+        textInputLayout_confirPassword = v.findViewById(R.id.textInputLayout_confirmPassword)
         frameLayout = v.findViewById(R.id.registerFrameLayout)
         btnEnviar = v.findViewById(R.id.btnCrearCuenta)
         txtVolver = v.findViewById(R.id.txtYaTieneCuenta)
@@ -94,7 +91,6 @@ class RegisterFragment : Fragment() {
             val dni = input_Dni.text.toString()
             val telefono = "549" + input_Telefono.text.toString();
             val pass = input_password.text.toString();
-            val confir = input_ConfirPassword.text.toString();
 
             if(checkCredentials()){
                 lifecycleScope.launch {
@@ -214,13 +210,17 @@ class RegisterFragment : Fragment() {
         }
 
         // Validar campo Contraseña
-        if (!viewModel.checkedPassword(input_password)) {
+        if (!viewModel.checkedPassword(input_password,textInputLayout_password)) {
             isValid = false
+        }else{
+            textInputLayout_password.error = null
         }
 
         // Validar campo Confirmar contraseña
-        if (!viewModel.checkedConfirPassword(input_ConfirPassword, input_password)) {
+        if (!viewModel.checkedConfirPassword(input_ConfirPassword, input_password, textInputLayout_confirPassword)) {
             isValid = false
+        } else{
+            textInputLayout_confirPassword.error = null
         }
 
         return isValid
