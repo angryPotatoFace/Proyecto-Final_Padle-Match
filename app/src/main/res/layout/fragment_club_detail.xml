@@ -91,9 +91,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:maxLength="11"
                 android:inputType="number"
-                />
+                android:maxLength="11" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="190dp"
             android:layout_marginEnd="20dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="380dp"
+            android:layout_marginTop="370dp"
             android:layout_marginEnd="20dp"
             android:hint="Dirección"
             app:layout_constraintEnd_toEndOf="parent"
@@ -156,7 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="470dp"
+            android:layout_marginTop="460dp"
             android:layout_marginEnd="20dp"
             android:hint="Email"
             app:layout_constraintEnd_toEndOf="parent"
@@ -178,7 +177,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="560dp"
+            android:layout_marginTop="550dp"
             android:layout_marginEnd="20dp"
             android:hint="Teléfono"
             app:layout_constraintEnd_toEndOf="parent"
@@ -190,6 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="false"
+                android:maxLength="15"
                 android:inputType="number"
                 />
         </com.google.android.material.textfield.TextInputLayout>
@@ -250,6 +250,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="30dp"
+                    android:textColor="@color/black"
                     android:text="CANCELAR"
                     android:textSize="16dp" />
 
@@ -260,6 +261,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
+                    android:textColor="@color/black"
                     android:text="GUARDAR"
                     android:textSize="16dp"
                     app:cornerRadius="20dp" />
@@ -275,29 +277,33 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="DETALLE DEL CLUB"
-            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view2" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutLocalidades"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="280dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2"
             android:enabled="false"
-            >
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2">
 
             <AutoCompleteTextView
                 android:id="@+id/editTextLocalidades"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="none"
                 android:hint="Localidades" />
         </com.google.android.material.textfield.TextInputLayout>
 

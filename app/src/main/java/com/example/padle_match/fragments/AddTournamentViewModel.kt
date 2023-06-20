@@ -1,5 +1,6 @@
 package com.example.padle_match.fragments
 
+import android.icu.util.Calendar
 import android.net.Uri
 import android.util.Log
 import android.widget.AutoCompleteTextView
@@ -38,8 +39,9 @@ class AddTournamentViewModel : ViewModel() {
     }
 
     // Permite solo seleccionar una fecha a partir del dia actual
+
     fun createDatePicker(): MaterialDatePicker<Long> {
-        val today = MaterialDatePicker.todayInUtcMilliseconds()
+        val today = System.currentTimeMillis()
         return MaterialDatePicker.Builder.datePicker()
             .setTitleText("Seleccione una fecha")
             .setSelection(today)
@@ -222,7 +224,7 @@ class AddTournamentViewModel : ViewModel() {
     }
 
     private fun isValidInput(input: String): Boolean {
-        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ]+(\\s[A-Za-záéíóúÁÉÍÓÚ]+)*$")
+        val regex = Regex("^[A-Za-záéíóúÁÉÍÓÚ0-9]+(\\s[A-Za-záéíóúÁÉÍÓÚ0-9]+)*$")
         return input.matches(regex)
     }
 
@@ -259,5 +261,6 @@ class AddTournamentViewModel : ViewModel() {
     fun checkedRequired(editTextAddTournament: EditText, input: TextInputLayout): Boolean {
         return checkedEmpty(editTextAddTournament, input)
     }
+    
 
 }

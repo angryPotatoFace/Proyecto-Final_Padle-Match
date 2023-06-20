@@ -1,10 +1,9 @@
 package com.example.padle_match.fragments
 
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.KeyEvent
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,14 +18,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.padle_match.R
 import com.example.padle_match.entities.User
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
+import android.view.inputmethod.InputMethodManager
+import com.google.android.material.textfield.TextInputLayout
+
 
 class RegisterFragment : Fragment() {
 
@@ -44,7 +41,9 @@ class RegisterFragment : Fragment() {
     private lateinit var input_Dni: EditText
     private lateinit var input_Telefono: EditText
     private lateinit var input_password: EditText
+    private lateinit var textInputLayout_password: TextInputLayout
     private lateinit var input_ConfirPassword: EditText
+    private lateinit var textInputLayout_confirPassword: TextInputLayout
     private lateinit var btnEnviar: Button
     private lateinit var txtVolver: TextView
     private lateinit var frameLayout: ConstraintLayout
@@ -64,7 +63,9 @@ class RegisterFragment : Fragment() {
         input_Dni = v.findViewById(R.id.etDni)
         input_Telefono = v.findViewById(R.id.etTelefono)
         input_password = v.findViewById(R.id.etContrasena)
+        textInputLayout_password = v.findViewById(R.id.textInputLayout_password)
         input_ConfirPassword = v.findViewById(R.id.etConfirContras)
+        textInputLayout_confirPassword = v.findViewById(R.id.textInputLayout_confirmPassword)
         frameLayout = v.findViewById(R.id.registerFrameLayout)
         btnEnviar = v.findViewById(R.id.btnCrearCuenta)
         txtVolver = v.findViewById(R.id.txtYaTieneCuenta)
@@ -79,7 +80,6 @@ class RegisterFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        //NO FUNCIONA
         setupFieldNavigation()
 
         setBackLogin()
@@ -90,15 +90,21 @@ class RegisterFragment : Fragment() {
             val last = input_apellido.text.toString()
             val email = input_email.text.toString();
             val dni = input_Dni.text.toString()
-            val telefono = input_Telefono.text.toString();
+            val telef = input_Telefono.text.toString();
+            val telefono = asignarTelefono(telef)
             val pass = input_password.text.toString();
-            val confir = input_ConfirPassword.text.toString();
 
-            if(checkCredentials()){
-                lifecycleScope.launch {
+            lifecycleScope.launch {
+                if(checkCredentials()){
                     val user = viewModel.registerUser(email, pass);
                     val usuario = User( user.uid,name,last,email,telefono,dni, "User created" );
                     viewModel.createUser(usuario);
+
+                    with(requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE).edit()) {
+                        putBoolean("clear_credentials", true)
+                        apply()
+                    }
+
                     clearInputs()
                     findNavController().navigateUp()
                     Snackbar.make(requireView(), "Usuario creado con exito.", Snackbar.LENGTH_LONG).show()
@@ -107,24 +113,87 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun asignarTelefono(telef: String): String {
+        val telefono: String
+
+        if (telef.startsWith("549")) {
+            telefono = telef
+        } else {
+            telefono = "549$telef"
+        }
+        Log.d("Tel", telefono)
+        return telefono
+    }
+
     private fun setBackLogin() {
         txtVolver.setOnClickListener {
             findNavController().navigateUp()
         }
     }
 
-    //NO FUNCIONA
+
     private fun setupFieldNavigation() {
-        input_name.setOnEditorActionListener { _, actionId, event ->
+        input_name.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_apellido.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        input_apellido.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_email.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        input_email.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_Dni.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        input_Dni.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_Telefono.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        input_Telefono.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 input_password.requestFocus()
                 return@setOnEditorActionListener true
             }
             false
         }
+
+        input_password.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                input_ConfirPassword.requestFocus()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        // Para el último campo de entrada, es posible que desees hacer algo diferente, como cerrar el teclado virtual
+        input_ConfirPassword.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
     }
 
-    private fun checkCredentials(): Boolean {
+    private suspend fun checkCredentials(): Boolean {
         var isValid = true
 
         // Validar campo Nombre
@@ -153,19 +222,21 @@ class RegisterFragment : Fragment() {
         }
 
         // Validar campo Contraseña
-        if (!viewModel.checkedPassword(input_password)) {
+        if (!viewModel.checkedPassword(input_password,textInputLayout_password)) {
             isValid = false
+        }else{
+            textInputLayout_password.error = null
         }
 
         // Validar campo Confirmar contraseña
-        if (!viewModel.checkedConfirPassword(input_ConfirPassword, input_password)) {
+        if (!viewModel.checkedConfirPassword(input_ConfirPassword, input_password, textInputLayout_confirPassword)) {
             isValid = false
+        } else{
+            textInputLayout_confirPassword.error = null
         }
-
 
         return isValid
     }
-
 
     private fun clearInputs() {
         input_name.setText("")
@@ -176,5 +247,4 @@ class RegisterFragment : Fragment() {
         input_password.setText("")
         input_ConfirPassword.setText("")
     }
-
 }

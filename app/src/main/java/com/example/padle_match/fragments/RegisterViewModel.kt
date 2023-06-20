@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import com.example.padle_match.entities.User
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -19,6 +20,7 @@ class RegisterViewModel : ViewModel() {
     val db = Firebase.firestore
     private var auth: FirebaseAuth = Firebase.auth
     suspend fun registerUser(email: String, password: String ): FirebaseUser {
+
         lateinit var user: FirebaseUser
 
         try{
@@ -52,23 +54,23 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
-    fun checkedConfirPassword(inputConfirpassword: EditText, input_password: EditText): Boolean {
-        return if(!checkedEmpty(inputConfirpassword)){
+    fun checkedConfirPassword(inputConfirpassword: EditText, input_password: EditText, textInputLayout: TextInputLayout): Boolean {
+        return if(!checkedEmpty(inputConfirpassword, textInputLayout)){
             false
-        }else if(!checkedMinLength(inputConfirpassword, 6)){
+        }else if(!checkedMinLength(inputConfirpassword,textInputLayout, 6)){
             false
         } else if (!inputConfirpassword.text.toString().equals(input_password.text.toString())){
-            showError(inputConfirpassword, "Las contraseñas no coinciden")
+            showErrorTextInputLayout(textInputLayout, "Las contraseñas no coinciden")
             false
         } else{
             true
         }
     }
 
-    fun checkedPassword(inputPassword: EditText): Boolean {
-        return if(!checkedEmpty(inputPassword)){
+    fun checkedPassword(inputPassword: EditText, textInputLayout: TextInputLayout): Boolean {
+        return if(!checkedEmpty(inputPassword, textInputLayout)){
             false
-        } else checkedMinLength(inputPassword, 6)
+        } else checkedMinLength(inputPassword,textInputLayout, 6)
     }
 
     fun checkedTelefono(inputTelefono: EditText): Boolean {
@@ -77,13 +79,13 @@ class RegisterViewModel : ViewModel() {
         } else checkedMinLength(inputTelefono, 10)
     }
 
-    fun checkedDNI(inputDni: EditText): Boolean {
+    suspend fun checkedDNI(inputDni: EditText): Boolean {
         return if(!checkedEmpty(inputDni)){
             false
         } else if(!checkedMinLength(inputDni, 7)){
             false
         } else {
-            val dniRegistered = runBlocking {dniAlreadyRegistered(inputDni.text.toString())}
+            val dniRegistered = dniAlreadyRegistered(inputDni.text.toString())
             if(dniRegistered){
                 showError(inputDni, "DNI ya registrado")
                 clearInput(inputDni)
@@ -95,13 +97,13 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
-    fun checkedDNI(inputDni: EditText, DNI : String): Boolean {
+    suspend fun checkedDNI(inputDni: EditText, DNI : String): Boolean {
         return if(!checkedEmpty(inputDni)){
             false
         } else if(!checkedMinLength(inputDni, 7)){
             false
         } else if(!inputDni.text.toString().equals(DNI)) {
-            val dniRegistered = runBlocking { dniAlreadyRegistered(inputDni.text.toString()) }
+            val dniRegistered = dniAlreadyRegistered(inputDni.text.toString())
             if (dniRegistered) {
                 showError(inputDni, "DNI ya registrado")
                 clearInput(inputDni)
@@ -132,10 +134,28 @@ class RegisterViewModel : ViewModel() {
         return valid
     }
 
+    private fun checkedMinLength(editText: EditText,textInputLayout: TextInputLayout, min : Int): Boolean {
+        var valid = true
+        if(editText.text.length < min){
+            showErrorTextInputLayout(textInputLayout,"El campo debe tener al menos $min caracteres" )
+            valid = false
+        }
+        return valid
+    }
+
     private fun checkedEmpty(editText: EditText): Boolean {
         var valid = true
         if(editText.text.isEmpty()){
             showError(editText,"Campo requerido" )
+            valid = false
+        }
+        return valid
+    }
+
+    private fun checkedEmpty(editText: EditText, textInputLayout: TextInputLayout): Boolean {
+        var valid = true
+        if(editText.text.isEmpty()){
+            showErrorTextInputLayout(textInputLayout,"Campo requerido" )
             valid = false
         }
         return valid
@@ -206,8 +226,13 @@ class RegisterViewModel : ViewModel() {
         editText.clearFocus()
     }
 
+    private fun showErrorTextInputLayout(textInputLayout: TextInputLayout, s: String) {
+        textInputLayout.error = s
+        textInputLayout.errorIconDrawable = null
+    }
     private fun clearInput(editText: EditText) {
         editText.setText("")
     }
+
 
 }

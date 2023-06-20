@@ -144,26 +144,39 @@ class ClubDetailFragment : Fragment() {
     private fun handlerCancel(selected: Club) {
         binding.cancelButton.setOnClickListener {
             binding.viewSwitcher.showPrevious()
+
             binding.editTextNombre.setText(selected.nombre)
             binding.editTextNombre.isEnabled = false
             binding.editTextNombre.error = null
             binding.textInputLayoutNombre.clearFocus()
+
             binding.editTextCuit.setText(selected.cuit)
             binding.editTextCuit.isEnabled = false
             binding.editTextCuit.error = null
             binding.textInputLayoutCuit.clearFocus()
+
             binding.editTextPartido.setText(selected.partido)
             binding.editTextPartido.isEnabled = false
+            binding.textInputLayoutPartido.isEnabled = false
             binding.textInputLayoutPartido.error = null
             binding.textInputLayoutPartido.clearFocus()
+
+            binding.editTextLocalidades.setText(selected.localidad)
+            binding.editTextLocalidades.isEnabled = false
+            binding.textInputLayoutLocalidades.isEnabled = false
+            binding.textInputLayoutLocalidades.error = null
+            binding.textInputLayoutLocalidades.clearFocus()
+
             binding.editTextDirecciN.setText(selected.domicilio)
             binding.editTextDirecciN.isEnabled = false
             binding.editTextDirecciN.error = null
             binding.textInputLayoutDireccion.clearFocus()
+
             binding.editTextEmail.setText(selected.email)
             binding.editTextEmail.isEnabled = false
             binding.editTextEmail.error = null
             binding.textInputLayoutEmail.clearFocus()
+
             binding.editTextTelefono.setText(selected.telefonos)
             binding.editTextTelefono.isEnabled = false
             binding.editTextTelefono.error = null
@@ -178,10 +191,12 @@ class ClubDetailFragment : Fragment() {
             binding.editTextNombre.isEnabled = true
             binding.editTextCuit.isEnabled = true
             binding.editTextPartido.isEnabled = true
+            binding.textInputLayoutPartido.isEnabled = true
+            binding.editTextLocalidades.isEnabled = true
+            binding.textInputLayoutLocalidades.isEnabled = true
             binding.editTextDirecciN.isEnabled = true
             binding.editTextEmail.isEnabled = true
             binding.editTextTelefono.isEnabled = true
-            binding.editTextLocalidades.isEnabled = true
         }
     }
 

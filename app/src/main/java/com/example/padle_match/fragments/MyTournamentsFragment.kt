@@ -22,6 +22,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MyTournamentsFragment : Fragment() {
 
@@ -58,7 +61,10 @@ class MyTournamentsFragment : Fragment() {
 
         lifecycleScope.launch {
             // ESTO LLAMAR COROUTINA EN EL VIEWMODEL.
-            list = viewModel.getTournament();
+            val originalList = viewModel.getTournament()
+            val sortedList = originalList.sortedBy { parseDate(it.fecha) }
+            list.clear()
+            list.addAll(sortedList)
             recyclerView.layoutManager = LinearLayoutManager(context)
             adapter = TournamentAdapter(list, requireContext()) { pos ->
                 onItemClick(pos)
@@ -70,6 +76,11 @@ class MyTournamentsFragment : Fragment() {
             val action = MyTournamentsFragmentDirections.actionMyTournamentsFragmentToAddTournamentFragment()
             findNavController().navigate(action)
         }
+    }
+
+    private fun parseDate(dateString: String): Date {
+        val format = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
+        return format.parse(dateString) ?: Date()
     }
 
     fun onItemClick ( position : Int )  {

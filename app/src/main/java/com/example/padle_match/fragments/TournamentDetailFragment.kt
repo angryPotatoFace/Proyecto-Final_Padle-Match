@@ -4,6 +4,7 @@ package com.example.padle_match.fragments
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -360,23 +361,35 @@ class TournamentDetailFragment : Fragment()  {
     }
 
 
-    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText ) {
-        item.setOnClickListener{
-            datePicker.show(requireActivity().supportFragmentManager, "tag" )
-            datePicker.addOnPositiveButtonClickListener { selection ->
-                val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
-                item.setText(dateString)
+    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText) {
+        if( !datePicker.isAdded()) {
+            item.setOnClickListener {
+                datePicker.show(requireActivity().supportFragmentManager, "tag")
+                datePicker.addOnPositiveButtonClickListener { selection ->
+                    val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    val date = Date(selection)
+                    val calendar = Calendar.getInstance()
+                    calendar.time = date
+                    calendar.add(Calendar.DAY_OF_MONTH, 1)
+                    val nuevaFecha = calendar.time
+                    val nuevaFechaString = formatoFecha.format(nuevaFecha)
+                    item.setText(nuevaFechaString)
+                    Log.d("DatePickerHandler", "Selected date: $nuevaFechaString")
+                }
             }
         }
     }
 
-    private fun hourPickerHandler(timePicker: MaterialTimePicker, item: EditText ) {
-        item.setOnClickListener {
-            timePicker.show(requireActivity().supportFragmentManager, "tag")
-            timePicker.addOnPositiveButtonClickListener {
-                val hour = timePicker.hour
-                val minute = timePicker.minute
-                item.setText(String.format("%02d:%02d", hour, minute))
+    private fun hourPickerHandler(materialTimePicker: MaterialTimePicker, item: EditText ) {
+        if (!materialTimePicker.isAdded()) {
+
+            item.setOnClickListener {
+                materialTimePicker.show(requireActivity().supportFragmentManager, "tag")
+                materialTimePicker.addOnPositiveButtonClickListener {
+                    val hour = materialTimePicker.hour
+                    val minute = materialTimePicker.minute
+                    item.setText(String.format("%02d:%02d", hour, minute))
+                }
             }
         }
     }
@@ -405,21 +418,35 @@ class TournamentDetailFragment : Fragment()  {
         val category = detailCategorias.text.toString();
         val material = detailMateriales.text.toString();
         val cupo = detailCupos.text.toString().toInt()
-        val cost = detailCupos.text.toString().toInt();
+        val cost = detailCostoInscripcion.text.toString().toInt();
         val premio = detailPremio.text.toString();
         val userId = tournamentSelec.userId
         val imagen = tournamentSelec.imagenTorneo
         var idClub = tournamentSelec.idClub
         var nombreCoor = detailNombCoordinador.text.toString()
-        val telefonoCoor = detailTelCoordinador.text.toString()
+        val detailTelCoordinador = detailTelCoordinador.text.toString()
+        val telefono = asignarTelefono(detailTelCoordinador)
 
         lifecycleScope.launch {
             idClub = viewModel.getIdClubByName(club)
         }
 
-        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub,nombreCoor,telefonoCoor)
+        val retorno = Tournament(id, nombre, date, hour, category, material, cupo,  cost, premio, imagen, userId, idClub,nombreCoor,telefono)
 
         return retorno
+    }
+
+
+    fun asignarTelefono(detailTelCoordinador: String): String {
+        val telefono: String
+
+        if (detailTelCoordinador.startsWith("549")) {
+            telefono = detailTelCoordinador
+        } else {
+            telefono = "549$detailTelCoordinador"
+        }
+
+        return telefono
     }
 
     /* Dialog para el flyer

@@ -3,6 +3,7 @@ package com.example.padle_match.fragments
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -132,12 +133,19 @@ class AddTournamentFragment: Fragment()  {
         }
     }
 
-    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText ) {
-        item.setOnClickListener{
-            datePicker.show(requireActivity().supportFragmentManager, "tag" )
+    private fun datePickerHandler(datePicker: MaterialDatePicker<Long>, item: EditText) {
+        item.setOnClickListener {
+            datePicker.show(requireActivity().supportFragmentManager, "tag")
             datePicker.addOnPositiveButtonClickListener { selection ->
-                val dateString = DateFormat.format("dd/MM/yyyy", Date(selection)).toString()
-                item.setText(dateString)
+                val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val date = Date(selection)
+                val calendar = Calendar.getInstance()
+                calendar.time = date
+                calendar.add(Calendar.DAY_OF_MONTH, 1)
+                val nuevaFecha = calendar.time
+                val nuevaFechaString = formatoFecha.format(nuevaFecha)
+                item.setText(nuevaFechaString)
+                Log.d("DatePickerHandler", "Selected date: $nuevaFechaString")
             }
         }
     }
@@ -148,7 +156,7 @@ class AddTournamentFragment: Fragment()  {
             timePicker.addOnPositiveButtonClickListener {
                 val hour = timePicker.hour
                 val minute = timePicker.minute
-                binding.editTextAddTournamentHorario.setText(String.format("%02d:%02d", hour, minute))
+                item.setText(String.format("%02d:%02d", hour, minute))
             }
         }
     }
@@ -159,8 +167,6 @@ class AddTournamentFragment: Fragment()  {
             if( checkCredentials().all { !it } ) {
                 lifecycleScope.launch {
                     val torneo = createTournament();
-                    findNavController().popBackStack(R.id.myTournamentsFragment, false)
-                    Snackbar.make( requireView(), "El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
                     cleanInputs()
                     Log.d(tag, "torneo")
                     var udi = viewModel.addTournament(torneo)
@@ -170,6 +176,8 @@ class AddTournamentFragment: Fragment()  {
                     }
                     torneo.id = udi;
                     viewModel.updateTournament(torneo, udi);
+                    findNavController().popBackStack(R.id.myTournamentsFragment, false)
+                    Snackbar.make( requireView(), "El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
                 }
             } else {
                 Snackbar.make(requireView(), "Hay campos invalidos", Snackbar.LENGTH_LONG).show()
@@ -259,19 +267,32 @@ class AddTournamentFragment: Fragment()  {
         }
         var cost = 0
         if ( !binding.editTextAddTournamentCosto.text.toString().isEmpty() ){
-            cupo = binding.editTextAddTournamentCosto.text.toString().toInt()
+            cost = binding.editTextAddTournamentCosto.text.toString().toInt()
         }
 
         val premio = binding.editTextAddTournamentPremios.text.toString();
         val userId = auth.currentUser!!.uid
         var idClub = listaIds[i]
         var nombreCoor = binding.nombreCoordinador.text.toString()
-        var telefonoCood = binding.telefonoCoordinador.text.toString()
+        val telefonoCood = binding.telefonoCoordinador.text.toString()
+        val telefono = asignarTelefono(telefonoCood)
 
         idClub = viewModel.getIdClubByName(club)
-        retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub, nombreCoor, telefonoCood)
+        retorno = Tournament("", nombre, date, hour, category, material, cupo,  cost, premio, "loading...", userId, idClub, nombreCoor, telefono)
 
         return retorno
+    }
+
+    fun asignarTelefono(detailTelCoordinador: String): String {
+        val telefono: String
+
+        if (detailTelCoordinador.startsWith("549")) {
+            telefono = detailTelCoordinador
+        } else {
+            telefono = "549$detailTelCoordinador"
+        }
+
+        return telefono
     }
 
     private fun <T> getItemImpl(list: Array<String>, item: T): Int {

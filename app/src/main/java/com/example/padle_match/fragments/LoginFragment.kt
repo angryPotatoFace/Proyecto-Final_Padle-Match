@@ -59,7 +59,10 @@ class LoginFragment : Fragment() {
     @SuppressLint("ShowToast")
     override fun onStart() {
         super.onStart()
-        binding.btnCreateAccount.setOnClickListener{
+
+        var clearCredentials = clearCredentialsIfNeeded()
+
+        binding.btnLogin.setOnClickListener{
             val email =  binding.loginEmailInput
             val pass = binding.loginPassInput
             val passInputLayout = binding.etPassword
@@ -67,17 +70,20 @@ class LoginFragment : Fragment() {
             checkCredentials(email, pass, passInputLayout, emailInputLayout)
         }
 
-        loadSavedCredentials()
+        if (!clearCredentials) {
+            loadSavedCredentials()
+        }
     }
+
+
 
     fun checkCredentials(emailEditText: EditText, passEditText: EditText, passInputLayout: TextInputLayout, emailInputLayout: TextInputLayout){
         var isValid = true
 
-        // Validar campo Email
         if (!viewModel.checkedEmail(emailEditText, emailInputLayout)) {
             isValid = false
         }
-        // Validar campo Contraseña
+
         if (!viewModel.checkedPassword(passEditText, passInputLayout)) {
             isValid = false
         }
@@ -88,7 +94,6 @@ class LoginFragment : Fragment() {
             lifecycleScope.launch {
                 val res = viewModel.loginUser(email,pass);
                 if (res){
-
                     val email = emailEditText.text.toString()
                     val pass = passEditText.text.toString()
 
@@ -118,7 +123,6 @@ class LoginFragment : Fragment() {
         binding.loginPassInput.setText("")
     }
 
-    // Guardar las credenciales en las preferencias compartidas
     private fun saveCredentials(email: String, password: String) {
         val sharedPref = requireContext().getSharedPreferences("credentials", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
@@ -127,7 +131,6 @@ class LoginFragment : Fragment() {
         editor.apply()
     }
 
-    // Cargar las credenciales guardadas, si existen
     private fun loadSavedCredentials() {
         val sharedPref = requireContext().getSharedPreferences("credentials", Context.MODE_PRIVATE)
         val email = sharedPref.getString("email", null)
@@ -139,5 +142,23 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun clearCredentialsIfNeeded(): Boolean {
+        val prefs = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val clearCredentials = prefs.getBoolean("clear_credentials", false)
+        if (clearCredentials) {
+            cleanInputs()
+            val credentialsPrefs = requireContext().getSharedPreferences("credentials", Context.MODE_PRIVATE)
+            with(credentialsPrefs.edit()) {
+                remove("email")
+                remove("password")
+                apply()
+            }
+            with(prefs.edit()) {
+                putBoolean("clear_credentials", false)
+                apply()
+            }
+        }
+        return clearCredentials
+    }
 
 }

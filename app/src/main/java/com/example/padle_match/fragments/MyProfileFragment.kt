@@ -2,6 +2,7 @@ package com.example.padle_match.fragments
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
@@ -44,7 +45,6 @@ class MyProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMyProfileBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -87,7 +87,7 @@ class MyProfileFragment : Fragment() {
         }
     }
 
-    private fun checkCredentials(): Boolean {
+    private suspend fun checkCredentials(): Boolean {
         var isValid = true
         val registerViewModel : RegisterViewModel by viewModels()
 
@@ -119,8 +119,8 @@ class MyProfileFragment : Fragment() {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
-                    if(checkCredentials()){
-                        lifecycleScope.launch {
+                    lifecycleScope.launch {
+                        if(checkCredentials()){
                             val user = createUser()
                             viewModel.updateUser(user)
                             if( imageUri != Uri.EMPTY) {
@@ -130,6 +130,7 @@ class MyProfileFragment : Fragment() {
                             }
                             viewModel.updateProfile(user);
                             Snackbar.make(binding.root,"Los datos fueron guardados correctamente", Snackbar.LENGTH_LONG).show()
+                            binding.viewSwitcher.showPrevious()
                             blockFields()
                         }
                     }
@@ -143,29 +144,50 @@ class MyProfileFragment : Fragment() {
     }
 
     private fun handlerDelete(user: User) {
-        binding.deleteProfile.setOnClickListener {
 
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
-                .setPositiveButton("Borrar Perfil") { _, _ ->
-                    lifecycleScope.launch {
-                        viewModel.deleteUser(user)
-                        findNavController().popBackStack(R.id.loginFragment, false)
+            binding.deleteProfile.setOnClickListener {
+                lifecycleScope.launch {
+                val result = viewModel.areClubsAvaible()
+                    if( result ) {
+                        val builder = AlertDialog.Builder(requireContext())
+                        builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
+                            .setPositiveButton("Borrar Perfil") { _, _ ->
+                                lifecycleScope.launch {
+                                    viewModel.deleteUser(user)
+                                    val prefs = requireActivity().getSharedPreferences(
+                                        "prefs",
+                                        Context.MODE_PRIVATE
+                                    )
+                                    with(prefs.edit()) {
+                                        putBoolean("clear_credentials", true)
+                                        apply()
+                                    }
+                                    closeSession()
+                                    findNavController().popBackStack(R.id.loginFragment, false)
+                                    Snackbar.make(
+                                        binding.root,
+                                        "Su usuario fue borrado correctamente",
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+
+                                }
+                            }
+                            .setNegativeButton("Cancelar") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                        val dialog = builder.create()
+                        dialog.show()
+                    } else {
                         Snackbar.make(
                             binding.root,
-                            "Su usuario fue borrado correctamente",
+                            "No se puede borrar el perfil porque hay torneos vigentes",
                             Snackbar.LENGTH_LONG
                         ).show()
-                        closeSession()
                     }
                 }
-                .setNegativeButton("Cancelar") { dialog, _ ->
-                    dialog.dismiss()
-                }
-            val dialog = builder.create()
-            dialog.show()
-        }
+            }
     }
+
 
     private fun handlerEdit() {
         binding.editButton.setOnClickListener{
@@ -186,6 +208,7 @@ class MyProfileFragment : Fragment() {
         }else {
             Glide.with(this).load(R.drawable.logo_img_base).into(binding.profileImage)
         }
+        binding.profileImage.isEnabled = false
     }
 
 
@@ -230,12 +253,25 @@ class MyProfileFragment : Fragment() {
         var nombre= binding.detailName.text.toString()
         var apellido = binding.detailSurname.text.toString()
         var email= binding.detailEmail.text.toString()
-        var telefono= binding.detailPhone.text.toString()
+        val telef = binding.detailPhone.text.toString()
+        val telefono = asignarTelefono(telef)
         var dni= binding.detailDni.text.toString()
         var img = currUser.imgProfile
 
         val user = User(id,nombre,apellido,email,telefono,dni,img)
         return user
+    }
+
+    private fun asignarTelefono(telef: String): String {
+        val telefono: String
+
+        if (telef.startsWith("549")) {
+            telefono = telef
+        } else {
+            telefono = "549$telef"
+        }
+
+        return telefono
     }
 
     fun closeSession() {

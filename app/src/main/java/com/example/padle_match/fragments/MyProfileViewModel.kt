@@ -54,31 +54,42 @@ class MyProfileViewModel : ViewModel() {
     }
 
     suspend fun updateUser(user: User ) {
-        val query = db.collection("users")
-        val data = query.document(user.idUsuario).set(user)
-        data.addOnSuccessListener { document ->
-            Log.w("Update Club", "User ${user.idUsuario} was update correctly")
-        }.await()
+        try{
+            val query = db.collection("users").whereEqualTo("idUsuario", user.idUsuario)
+            val data = query.get().await()
+            db.collection("users").document(data.documents.get(0).id).set(user).await()
+            Log.w("Update Club", "User ${user.idUsuario} was update correctly");
+        } catch (e: java.lang.Exception) {
+            Log.w("Error Update Club", "Error on Updating User");
+        }
     }
 
 
     suspend fun deleteUser(user: User ) {
-        val query = db.collection("users")
-        val data = query.document(user.idUsuario).delete()
-        data.addOnSuccessListener { document ->
-            Log.w("Delete User", "User ${user.idUsuario} was deleted correctly")
-        }.await()
-
+        val query = db.collection("users").whereEqualTo("idUsuario", user.idUsuario)
+        val data = query.get().await()
+        val delete = db.collection("users").document(data.documents.get(0).id).delete().await()
         val user = Firebase.auth.currentUser
         user!!.delete().await()
     }
 
     suspend fun updateProfile(profile: User){
-        val query = db.collection("users")
-        val data = query.document(profile.idUsuario).set(profile)
-        data.addOnSuccessListener{ document ->
-            Log.w("Update Tournament", "User ${profile.idUsuario} was update correctly")
-        }.await()
+        try{
+            val query = db.collection("users").whereEqualTo("idUsuario", profile.idUsuario)
+            val data = query.get().await()
+            db.collection("users").document(data.documents.get(0).id).set(profile).await()
+            Log.w("Update Club", "User ${profile.idUsuario} was update correctly");
+        }catch (e: java.lang.Exception) {
+            Log.w("Error Update Club", "Error on Updating User");
+        }
+
+    }
+
+
+    suspend fun areClubsAvaible(): Boolean{
+        val query = db.collection("clubs").whereEqualTo("userId", auth.currentUser!!.uid).get().await()
+
+        return query.documents.isEmpty()
     }
 
     suspend fun uploadImagenStorage(data: Uri, udi: String): String {
