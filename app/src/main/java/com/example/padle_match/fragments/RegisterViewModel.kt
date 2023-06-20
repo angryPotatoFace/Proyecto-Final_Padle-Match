@@ -79,13 +79,13 @@ class RegisterViewModel : ViewModel() {
         } else checkedMinLength(inputTelefono, 10)
     }
 
-    fun checkedDNI(inputDni: EditText): Boolean {
+    suspend fun checkedDNI(inputDni: EditText): Boolean {
         return if(!checkedEmpty(inputDni)){
             false
         } else if(!checkedMinLength(inputDni, 7)){
             false
         } else {
-            val dniRegistered = runBlocking {dniAlreadyRegistered(inputDni.text.toString())}
+            val dniRegistered = dniAlreadyRegistered(inputDni.text.toString())
             if(dniRegistered){
                 showError(inputDni, "DNI ya registrado")
                 clearInput(inputDni)
@@ -97,13 +97,13 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
-    fun checkedDNI(inputDni: EditText, DNI : String): Boolean {
+    suspend fun checkedDNI(inputDni: EditText, DNI : String): Boolean {
         return if(!checkedEmpty(inputDni)){
             false
         } else if(!checkedMinLength(inputDni, 7)){
             false
         } else if(!inputDni.text.toString().equals(DNI)) {
-            val dniRegistered = runBlocking { dniAlreadyRegistered(inputDni.text.toString()) }
+            val dniRegistered = dniAlreadyRegistered(inputDni.text.toString())
             if (dniRegistered) {
                 showError(inputDni, "DNI ya registrado")
                 clearInput(inputDni)
