@@ -3,6 +3,7 @@ package com.example.padle_match.fragments
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -93,8 +94,8 @@ class RegisterFragment : Fragment() {
             val telefono = asignarTelefono(telef)
             val pass = input_password.text.toString();
 
-            if(checkCredentials()){
-                lifecycleScope.launch {
+            lifecycleScope.launch {
+                if(checkCredentials()){
                     val user = viewModel.registerUser(email, pass);
                     val usuario = User( user.uid,name,last,email,telefono,dni, "User created" );
                     viewModel.createUser(usuario);
@@ -110,8 +111,6 @@ class RegisterFragment : Fragment() {
                 }
             }
         }
-
-
     }
 
     private fun asignarTelefono(telef: String): String {
@@ -122,7 +121,7 @@ class RegisterFragment : Fragment() {
         } else {
             telefono = "549$telef"
         }
-
+        Log.d("Tel", telefono)
         return telefono
     }
 
@@ -194,7 +193,7 @@ class RegisterFragment : Fragment() {
 
     }
 
-    private fun checkCredentials(): Boolean {
+    private suspend fun checkCredentials(): Boolean {
         var isValid = true
 
         // Validar campo Nombre

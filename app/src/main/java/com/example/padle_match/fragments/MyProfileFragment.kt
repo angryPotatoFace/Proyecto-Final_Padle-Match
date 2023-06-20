@@ -45,7 +45,6 @@ class MyProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMyProfileBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -88,7 +87,7 @@ class MyProfileFragment : Fragment() {
         }
     }
 
-    private fun checkCredentials(): Boolean {
+    private suspend fun checkCredentials(): Boolean {
         var isValid = true
         val registerViewModel : RegisterViewModel by viewModels()
 
@@ -120,8 +119,8 @@ class MyProfileFragment : Fragment() {
             val builder = AlertDialog.Builder(requireContext())
             builder.setMessage("¿Está seguro de aplicar los cambios realizados?")
                 .setPositiveButton("SI") { _, _ ->
-                    if(checkCredentials()){
-                        lifecycleScope.launch {
+                    lifecycleScope.launch {
+                        if(checkCredentials()){
                             val user = createUser()
                             viewModel.updateUser(user)
                             if( imageUri != Uri.EMPTY) {

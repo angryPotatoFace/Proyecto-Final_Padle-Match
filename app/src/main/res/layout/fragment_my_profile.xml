@@ -205,7 +205,6 @@
             android:hint="Teléfono"
             android:textColor="#5C5B5B"
             android:textStyle="bold"
-            app:prefixText="+549"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
