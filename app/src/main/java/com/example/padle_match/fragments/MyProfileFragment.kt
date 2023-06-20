@@ -144,34 +144,48 @@ class MyProfileFragment : Fragment() {
     }
 
     private fun handlerDelete(user: User) {
-        binding.deleteProfile.setOnClickListener {
 
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
-                .setPositiveButton("Borrar Perfil") { _, _ ->
-                    lifecycleScope.launch {
-                        viewModel.deleteUser(user)
-                        val prefs = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
-                        with(prefs.edit()) {
-                            putBoolean("clear_credentials", true)
-                            apply()
-                        }
-                        closeSession()
-                        findNavController().popBackStack(R.id.loginFragment, false)
+            binding.deleteProfile.setOnClickListener {
+                lifecycleScope.launch {
+                val result = viewModel.areClubsAvaible()
+                    if( result ) {
+                        val builder = AlertDialog.Builder(requireContext())
+                        builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
+                            .setPositiveButton("Borrar Perfil") { _, _ ->
+                                lifecycleScope.launch {
+                                    viewModel.deleteUser(user)
+                                    val prefs = requireActivity().getSharedPreferences(
+                                        "prefs",
+                                        Context.MODE_PRIVATE
+                                    )
+                                    with(prefs.edit()) {
+                                        putBoolean("clear_credentials", true)
+                                        apply()
+                                    }
+                                    closeSession()
+                                    findNavController().popBackStack(R.id.loginFragment, false)
+                                    Snackbar.make(
+                                        binding.root,
+                                        "Su usuario fue borrado correctamente",
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+
+                                }
+                            }
+                            .setNegativeButton("Cancelar") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                        val dialog = builder.create()
+                        dialog.show()
+                    } else {
                         Snackbar.make(
                             binding.root,
-                            "Su usuario fue borrado correctamente",
+                            "No se puede borrar el perfil porque hay torneos vigentes",
                             Snackbar.LENGTH_LONG
                         ).show()
-
                     }
                 }
-                .setNegativeButton("Cancelar") { dialog, _ ->
-                    dialog.dismiss()
-                }
-            val dialog = builder.create()
-            dialog.show()
-        }
+            }
     }
 
 

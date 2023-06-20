@@ -85,6 +85,13 @@ class MyProfileViewModel : ViewModel() {
 
     }
 
+
+    suspend fun areClubsAvaible(): Boolean{
+        val query = db.collection("clubs").whereEqualTo("userId", auth.currentUser!!.uid).get().await()
+
+        return query.documents.isEmpty()
+    }
+
     suspend fun uploadImagenStorage(data: Uri, udi: String): String {
 
         var result: String = ""
