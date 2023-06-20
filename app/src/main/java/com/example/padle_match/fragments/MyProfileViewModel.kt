@@ -4,7 +4,6 @@ import android.net.Uri
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.padle_match.entities.Club
 import com.example.padle_match.entities.Tournament
 import com.example.padle_match.entities.User
@@ -16,7 +15,6 @@ import com.google.firebase.ktx.app
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 
@@ -71,50 +69,8 @@ class MyProfileViewModel : ViewModel() {
         val query = db.collection("users").whereEqualTo("idUsuario", user.idUsuario)
         val data = query.get().await()
         val delete = db.collection("users").document(data.documents.get(0).id).delete().await()
-        val usuario = Firebase.auth.currentUser
-        usuario!!.delete().await()
-        deleteClubAssociate( user.idUsuario)
-    }
-
-    suspend fun deleteClubAssociate( idUser: String ) {
-        val query = db.collection("clubs")
-        val data = query.get().await()
-        val clubs = data.filter { t -> t.data["userId"] == idUser }
-        clubs.forEach(){ t ->
-            viewModelScope.launch{
-                deleteClub(t.id)
-            }
-        }
-    }
-    suspend fun deleteClub( id: String ){
-        val query = db.collection("clubs")
-        val data = query.document(id).delete()
-        data.addOnSuccessListener{ document ->
-            viewModelScope.launch {
-                deleteTournamentAssociate(id)
-                Log.w("Deleted Club", "Club ${id} was deleted correctly")
-            }
-        }.await()
-
-    }
-
-    suspend fun deleteTournamentAssociate( id: String ) {
-        val query = db.collection("tournaments")
-        val data = query.get().await()
-        val tournaments = data.filter { t -> t.data["userId"] == id }
-        tournaments.forEach(){ t ->
-            viewModelScope.launch{
-                deleteTournament(t.id)
-            }
-        }
-    }
-
-    suspend fun deleteTournament( id: String ){
-        val query = db.collection("tournaments")
-        val data = query.document(id).delete()
-        data.addOnSuccessListener{ document ->
-            Log.w("Deleted Tournament", "Torneo ${id} was deleted correctly")
-        }.await()
+        val user = Firebase.auth.currentUser
+        user!!.delete().await()
     }
 
     suspend fun updateProfile(profile: User){

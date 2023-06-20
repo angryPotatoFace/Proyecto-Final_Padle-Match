@@ -149,6 +149,7 @@ class TournamentDetailFragment : Fragment()  {
         val timePicker = viewModel.createHourPicker()
         hourPickerHandler(timePicker, detailHorario)
 
+
         lifecycleScope.launch {
 
             var data = viewModel.getClubsList()
