@@ -208,7 +208,7 @@ class RegisterViewModel : ViewModel() {
         }else if(!checkedMinLength(editText, 3)){
             false
         }else if(!isValidInput(editText.text.toString())){
-            showError(editText, "Campo inválido")
+            showError(editText, "Dato inválido")
             false
         } else{
             true
