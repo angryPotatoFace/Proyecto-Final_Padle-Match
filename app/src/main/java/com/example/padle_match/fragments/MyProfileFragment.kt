@@ -1,5 +1,6 @@
 package com.example.padle_match.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -143,12 +144,13 @@ class MyProfileFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun handlerDelete(user: User) {
 
             binding.deleteProfile.setOnClickListener {
                 lifecycleScope.launch {
                 val result = viewModel.areClubsAvaible()
-                    if( result ) {
+                    if(result) {
                         val builder = AlertDialog.Builder(requireContext())
                         builder.setMessage("¿Está seguro de eliminar el perfil? Esta acción será permanente.")
                             .setPositiveButton("Borrar Perfil") { _, _ ->
@@ -180,7 +182,7 @@ class MyProfileFragment : Fragment() {
                     } else {
                         Snackbar.make(
                             binding.root,
-                            "No se puede borrar el perfil porque hay torneos vigentes",
+                            "No se puede borrar el perfil porque hay clubes vigentes",
                             Snackbar.LENGTH_LONG
                         ).show()
                     }
