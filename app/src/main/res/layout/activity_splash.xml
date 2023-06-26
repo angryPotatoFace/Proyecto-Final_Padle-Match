@@ -8,9 +8,6 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="35dp"
         android:background="#FFFFFF"
         android:scaleType="center"
         android:src="@drawable/iniciopadelmatch"

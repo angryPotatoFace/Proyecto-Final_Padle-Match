@@ -79,7 +79,7 @@ class MyTournamentsFragment : Fragment() {
     }
 
     private fun parseDate(dateString: String): Date {
-        val format = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
+        val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return format.parse(dateString) ?: Date()
     }
 

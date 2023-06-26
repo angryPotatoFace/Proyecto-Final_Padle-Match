@@ -40,6 +40,7 @@ class AddTournamentFragment: Fragment()  {
     private var auth: FirebaseAuth = Firebase.auth
     private lateinit var lista: Array<String>
     private lateinit var listaIds: List<String>
+    private var isCreatingTournament = false
 
     companion object {
         fun newInstance() = AddTournamentFragment()
@@ -164,20 +165,30 @@ class AddTournamentFragment: Fragment()  {
 
     private fun handlerAddTournament(btn: AppCompatButton) {
         btn.setOnClickListener {
+            // Si ya se está creando un torneo, no hacer nada
+            if (isCreatingTournament) return@setOnClickListener
+
             if( checkCredentials().all { !it } ) {
+                // Indicar que se está creando un torneo
+                isCreatingTournament = true
+
                 lifecycleScope.launch {
-                    val torneo = createTournament();
+                    val torneo = createTournament()
                     cleanInputs()
                     Log.d(tag, "torneo")
                     var udi = viewModel.addTournament(torneo)
                     if( imageUri != Uri.EMPTY) {
                         val url = viewModel.uploadImagenStorage(imageUri, udi)
-                        torneo.imagenTorneo = url;
+                        torneo.imagenTorneo = url
                     }
-                    torneo.id = udi;
-                    viewModel.updateTournament(torneo, udi);
+                    torneo.id = udi
+                    viewModel.updateTournament(torneo, udi)
+
+                    // Restablecer la variable después de la creación del torneo
+                    isCreatingTournament = false
+
                     findNavController().popBackStack(R.id.myTournamentsFragment, false)
-                    Snackbar.make( requireView(), "El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(requireView(), "El torneo fue agregado con exito", Snackbar.LENGTH_LONG).show()
                 }
             } else {
                 Snackbar.make(requireView(), "Hay campos invalidos", Snackbar.LENGTH_LONG).show()
